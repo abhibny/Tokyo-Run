@@ -420,4 +420,33 @@ backdrop.onclick=closeSheet;
   });
   updateCount();
 })();
+</script><script>
+(()=>{
+  function dump(){
+    const nav=document.querySelector('.bottomnav'),mv=document.getElementById('mapView'),navR=nav?nav.getBoundingClientRect():null,mvR=mv?mv.getBoundingClientRect():null;
+    const vv=window.visualViewport;
+    const lines=[
+      'html.clientW/H: '+document.documentElement.clientWidth+' / '+document.documentElement.clientHeight,
+      'window.innerW/H: '+window.innerWidth+' / '+window.innerHeight,
+      'body.scrollW/H: '+document.body.scrollWidth+' / '+document.body.scrollHeight,
+      'devicePixelRatio: '+window.devicePixelRatio,
+      'visualViewport w/h/scale/offY: '+(vv?[vv.width.toFixed(1),vv.height.toFixed(1),vv.scale,vv.offsetTop.toFixed(1)].join(' / '):'n/a'),
+      'mapView rect: '+(mvR?JSON.stringify({top:+mvR.top.toFixed(1),bottom:+mvR.bottom.toFixed(1),left:+mvR.left.toFixed(1),right:+mvR.right.toFixed(1)}):'n/a'),
+      'bottomnav rect: '+(navR?JSON.stringify({top:+navR.top.toFixed(1),bottom:+navR.bottom.toFixed(1),left:+navR.left.toFixed(1),right:+navR.right.toFixed(1)}):'MISSING'),
+      'bottomnav computed bottom/zIndex: '+(nav?getComputedStyle(nav).bottom+' / '+getComputedStyle(nav).zIndex:'n/a'),
+      'safe-area-inset-bottom: '+getComputedStyle(document.documentElement).getPropertyValue('--sab-test')
+    ];
+    box.textContent=lines.join('\n');
+  }
+  const box=document.createElement('pre');
+  box.id='debugbox';
+  box.style.cssText='position:fixed;top:0;left:0;right:0;z-index:999999999;background:rgba(0,0,0,.85);color:#0f0;font-size:9px;line-height:1.4;padding:6px;margin:0;white-space:pre-wrap;pointer-events:none;font-family:monospace';
+  document.body.appendChild(box);
+  document.documentElement.style.setProperty('--sab-test','env(safe-area-inset-bottom)');
+  dump();
+  window.addEventListener('resize',dump);
+  window.addEventListener('orientationchange',()=>setTimeout(dump,300));
+  document.querySelectorAll('.seg-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(dump,150)));
+  setInterval(dump,1000);
+})();
 </script></body></html>
