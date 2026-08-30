@@ -355,8 +355,8 @@ backdrop.onclick=closeSheet;
   let archiveSet;
   try{archiveSet=new Set(JSON.parse(localStorage.getItem(ARCH_KEY)||'[]'))}catch(e){archiveSet=new Set()}
   const archived=document.createElement('details'),button=document.createElement('button'),restoreAllBtn=document.createElement('button');
-  button.id='archive-unselected';button.type='button';button.textContent='Archive unselected';sheetActions.appendChild(button);
-  restoreAllBtn.id='archive-restore-all';restoreAllBtn.type='button';restoreAllBtn.textContent='Unarchive all';sheetActions.appendChild(restoreAllBtn);
+  button.id='archive-selected';button.type='button';button.textContent='Archive selected';sheetActions.appendChild(button);
+  restoreAllBtn.id='unarchive-selected';restoreAllBtn.type='button';restoreAllBtn.textContent='Unarchive selected';sheetActions.appendChild(restoreAllBtn);
   archived.id='archive-box';
   archived.innerHTML='<summary><span class="name">Archived places</span><span id="archive-count">0</span><span class="chevron" aria-hidden="true">›</span></summary><div id="archived-list" class="details-content"></div>';
   list.after(archived);
@@ -370,13 +370,13 @@ backdrop.onclick=closeSheet;
     actions.appendChild(restore);
   }
   button.onclick=()=>{
-    [...list.querySelectorAll('details.place')].filter(card=>!card.querySelector('.toggle').checked).forEach(card=>{
+    [...list.querySelectorAll('details.place')].filter(card=>card.querySelector('.toggle').checked).forEach(card=>{
       archiveSet.add(+card.dataset.id);archiveList.appendChild(card);card.open=false;addRestoreBtn(card);
     });
     update();
   };
   restoreAllBtn.onclick=()=>{
-    [...archiveList.querySelectorAll('details.place')].forEach(card=>{
+    [...archiveList.querySelectorAll('details.place')].filter(card=>card.querySelector('.toggle').checked).forEach(card=>{
       archiveSet.delete(+card.dataset.id);
       homeGroupContent(+card.dataset.id).appendChild(card);
       const toggle=card.querySelector('.toggle');
