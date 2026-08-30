@@ -80,7 +80,6 @@ details[open] .chevron{transform:rotate(90deg)}
 .sheet-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
 .sheet-actions button{padding:12px 10px;border:0;border-radius:14px;background:var(--bg);cursor:pointer;font-size:13px;font-weight:700;color:var(--ink);font-family:inherit}
 .sheet-actions button:active{background:var(--accent-soft)}
-#archive-unselected{grid-column:1/-1}
 .cats{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
 .catbtn{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:14px;border:0;background:var(--bg);cursor:pointer;font-size:13.5px;font-weight:600;color:var(--ink);font-family:inherit;text-align:left}
 .catbtn.off{opacity:.4}
@@ -355,8 +354,9 @@ backdrop.onclick=closeSheet;
   const list=document.getElementById('list'),sheetActions=document.querySelector('.sheet-actions'),ARCH_KEY='tokyo-archived-ids';
   let archiveSet;
   try{archiveSet=new Set(JSON.parse(localStorage.getItem(ARCH_KEY)||'[]'))}catch(e){archiveSet=new Set()}
-  const archived=document.createElement('details'),button=document.createElement('button');
+  const archived=document.createElement('details'),button=document.createElement('button'),restoreAllBtn=document.createElement('button');
   button.id='archive-unselected';button.type='button';button.textContent='Archive unselected';sheetActions.appendChild(button);
+  restoreAllBtn.id='archive-restore-all';restoreAllBtn.type='button';restoreAllBtn.textContent='Unarchive all';sheetActions.appendChild(restoreAllBtn);
   archived.id='archive-box';
   archived.innerHTML='<summary><span class="name">Archived places</span><span id="archive-count">0</span><span class="chevron" aria-hidden="true">›</span></summary><div id="archived-list" class="details-content"></div>';
   list.after(archived);
@@ -372,6 +372,16 @@ backdrop.onclick=closeSheet;
   button.onclick=()=>{
     [...list.querySelectorAll('details.place')].filter(card=>!card.querySelector('.toggle').checked).forEach(card=>{
       archiveSet.add(+card.dataset.id);archiveList.appendChild(card);card.open=false;addRestoreBtn(card);
+    });
+    update();
+  };
+  restoreAllBtn.onclick=()=>{
+    [...archiveList.querySelectorAll('details.place')].forEach(card=>{
+      archiveSet.delete(+card.dataset.id);
+      homeGroupContent(+card.dataset.id).appendChild(card);
+      const toggle=card.querySelector('.toggle');
+      toggle.checked=true;
+      toggle.dispatchEvent(new Event('change'));
     });
     update();
   };
