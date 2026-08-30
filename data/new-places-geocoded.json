@@ -1,0 +1,1172 @@
+[
+  {
+    "name": "Meiji Jingu Museum",
+    "cat": "architecture",
+    "note": "Kengo Kuma",
+    "area": "Yoyogi",
+    "lat": 35.6723495,
+    "lon": 139.7021698,
+    "found": "明治神宮ミュージアム, 南参道, 代々木神園町, 渋谷区, 東京都, 151-0052, 日本"
+  },
+  {
+    "name": "The Capitol Hotel Tokyu",
+    "cat": "architecture",
+    "note": "Kengo Kuma",
+    "area": "Nagatacho",
+    "lat": 35.6741016,
+    "lon": 139.7409221,
+    "found": "The Capitol Hotel Tokyu, 10, 永田町二丁目, 永田町, 千代田区, 東京都, 100-0014, 日本"
+  },
+  {
+    "name": "Shibuya Scramble Square",
+    "cat": "architecture",
+    "note": "",
+    "area": "Shibuya",
+    "lat": 35.6583792,
+    "lon": 139.7022161,
+    "found": "渋谷スクランブルスクエア, 12, 渋谷二丁目, 渋谷, 渋谷区, 東京都, 150-0002, 日本"
+  },
+  {
+    "name": "Pigment Tokyo",
+    "cat": "architecture",
+    "note": "Kengo Kuma (approximate location — exact building not in OSM)",
+    "area": "Tennozu Isle",
+    "lat": 35.6226946,
+    "lon": 139.7508221,
+    "found": "天王洲アイル, 海岸通り, 東品川二丁目, 東品川, 品川区, 東京都, 140-0002, 日本"
+  },
+  {
+    "name": "Tokyo Metropolitan Government Building",
+    "cat": "architecture",
+    "note": "Kenzo Tange",
+    "area": "Nishi-Shinjuku",
+    "lat": 35.6894957,
+    "lon": 139.6917094,
+    "found": "東京都庁舎 第一本庁舎, 緑の橋, 西新宿二丁目, 西新宿, 新宿区, 東京都, 160-0023, 日本"
+  },
+  {
+    "name": "Fuji Television Headquarters",
+    "cat": "architecture",
+    "note": "Kenzo Tange",
+    "area": "Odaiba",
+    "lat": 35.6271848,
+    "lon": 139.7751659,
+    "found": "フジテレビジョン, 8, 台場二丁目, 台場, 港区, 東京都, 137-8088, 日本"
+  },
+  {
+    "name": "Sogetsu Kaikan",
+    "cat": "architecture",
+    "note": "Kenzo Tange",
+    "area": "Akasaka",
+    "lat": 35.6740799,
+    "lon": 139.7293242,
+    "found": "草月会館, 21, 赤坂七丁目, 赤坂, 港区, 東京都, 107-8505, 日本"
+  },
+  {
+    "name": "Shinjuku Park Tower",
+    "cat": "architecture",
+    "note": "Kenzo Tange",
+    "area": "Shinjuku",
+    "lat": 35.6858093,
+    "lon": 139.6905297,
+    "found": "新宿パークタワー, 十二社通り, 西新宿三丁目, 西新宿, 新宿区, 東京都, 160-0023, 日本"
+  },
+  {
+    "name": "United Nations University",
+    "cat": "architecture",
+    "note": "Kenzo Tange",
+    "area": "Aoyama",
+    "lat": 35.6624724,
+    "lon": 139.7082236,
+    "found": "国連大学, 70, 神宮前五丁目, 神宮前, 渋谷区, 東京都, 150-8925, 日本"
+  },
+  {
+    "name": "Embassy of Kuwait in Japan",
+    "cat": "architecture",
+    "note": "Kenzo Tange",
+    "area": "Mita",
+    "lat": 35.6476619,
+    "lon": 139.7483983,
+    "found": "三田, Interchanging Footway, 芝五丁目, 芝, 港区, 東京都, 108-0014, 日本"
+  },
+  {
+    "name": "The National Art Center Tokyo",
+    "cat": "architecture",
+    "note": "Kisho Kurokawa",
+    "area": "Roppongi",
+    "lat": 35.6653369,
+    "lon": 139.7264411,
+    "found": "国立新美術館, 龍土町美術館通り, 六本木七丁目, 六本木, 港区, 東京都, 106-0032, 日本"
+  },
+  {
+    "name": "BIG BOX Takadanobaba",
+    "cat": "architecture",
+    "note": "Kisho Kurokawa",
+    "area": "Takadanobaba",
+    "lat": 35.7126485,
+    "lon": 139.7043144,
+    "found": "BIG BOX, 早稲田通り, 高田馬場二丁目, 高田馬場, 新宿区, 東京都, 169-0075, 日本"
+  },
+  {
+    "name": "Omotesando Hills",
+    "cat": "architecture",
+    "note": "Tadao Ando",
+    "area": "Omotesando",
+    "lat": 35.6671041,
+    "lon": 139.7081243,
+    "found": "表参道ヒルズ, 表参道, 神宮前五丁目, 神宮前, 渋谷区, 東京都, 150-0001, 日本"
+  },
+  {
+    "name": "21_21 Design Sight",
+    "cat": "architecture",
+    "note": "Tadao Ando (approximate location — exact building not in OSM)",
+    "area": "Roppongi",
+    "lat": 35.6624568,
+    "lon": 139.7334981,
+    "found": "六本木, 港区, 東京都, 106-0032, 日本"
+  },
+  {
+    "name": "Toyoko Line Shibuya Station",
+    "cat": "architecture",
+    "note": "Tadao Ando (approximate location — exact building not in OSM)",
+    "area": "Shibuya",
+    "lat": 35.6637109,
+    "lon": 139.6976941,
+    "found": "渋谷区, 東京都, 日本"
+  },
+  {
+    "name": "Fukutake Hall University of Tokyo",
+    "cat": "architecture",
+    "note": "Tadao Ando (approximate location — exact building not in OSM)",
+    "area": "Hongo",
+    "lat": 35.7077379,
+    "lon": 139.760167,
+    "found": "本郷, 文京区, 東京都, 113-0033, 日本"
+  },
+  {
+    "name": "KITTE Marunouchi",
+    "cat": "architecture",
+    "note": "Kengo Kuma",
+    "area": "Marunouchi",
+    "lat": 35.6798593,
+    "lon": 139.7647819,
+    "found": "KITTE, 2, 丸の内二丁目, 丸の内, 千代田区, 東京都, 100-0005, 日本"
+  },
+  {
+    "name": "Nezu Museum",
+    "cat": "architecture",
+    "note": "Kengo Kuma",
+    "area": "Aoyama",
+    "lat": 35.6622429,
+    "lon": 139.7172555,
+    "found": "根津美術館, 1, 南青山六丁目, 南青山, 港区, 東京都, 107-0062, 日本"
+  },
+  {
+    "name": "Gunkan Higashi Shinjuku Battleship Building",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Higashi-Shinjuku",
+    "lat": 35.6989685,
+    "lon": 139.7075681,
+    "found": "東新宿, 明治通り, 大久保一丁目, 大久保, 新宿区, 東京都, 169-0072, 日本"
+  },
+  {
+    "name": "Aoyama Technical College",
+    "cat": "architecture",
+    "note": "",
+    "area": "Shibuya",
+    "lat": 35.6539501,
+    "lon": 139.7017667,
+    "found": "青山製図専門学校, 渋谷区特別区道870号線, 鶯谷町, 渋谷区, 東京都, 150-0032, 日本"
+  },
+  {
+    "name": "Natural Ellipse",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Shibuya",
+    "lat": 35.6637109,
+    "lon": 139.6976941,
+    "found": "渋谷区, 東京都, 日本"
+  },
+  {
+    "name": "Studio 07 Kitamagome",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Ota",
+    "lat": 35.561206,
+    "lon": 139.715843,
+    "found": "大田区, 東京都, 日本"
+  },
+  {
+    "name": "Princess Garten Takanawa",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Minato",
+    "lat": 35.6580089,
+    "lon": 139.7515137,
+    "found": "港区, 東京都, 日本"
+  },
+  {
+    "name": "B C Townhouses Himonya",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Meguro",
+    "lat": 35.6408352,
+    "lon": 139.6985376,
+    "found": "目黒区, 東京都, 日本"
+  },
+  {
+    "name": "Blue Sky Building Battleship Yamamoto Building",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Shinjuku",
+    "lat": 35.6937632,
+    "lon": 139.7036319,
+    "found": "新宿区, 東京都, 160-8484, 日本"
+  },
+  {
+    "name": "HR Giger Building",
+    "cat": "architecture",
+    "note": "unverified, may be closed (approximate location — exact building not in OSM)",
+    "area": "Ikebukuro",
+    "lat": 35.7298752,
+    "lon": 139.7112955,
+    "found": "池袋, アゼリアロード, 南池袋一丁目, 南池袋, 豊島区, 東京都, 171-0022, 日本"
+  },
+  {
+    "name": "Gaudi Building Waseda",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Waseda",
+    "lat": 35.7058028,
+    "lon": 139.721191,
+    "found": "早稲田, 早稲田通り, 早稲田町, 新宿区, 東京都, 160-8484, 日本"
+  },
+  {
+    "name": "SunnyHills Minami-Aoyama",
+    "cat": "architecture",
+    "note": "Kengo Kuma",
+    "area": "Aoyama",
+    "lat": 35.6657055,
+    "lon": 139.7162145,
+    "found": "サニーヒルズ, 20, 南青山三丁目, 南青山, 港区, 東京都, 107-0062, 日本"
+  },
+  {
+    "name": "Prada Aoyama",
+    "cat": "architecture",
+    "note": "Herzog & de Meuron",
+    "area": "Aoyama",
+    "lat": 35.663774,
+    "lon": 139.71444,
+    "found": "Prada, 御幸通り, 南青山三丁目, 南青山, 港区, 東京都, 107-0062, 日本"
+  },
+  {
+    "name": "Tod's Omotesando",
+    "cat": "architecture",
+    "note": "Toyo Ito (approximate location — exact building not in OSM)",
+    "area": "Omotesando",
+    "lat": 35.6651701,
+    "lon": 139.7124352,
+    "found": "表参道, 青山通り, 北青山三丁目, 北青山, 港区, 東京都, 107-0061, 日本"
+  },
+  {
+    "name": "Dior Omotesando",
+    "cat": "architecture",
+    "note": "SANAA",
+    "area": "Omotesando",
+    "lat": 35.6684242,
+    "lon": 139.705019,
+    "found": "Dior, 表参道, 神宮前六丁目, 神宮前, 渋谷区, 東京都, 150-0001, 日本"
+  },
+  {
+    "name": "GYRE Omotesando",
+    "cat": "architecture",
+    "note": "MVRDV (approximate location — exact building not in OSM)",
+    "area": "Omotesando",
+    "lat": 35.6651701,
+    "lon": 139.7124352,
+    "found": "表参道, 青山通り, 北青山三丁目, 北青山, 港区, 東京都, 107-0061, 日本"
+  },
+  {
+    "name": "Tokyu Plaza Omotesando Harajuku",
+    "cat": "architecture",
+    "note": "Hiroshi Nakamura / NAP (approximate location — exact building not in OSM)",
+    "area": "Omotesando",
+    "lat": 35.6651701,
+    "lon": 139.7124352,
+    "found": "表参道, 青山通り, 北青山三丁目, 北青山, 港区, 東京都, 107-0061, 日本"
+  },
+  {
+    "name": "Sia Aoyama Building",
+    "cat": "architecture",
+    "note": "Jun Aoki (approximate location — exact building not in OSM)",
+    "area": "Aoyama",
+    "lat": 35.6605744,
+    "lon": 139.7104162,
+    "found": "青山学院大学, 首都高速3号渋谷線, 渋谷四丁目, 渋谷, 渋谷区, 東京都, 150-0002, 日本"
+  },
+  {
+    "name": "Ao Building Aoyama",
+    "cat": "architecture",
+    "note": "Sakakura Associates (approximate location — exact building not in OSM)",
+    "area": "Aoyama",
+    "lat": 35.6605744,
+    "lon": 139.7104162,
+    "found": "青山学院大学, 首都高速3号渋谷線, 渋谷四丁目, 渋谷, 渋谷区, 東京都, 150-0002, 日本"
+  },
+  {
+    "name": "Terrazza Aoyama",
+    "cat": "architecture",
+    "note": "Kiyoshi Takeyama / Amorphe (approximate location — exact building not in OSM)",
+    "area": "Aoyama",
+    "lat": 35.6605744,
+    "lon": 139.7104162,
+    "found": "青山学院大学, 首都高速3号渋谷線, 渋谷四丁目, 渋谷, 渋谷区, 東京都, 150-0002, 日本"
+  },
+  {
+    "name": "Watarium Museum",
+    "cat": "architecture",
+    "note": "Mario Botta (approximate location — exact building not in OSM)",
+    "area": "Aoyama",
+    "lat": 35.6605744,
+    "lon": 139.7104162,
+    "found": "青山学院大学, 首都高速3号渋谷線, 渋谷四丁目, 渋谷, 渋谷区, 東京都, 150-0002, 日本"
+  },
+  {
+    "name": "Mikimoto Ginza Honten",
+    "cat": "architecture",
+    "note": "Toyo Ito (approximate location — exact building not in OSM)",
+    "area": "Ginza",
+    "lat": 35.6720135,
+    "lon": 139.7647202,
+    "found": "銀座, 中央区, 東京都, 104-0061, 日本"
+  },
+  {
+    "name": "Nicolas G. Hayek Center",
+    "cat": "architecture",
+    "note": "Shigeru Ban (approximate location — exact building not in OSM)",
+    "area": "Ginza",
+    "lat": 35.6720135,
+    "lon": 139.7647202,
+    "found": "銀座, 中央区, 東京都, 104-0061, 日本"
+  },
+  {
+    "name": "Shinjuku Mitsui Building",
+    "cat": "architecture",
+    "note": "",
+    "area": "Shinjuku",
+    "lat": 35.691909,
+    "lon": 139.6939005,
+    "found": "新宿三井ビル, 1, 西新宿二丁目, 西新宿, 新宿区, 東京都, 163-0448, 日本"
+  },
+  {
+    "name": "Edo-Tokyo Museum",
+    "cat": "architecture",
+    "note": "Kiyonori Kikutake",
+    "area": "Ryogoku",
+    "lat": 35.6969058,
+    "lon": 139.7973807,
+    "found": "江戸東京博前, 清澄通り, 横網一丁目, 横網, 墨田区, 東京都, 130-0015, 日本"
+  },
+  {
+    "name": "Museum of Contemporary Art Tokyo",
+    "cat": "architecture",
+    "note": "",
+    "area": "Kiyosumi-Shirakawa",
+    "lat": 35.6797754,
+    "lon": 139.8087878,
+    "found": "東京都現代美術館, 1, 三好四丁目, 三好, 江東区, 東京都, 135-0022, 日本"
+  },
+  {
+    "name": "Museum of Narratives Takanawa Gateway",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Takanawa",
+    "lat": 35.6349739,
+    "lon": 139.7357164,
+    "found": "高輪, 港区, 東京都, 108-0074, 日本"
+  },
+  {
+    "name": "Sumida Hokusai Museum",
+    "cat": "architecture",
+    "note": "Kazuyo Sejima / SANAA",
+    "area": "Ryogoku",
+    "lat": 35.6963779,
+    "lon": 139.8004717,
+    "found": "すみだ北斎美術館, 2, 亀沢二丁目, 亀沢, 墨田区, 東京都, 130-0014, 日本"
+  },
+  {
+    "name": "National Museum of Western Art",
+    "cat": "architecture",
+    "note": "Le Corbusier",
+    "area": "Ueno",
+    "lat": 35.7155512,
+    "lon": 139.7759424,
+    "found": "国立西洋美術館, 上野公園, 台東区, 東京都, 110-0007, 日本"
+  },
+  {
+    "name": "Gallery of Horyuji Treasures",
+    "cat": "architecture",
+    "note": "Taniguchi Yoshio",
+    "area": "Ueno",
+    "lat": 35.7186648,
+    "lon": 139.7740864,
+    "found": "法隆寺宝物館, 神田白山線, 上野公園, 台東区, 東京都, 110-0007, 日本"
+  },
+  {
+    "name": "Tokyo Bunka Kaikan",
+    "cat": "architecture",
+    "note": "Kunio Maekawa",
+    "area": "Ueno",
+    "lat": 35.7142581,
+    "lon": 139.7751875,
+    "found": "東京文化会館, 上野公園, 台東区, 東京都, 110-8716, 日本"
+  },
+  {
+    "name": "GA Gallery Sendagaya",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Sendagaya",
+    "lat": 35.6818379,
+    "lon": 139.7074785,
+    "found": "千駄ヶ谷, 渋谷区, 東京都, 151-0051, 日本"
+  },
+  {
+    "name": "Gallery TOM Shibuya",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Shibuya",
+    "lat": 35.6637109,
+    "lon": 139.6976941,
+    "found": "渋谷区, 東京都, 日本"
+  },
+  {
+    "name": "Tokyo Big Sight",
+    "cat": "architecture",
+    "note": "",
+    "area": "Ariake",
+    "lat": 35.6320533,
+    "lon": 139.7978048,
+    "found": "東京ビッグサイト, 有明, 江東区, 東京都, 135-0063, 日本"
+  },
+  {
+    "name": "Tokyo Metropolitan Gymnasium",
+    "cat": "architecture",
+    "note": "Fumihiko Maki",
+    "area": "Sendagaya",
+    "lat": 35.6797973,
+    "lon": 139.7125202,
+    "found": "東京体育館, 1, 千駄ヶ谷一丁目, 千駄ヶ谷, 渋谷区, 東京都, 151-0051, 日本"
+  },
+  {
+    "name": "Century Tower Ochanomizu",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Ochanomizu",
+    "lat": 35.7005755,
+    "lon": 139.764082,
+    "found": "御茶ノ水, 外堀通り, 湯島一丁目, 湯島, 文京区, 東京都, 113-0034, 日本"
+  },
+  {
+    "name": "Komaba Campus II University of Tokyo",
+    "cat": "architecture",
+    "note": "Hiroshi Hara (approximate location — exact building not in OSM)",
+    "area": "Komaba",
+    "lat": 35.6593621,
+    "lon": 139.6827141,
+    "found": "駒場, 目黒区, 東京都, 153-0041, 日本"
+  },
+  {
+    "name": "Tokyo Design Center Gotanda",
+    "cat": "architecture",
+    "note": "Mario Bellini",
+    "area": "Gotanda",
+    "lat": 35.6276959,
+    "lon": 139.7243692,
+    "found": "東京デザインセンター, 桜田通り, 東五反田五丁目, 東五反田, 品川区, 東京都, 141-0022, 日本"
+  },
+  {
+    "name": "Yasuyo Building Shinjuku",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Shinjuku",
+    "lat": 35.6937632,
+    "lon": 139.7036319,
+    "found": "新宿区, 東京都, 160-8484, 日本"
+  },
+  {
+    "name": "Iceberg Building Omotesando",
+    "cat": "architecture",
+    "note": "former Audi Forum Tokyo, now WeWork (approximate location — exact building not in OSM)",
+    "area": "Omotesando",
+    "lat": 35.6651701,
+    "lon": 139.7124352,
+    "found": "表参道, 青山通り, 北青山三丁目, 北青山, 港区, 東京都, 107-0061, 日本"
+  },
+  {
+    "name": "Dentsu Building Shiodome",
+    "cat": "architecture",
+    "note": "Jean Nouvel",
+    "area": "Shiodome",
+    "lat": 35.6644132,
+    "lon": 139.7624135,
+    "found": "電通本社ビル, さざなみの道, 汐留SIO-SITE, 東新橋, 港区, 東京都, 105-0021, 日本"
+  },
+  {
+    "name": "Octagon Building Ebisu",
+    "cat": "architecture",
+    "note": "Shin Takamatsu (approximate location — exact building not in OSM)",
+    "area": "Ebisu",
+    "lat": 35.6464413,
+    "lon": 139.7102082,
+    "found": "恵比寿, いなり坂, 恵比寿四丁目, 恵比寿, 渋谷区, 東京都, 150-0022, 日本"
+  },
+  {
+    "name": "Le Bois Hiraki Ikebukuro",
+    "cat": "architecture",
+    "note": "Bon Juko",
+    "area": "Ikebukuro",
+    "lat": 35.7274752,
+    "lon": 139.7157848,
+    "found": "Le Bois Hiraki, グリーン大通り, 南池袋二丁目, 南池袋, 豊島区, 東京都, 171-0022, 日本"
+  },
+  {
+    "name": "The Jewels of Aoyama",
+    "cat": "architecture",
+    "note": "(approximate location — exact building not in OSM)",
+    "area": "Aoyama",
+    "lat": 35.6605744,
+    "lon": 139.7104162,
+    "found": "青山学院大学, 首都高速3号渋谷線, 渋谷四丁目, 渋谷, 渋谷区, 東京都, 150-0002, 日本"
+  },
+  {
+    "name": "Waseda El Dorado",
+    "cat": "architecture",
+    "note": "Bon Juko",
+    "area": "Waseda",
+    "lat": 35.7081576,
+    "lon": 139.7220093,
+    "found": "Waseda El Dorado, 早大通り, 早稲田鶴巻町, 新宿区, 東京都, 162-0041, 日本"
+  },
+  {
+    "name": "National Museum of Nature and Science",
+    "cat": "architecture",
+    "note": "1931 Neo-Renaissance",
+    "area": "Ueno",
+    "lat": 35.7158995,
+    "lon": 139.7766878,
+    "found": "国立科学博物館, 上野公園, 台東区, 東京都, 110-8718, 日本"
+  },
+  {
+    "name": "Zuisho-ji Temple",
+    "cat": "places",
+    "note": "",
+    "area": "Shirokanedai",
+    "lat": 35.6372576,
+    "lon": 139.7269955,
+    "found": "瑞聖寺, 目黒通り, 白金台三丁目, 白金台, 港区, 東京都, 108-0071, 日本"
+  },
+  {
+    "name": "Hie Shrine",
+    "cat": "places",
+    "note": "",
+    "area": "Nagatacho",
+    "lat": 35.674685,
+    "lon": 139.7398822,
+    "found": "日枝神社, 5, 永田町二丁目, 永田町, 千代田区, 東京都, 100-0014, 日本"
+  },
+  {
+    "name": "Meiji Jingu",
+    "cat": "places",
+    "note": "Shinto shrine",
+    "area": "Yoyogi",
+    "lat": 35.6748417,
+    "lon": 139.6996266,
+    "found": "明治神宮, 1, 代々木神園町, 渋谷区, 東京都, 151-8557, 日本"
+  },
+  {
+    "name": "International Library of Children's Literature",
+    "cat": "places",
+    "note": "Tadao Ando renovation",
+    "area": "Ueno",
+    "lat": 35.719485,
+    "lon": 139.773752,
+    "found": "国際こども図書館, 神田白山線, 上野公園, 台東区, 東京都, 110-0007, 日本"
+  },
+  {
+    "name": "Kabukiza Theatre",
+    "cat": "places",
+    "note": "Kengo Kuma",
+    "area": "Ginza",
+    "lat": 35.6696572,
+    "lon": 139.7681111,
+    "found": "歌舞伎座, 15, 銀座四丁目, 銀座, 中央区, 東京都, 104-0061, 日本"
+  },
+  {
+    "name": "Akagi-jinja Shrine",
+    "cat": "places",
+    "note": "Kengo Kuma",
+    "area": "Kagurazaka",
+    "lat": 35.7050671,
+    "lon": 139.7359251,
+    "found": "赤城出世稲荷神社, 早稲田通り, 神楽坂六丁目, 神楽坂, 新宿区, 東京都, 162-0825, 日本"
+  },
+  {
+    "name": "Ginza Okuno Building",
+    "cat": "places",
+    "note": "1932 preserved apartment building (approximate location — exact building not in OSM)",
+    "area": "Ginza",
+    "lat": 35.6720135,
+    "lon": 139.7647202,
+    "found": "銀座, 中央区, 東京都, 104-0061, 日本"
+  },
+  {
+    "name": "Edo-Tokyo Open-Air Architectural Museum",
+    "cat": "places",
+    "note": "",
+    "area": "Koganei",
+    "lat": 35.7163738,
+    "lon": 139.5127413,
+    "found": "江戸東京たてもの園, 1, 桜町三丁目, 桜町, 小金井市, 東京都, 184-0005, 日本"
+  },
+  {
+    "name": "Tokyo Station Marunouchi Building",
+    "cat": "places",
+    "note": "Kingo Tatsuno, 1914",
+    "area": "Marunouchi",
+    "lat": 35.6811505,
+    "lon": 139.7659765,
+    "found": "東京駅丸の内駅舎, 1, 丸の内一丁目, 丸の内, 千代田区, 東京都, 100-0005, 日本"
+  },
+  {
+    "name": "National Noh Theatre",
+    "cat": "places",
+    "note": "",
+    "area": "Sendagaya",
+    "lat": 35.680345,
+    "lon": 139.7081066,
+    "found": "国立能楽堂, 1, 千駄ヶ谷四丁目, 千駄ヶ谷, 渋谷区, 東京都, 151-0051, 日本"
+  },
+  {
+    "name": "Reiyukai Shakaden Temple",
+    "cat": "places",
+    "note": "pyramid-like modernist temple",
+    "area": "Azabudai",
+    "lat": 35.6610627,
+    "lon": 139.7422199,
+    "found": "霊友会釈迦殿, 三年坂, 麻布台一丁目, 麻布台, 港区, 東京都, 106-0041, 日本"
+  },
+  {
+    "name": "Tokyo Tower",
+    "cat": "places",
+    "note": "1958 landmark",
+    "area": "Minato",
+    "lat": 35.6584491,
+    "lon": 139.745536,
+    "found": "東京タワー, 東京タワー通り, 芝公園四丁目, 芝公園, 港区, 東京都, 106-0041, 日本"
+  },
+  {
+    "name": "Senso-ji",
+    "cat": "places",
+    "note": "ancient Buddhist temple",
+    "area": "Asakusa",
+    "lat": 35.7134032,
+    "lon": 139.7955265,
+    "found": "金龍山 浅草寺, 1, 浅草二丁目, 浅草, 台東区, 東京都, 111-0032, 日本"
+  },
+  {
+    "name": "Catholic Saint Alfonso Hatsudai Church",
+    "cat": "places",
+    "note": "",
+    "area": "Hatsudai",
+    "lat": 35.6748097,
+    "lon": 139.688276,
+    "found": "カトリック初台教会, 首都高速中央環状線, 代々木五丁目, 代々木, 渋谷区, 東京都, 151-0063, 日本"
+  },
+  {
+    "name": "Yodobashi Church",
+    "cat": "places",
+    "note": "",
+    "area": "Okubo",
+    "lat": 35.701276,
+    "lon": 139.6977449,
+    "found": "ウェスレアン・ホーリネス教団 淀橋教会, 大久保通り, 百人町二丁目, 百人町, 新宿区, 東京都, 169-0073, 日本"
+  },
+  {
+    "name": "Starbucks Reserve Roastery Tokyo",
+    "cat": "food",
+    "note": "Kengo Kuma (approximate location — exact building not in OSM)",
+    "area": "Nakameguro",
+    "lat": 35.644085,
+    "lon": 139.6989507,
+    "found": "中目黒, 上目黒三丁目, 上目黒, 目黒区, 東京都, 153-0051, 日本"
+  },
+  {
+    "name": "Le Bretagne Kagurazaka",
+    "cat": "food",
+    "note": "buckwheat crepes",
+    "area": "Kagurazaka",
+    "lat": 35.701518,
+    "lon": 139.7410202,
+    "found": "Le Bretagne bar à cidre, かくれんぼ横丁, 神楽坂三丁目, 神楽坂, 新宿区, 東京都, 162-0825, 日本"
+  },
+  {
+    "name": "Ishikawa Kagurazaka",
+    "cat": "food",
+    "note": "three-Michelin-star kaiseki (approximate location — exact address not in OSM)",
+    "area": "Kagurazaka",
+    "lat": 35.7010851,
+    "lon": 139.7412287,
+    "found": "神楽坂, 新宿区, 東京都, 162-0825, 日本 (approximate)"
+  },
+  {
+    "name": "Jugetsudo Tsukiji",
+    "cat": "food",
+    "note": "Kengo Kuma tea shop (approximate location — exact address not in OSM)",
+    "area": "Tsukiji",
+    "lat": 35.6650914,
+    "lon": 139.7708281,
+    "found": "築地, 中央区, 東京都, 104-0045, 日本 (approximate)"
+  },
+  {
+    "name": "Beer Hall Lion Ginza 7-Chome",
+    "cat": "food",
+    "note": "historic 1930s beer hall (approximate location — exact building not in OSM)",
+    "area": "Ginza",
+    "lat": 35.6720135,
+    "lon": 139.7647202,
+    "found": "銀座, 中央区, 東京都, 104-0061, 日本"
+  },
+  {
+    "name": "Shibuya",
+    "cat": "neigh",
+    "note": "",
+    "area": "Shibuya",
+    "lat": 35.6637109,
+    "lon": 139.6976941,
+    "found": "渋谷区, 東京都, 日本"
+  },
+  {
+    "name": "Shirokanedai",
+    "cat": "neigh",
+    "note": "",
+    "area": "Shirokanedai",
+    "lat": 35.6375308,
+    "lon": 139.7244945,
+    "found": "白金台, 港区, 東京都, 108-0071, 日本"
+  },
+  {
+    "name": "Nagatacho",
+    "cat": "neigh",
+    "note": "",
+    "area": "Nagatacho",
+    "lat": 35.6768717,
+    "lon": 139.7431557,
+    "found": "永田町, 千代田区, 東京都, 100-0014, 日本"
+  },
+  {
+    "name": "Shinagawa",
+    "cat": "neigh",
+    "note": "",
+    "area": "Shinagawa",
+    "lat": 35.6092008,
+    "lon": 139.7301982,
+    "found": "品川区, 東京都, 日本"
+  },
+  {
+    "name": "Nakameguro",
+    "cat": "neigh",
+    "note": "",
+    "area": "Nakameguro",
+    "lat": 35.644085,
+    "lon": 139.6989507,
+    "found": "中目黒, 上目黒三丁目, 上目黒, 目黒区, 東京都, 153-0051, 日本"
+  },
+  {
+    "name": "Kagurazaka",
+    "cat": "neigh",
+    "note": "",
+    "area": "Kagurazaka",
+    "lat": 35.7010851,
+    "lon": 139.7412287,
+    "found": "神楽坂, 新宿区, 東京都, 162-0825, 日本"
+  },
+  {
+    "name": "Shinjuku",
+    "cat": "neigh",
+    "note": "",
+    "area": "Shinjuku",
+    "lat": 35.6937632,
+    "lon": 139.7036319,
+    "found": "新宿区, 東京都, 160-8484, 日本"
+  },
+  {
+    "name": "Meiji Jingu Gaien",
+    "cat": "neigh",
+    "note": "",
+    "area": "Meiji Jingu Gaien",
+    "lat": 35.6724009,
+    "lon": 139.7209749,
+    "found": "明治神宮外苑之記, 414, 北青山一丁目, 北青山, 港区, 東京都, 107-0061, 日本"
+  },
+  {
+    "name": "Harajuku",
+    "cat": "neigh",
+    "note": "",
+    "area": "Harajuku",
+    "lat": 35.6687049,
+    "lon": 139.7053357,
+    "found": "原宿, 神宮前一丁目, 神宮前, 渋谷区, 東京都, 150-0001, 日本"
+  },
+  {
+    "name": "Nogizaka",
+    "cat": "neigh",
+    "note": "",
+    "area": "Nogizaka",
+    "lat": 35.6666518,
+    "lon": 139.7263839,
+    "found": "乃木坂, 南青山一丁目, 南青山, 港区, 東京都, 106-0032, 日本"
+  },
+  {
+    "name": "Omotesando",
+    "cat": "neigh",
+    "note": "",
+    "area": "Omotesando",
+    "lat": 35.6651701,
+    "lon": 139.7124352,
+    "found": "表参道, 青山通り, 北青山三丁目, 北青山, 港区, 東京都, 107-0061, 日本"
+  },
+  {
+    "name": "Tokyo Midtown",
+    "cat": "neigh",
+    "note": "",
+    "area": "Roppongi",
+    "lat": 35.6624568,
+    "lon": 139.7334981,
+    "found": "六本木, 港区, 東京都, 106-0032, 日本"
+  },
+  {
+    "name": "Roppongi",
+    "cat": "neigh",
+    "note": "",
+    "area": "Roppongi",
+    "lat": 35.6624568,
+    "lon": 139.7334981,
+    "found": "六本木, 港区, 東京都, 106-0032, 日本"
+  },
+  {
+    "name": "Asakusa",
+    "cat": "neigh",
+    "note": "",
+    "area": "Asakusa",
+    "lat": 35.7175966,
+    "lon": 139.7975626,
+    "found": "浅草, 台東区, 東京都, 111-0032, 日本"
+  },
+  {
+    "name": "Ginza",
+    "cat": "neigh",
+    "note": "",
+    "area": "Ginza",
+    "lat": 35.6720135,
+    "lon": 139.7647202,
+    "found": "銀座, 中央区, 東京都, 104-0061, 日本"
+  },
+  {
+    "name": "Takadanobaba",
+    "cat": "neigh",
+    "note": "",
+    "area": "Takadanobaba",
+    "lat": 35.7126839,
+    "lon": 139.7036425,
+    "found": "高田馬場, 早稲田通り, 高田馬場三丁目, 高田馬場, 新宿区, 東京都, 169-0075, 日本"
+  },
+  {
+    "name": "Odaiba",
+    "cat": "neigh",
+    "note": "",
+    "area": "Odaiba",
+    "lat": 35.6190032,
+    "lon": 139.7793576,
+    "found": "お台場, 江東区, 東京都, 日本"
+  },
+  {
+    "name": "Aoyama",
+    "cat": "neigh",
+    "note": "",
+    "area": "Aoyama",
+    "lat": 35.6605744,
+    "lon": 139.7104162,
+    "found": "青山学院大学, 首都高速3号渋谷線, 渋谷四丁目, 渋谷, 渋谷区, 東京都, 150-0002, 日本"
+  },
+  {
+    "name": "Marunouchi",
+    "cat": "neigh",
+    "note": "",
+    "area": "Marunouchi",
+    "lat": 35.6790703,
+    "lon": 139.7652988,
+    "found": "丸の内, 千代田区, 東京都, 100-0005, 日本"
+  },
+  {
+    "name": "Ueno",
+    "cat": "neigh",
+    "note": "",
+    "area": "Ueno",
+    "lat": 35.7117224,
+    "lon": 139.776143,
+    "found": "上野, 上野駅, 上野七丁目, 上野, 台東区, 東京都, 110-0005, 日本"
+  },
+  {
+    "name": "Hongo",
+    "cat": "neigh",
+    "note": "",
+    "area": "Hongo",
+    "lat": 35.7077379,
+    "lon": 139.760167,
+    "found": "本郷, 文京区, 東京都, 113-0033, 日本"
+  },
+  {
+    "name": "Sekiguchi",
+    "cat": "neigh",
+    "note": "",
+    "area": "Sekiguchi",
+    "lat": 35.7115354,
+    "lon": 139.7284224,
+    "found": "関口, 文京区, 東京都, 112-0014, 日本"
+  },
+  {
+    "name": "Akasaka",
+    "cat": "neigh",
+    "note": "",
+    "area": "Akasaka",
+    "lat": 35.6716786,
+    "lon": 139.7356224,
+    "found": "赤坂, 港区, 東京都, 107-0052, 日本"
+  },
+  {
+    "name": "Tamachi Mita",
+    "cat": "neigh",
+    "note": "",
+    "area": "Tamachi",
+    "lat": 35.6457358,
+    "lon": 139.7476833,
+    "found": "田町, 36, 芝五丁目, 芝, 港区, 東京都, 105-0014, 日本"
+  },
+  {
+    "name": "Higashi-Shinjuku",
+    "cat": "neigh",
+    "note": "",
+    "area": "Higashi-Shinjuku",
+    "lat": 35.6989685,
+    "lon": 139.7075681,
+    "found": "東新宿, 明治通り, 大久保一丁目, 大久保, 新宿区, 東京都, 169-0072, 日本"
+  },
+  {
+    "name": "Ikebukuro",
+    "cat": "neigh",
+    "note": "",
+    "area": "Ikebukuro",
+    "lat": 35.7298752,
+    "lon": 139.7112955,
+    "found": "池袋, アゼリアロード, 南池袋一丁目, 南池袋, 豊島区, 東京都, 171-0022, 日本"
+  },
+  {
+    "name": "Waseda",
+    "cat": "neigh",
+    "note": "",
+    "area": "Waseda",
+    "lat": 35.7058028,
+    "lon": 139.721191,
+    "found": "早稲田, 早稲田通り, 早稲田町, 新宿区, 東京都, 160-8484, 日本"
+  },
+  {
+    "name": "Takanawa",
+    "cat": "neigh",
+    "note": "",
+    "area": "Takanawa",
+    "lat": 35.6349739,
+    "lon": 139.7357164,
+    "found": "高輪, 港区, 東京都, 108-0074, 日本"
+  },
+  {
+    "name": "Minato",
+    "cat": "neigh",
+    "note": "",
+    "area": "Minato",
+    "lat": 35.6580089,
+    "lon": 139.7515137,
+    "found": "港区, 東京都, 日本"
+  },
+  {
+    "name": "Meguro",
+    "cat": "neigh",
+    "note": "",
+    "area": "Meguro",
+    "lat": 35.6408352,
+    "lon": 139.6985376,
+    "found": "目黒区, 東京都, 日本"
+  },
+  {
+    "name": "Ota",
+    "cat": "neigh",
+    "note": "",
+    "area": "Ota",
+    "lat": 35.561206,
+    "lon": 139.715843,
+    "found": "大田区, 東京都, 日本"
+  },
+  {
+    "name": "Koganei",
+    "cat": "neigh",
+    "note": "",
+    "area": "Koganei",
+    "lat": 35.7041083,
+    "lon": 139.5106759,
+    "found": "小金井市, 東京都, 日本"
+  },
+  {
+    "name": "Sumida",
+    "cat": "neigh",
+    "note": "",
+    "area": "Sumida",
+    "lat": 35.7104196,
+    "lon": 139.8017421,
+    "found": "墨田区, 東京都, 日本"
+  },
+  {
+    "name": "Yurakucho",
+    "cat": "neigh",
+    "note": "",
+    "area": "Yurakucho",
+    "lat": 35.6736817,
+    "lon": 139.7611853,
+    "found": "有楽町, 千代田区, 東京都, 100-0006, 日本"
+  },
+  {
+    "name": "Shiodome",
+    "cat": "neigh",
+    "note": "",
+    "area": "Shiodome",
+    "lat": 35.6614374,
+    "lon": 139.7589371,
+    "found": "汐留SIO-SITE, 東新橋, 港区, 東京都, 105-0021, 日本"
+  },
+  {
+    "name": "Ebisu",
+    "cat": "neigh",
+    "note": "",
+    "area": "Ebisu",
+    "lat": 35.6464413,
+    "lon": 139.7102082,
+    "found": "恵比寿, いなり坂, 恵比寿四丁目, 恵比寿, 渋谷区, 東京都, 150-0022, 日本"
+  },
+  {
+    "name": "Ryogoku",
+    "cat": "neigh",
+    "note": "",
+    "area": "Ryogoku",
+    "lat": 35.6968538,
+    "lon": 139.7974284,
+    "found": "両国, 清澄通り, 横網一丁目, 横網, 墨田区, 東京都, 130-0015, 日本"
+  },
+  {
+    "name": "Kiyosumi-Shirakawa",
+    "cat": "neigh",
+    "note": "",
+    "area": "Kiyosumi-Shirakawa",
+    "lat": 35.6820504,
+    "lon": 139.7987644,
+    "found": "清澄白河, 清洲橋通り, 清澄三丁目, 清澄, 江東区, 東京都, 135-0024, 日本"
+  },
+  {
+    "name": "Sendagaya",
+    "cat": "neigh",
+    "note": "",
+    "area": "Sendagaya",
+    "lat": 35.6818379,
+    "lon": 139.7074785,
+    "found": "千駄ヶ谷, 渋谷区, 東京都, 151-0051, 日本"
+  },
+  {
+    "name": "Ochanomizu",
+    "cat": "neigh",
+    "note": "",
+    "area": "Ochanomizu",
+    "lat": 35.7005755,
+    "lon": 139.764082,
+    "found": "御茶ノ水, 外堀通り, 湯島一丁目, 湯島, 文京区, 東京都, 113-0034, 日本"
+  },
+  {
+    "name": "Komaba",
+    "cat": "neigh",
+    "note": "",
+    "area": "Komaba",
+    "lat": 35.6593621,
+    "lon": 139.6827141,
+    "found": "駒場, 目黒区, 東京都, 153-0041, 日本"
+  },
+  {
+    "name": "Gotanda",
+    "cat": "neigh",
+    "note": "",
+    "area": "Gotanda",
+    "lat": 35.6271354,
+    "lon": 139.7241661,
+    "found": "五反田, 桜田通り, 東五反田五丁目, 東五反田, 品川区, 東京都, 141-0022, 日本"
+  },
+  {
+    "name": "Ariake",
+    "cat": "neigh",
+    "note": "",
+    "area": "Ariake",
+    "lat": 35.6337517,
+    "lon": 139.7902031,
+    "found": "有明, 江東区, 東京都, 135-0063, 日本"
+  },
+  {
+    "name": "Tennozu Isle",
+    "cat": "neigh",
+    "note": "",
+    "area": "Tennozu Isle",
+    "lat": 35.6226946,
+    "lon": 139.7508221,
+    "found": "天王洲アイル, 海岸通り, 東品川二丁目, 東品川, 品川区, 東京都, 140-0002, 日本"
+  },
+  {
+    "name": "Azabudai",
+    "cat": "neigh",
+    "note": "",
+    "area": "Azabudai",
+    "lat": 35.6596917,
+    "lon": 139.7412077,
+    "found": "麻布台, 港区, 東京都, 106-0041, 日本"
+  },
+  {
+    "name": "Hatsudai",
+    "cat": "neigh",
+    "note": "",
+    "area": "Hatsudai",
+    "lat": 35.6811565,
+    "lon": 139.6862442,
+    "found": "初台, 首都高速4号新宿線, 本町一丁目, 本町, 渋谷区, 東京都, 151-0071, 日本"
+  },
+  {
+    "name": "Okubo",
+    "cat": "neigh",
+    "note": "",
+    "area": "Okubo",
+    "lat": 35.7046389,
+    "lon": 139.7052761,
+    "found": "大久保, 新宿区, 東京都, 169-0072, 日本"
+  },
+  {
+    "name": "Tsukiji",
+    "cat": "neigh",
+    "note": "",
+    "area": "Tsukiji",
+    "lat": 35.6650914,
+    "lon": 139.7708281,
+    "found": "築地, 中央区, 東京都, 104-0045, 日本"
+  }
+]

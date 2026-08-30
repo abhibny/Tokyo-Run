@@ -1,0 +1,352 @@
+﻿[
+    {
+        "Number":  1,
+        "Building":  "Tokyu Plaza Ginza",
+        "Architect":  "Nikken Sekkei",
+        "Neighborhood":  "Ginza",
+        "Query":  "Tokyu Plaza Ginza Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  2,
+        "Building":  "Maison Hermes Tokyo",
+        "Architect":  "Renzo Piano",
+        "Neighborhood":  "Ginza",
+        "Query":  "Maison Hermes Ginza Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  3,
+        "Building":  "Yamaha Ginza",
+        "Architect":  "Nikken Sekkei",
+        "Neighborhood":  "Ginza",
+        "Query":  "Yamaha Ginza Building Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  4,
+        "Building":  "Louis Vuitton Matsuya Ginza Facade Renewal",
+        "Architect":  "Jun Aoki \u0026 Associates",
+        "Neighborhood":  "Ginza",
+        "Query":  "Matsuya Ginza Louis Vuitton Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  5,
+        "Building":  "De Beers Ginza Building",
+        "Architect":  "Jun Mitsui \u0026 Associates Architects",
+        "Neighborhood":  "Ginza",
+        "Query":  "De Beers Ginza Building Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  6,
+        "Building":  "Shizuoka Press and Broadcasting Center",
+        "Architect":  "Kenzo Tange",
+        "Neighborhood":  "Ginza",
+        "Query":  "Shizuoka Press and Broadcasting Center Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  7,
+        "Building":  "Tokyo International Forum",
+        "Architect":  "Rafael Vinoly Architects",
+        "Neighborhood":  "Ginza",
+        "Query":  "Tokyo International Forum Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  8,
+        "Building":  "Louis Vuitton Ginza Flagship Store",
+        "Architect":  "Jun Aoki Architects + Peter Marino Architect",
+        "Neighborhood":  "Ginza",
+        "Query":  "Louis Vuitton Ginza Namiki Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  9,
+        "Building":  "Miu Miu Aoyama Store",
+        "Architect":  "Herzog \u0026 de Meuron",
+        "Neighborhood":  "Omotesando",
+        "Query":  "Miu Miu Aoyama Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  10,
+        "Building":  "Omotesando Keyaki Building",
+        "Architect":  "Norihiko Dan and Associates",
+        "Neighborhood":  "Omotesando",
+        "Query":  "Omotesando Keyaki Building Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  11,
+        "Building":  "Coach Omotesando Flagship",
+        "Architect":  "OMA",
+        "Neighborhood":  "Omotesando",
+        "Query":  "Coach Omotesando Flagship Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  12,
+        "Building":  "Yoyogi National Gymnasium",
+        "Architect":  "Kenzo Tange",
+        "Neighborhood":  "Shibuya",
+        "Query":  "Yoyogi National Gymnasium Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  13,
+        "Building":  "Sunwell Muse Kitasando",
+        "Architect":  "Takato Tamagami and Tsutomu Hase",
+        "Neighborhood":  "Shibuya",
+        "Query":  "Sunwell Muse Kitasando Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  14,
+        "Building":  "Miyashita Park",
+        "Architect":  "Nikken Sekkei",
+        "Neighborhood":  "Shibuya",
+        "Query":  "Miyashita Park Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  15,
+        "Building":  "TRUNK(HOTEL) YOYOGI PARK",
+        "Architect":  "Keiji Ashizawa Design",
+        "Neighborhood":  "Shibuya",
+        "Query":  "TRUNK HOTEL YOYOGI PARK Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  16,
+        "Building":  "UPI Shop in Omotesando",
+        "Architect":  "Happenstance Collective [HaCo]",
+        "Neighborhood":  "Shibuya",
+        "Query":  "UPI Omotesando Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  17,
+        "Building":  "Japan National Stadium",
+        "Architect":  "Taisei + Azusa Sekkei + Kengo Kuma \u0026 Associates",
+        "Neighborhood":  "Shinjuku",
+        "Query":  "Japan National Stadium Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  18,
+        "Building":  "Mode Gakuen Cocoon Tower",
+        "Architect":  "Kenzo Tange",
+        "Neighborhood":  "Shinjuku",
+        "Query":  "Mode Gakuen Cocoon Tower Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  19,
+        "Building":  "Spiral Building",
+        "Architect":  "Fumihiko Maki",
+        "Neighborhood":  "Aoyama",
+        "Query":  "Spiral Building Aoyama Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  20,
+        "Building":  "Asakusa Culture and Tourism Center",
+        "Architect":  "Kengo Kuma \u0026 Associates",
+        "Neighborhood":  "Asakusa",
+        "Query":  "Asakusa Culture Tourist Information Center Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  21,
+        "Building":  "House NA",
+        "Architect":  "Sou Fujimoto Architects",
+        "Neighborhood":  "Koenji",
+        "Query":  "House NA Sou Fujimoto Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  22,
+        "Building":  "Breeze",
+        "Architect":  "ARTechnic Architects",
+        "Neighborhood":  "Setagaya",
+        "Query":  "Breeze ARTechnic Setagaya Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  23,
+        "Building":  "Za Koenji Public Theatre",
+        "Architect":  "Toyo Ito",
+        "Neighborhood":  "Suginami",
+        "Query":  "ZA-KOENJI Public Theatre Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  24,
+        "Building":  "Shibaura House",
+        "Architect":  "Kazuyo Sejima",
+        "Neighborhood":  "Shibaura",
+        "Query":  "Shibaura House Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  25,
+        "Building":  "Asahi Beer Hall",
+        "Architect":  "Philippe Starck",
+        "Neighborhood":  "Sumida",
+        "Query":  "Asahi Beer Hall Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  26,
+        "Building":  "Ariake Gymnastics Centre",
+        "Architect":  "Nikken Sekkei + Shimizu Corporation",
+        "Neighborhood":  "Koto",
+        "Query":  "Ariake Gymnastics Centre Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  27,
+        "Building":  "St. Mary Cathedral",
+        "Architect":  "Kenzo Tange",
+        "Neighborhood":  "Sekiguchi",
+        "Query":  "St Mary\u0027s Cathedral Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  28,
+        "Building":  "One@Tokyo",
+        "Architect":  "Kengo Kuma \u0026 Associates",
+        "Neighborhood":  "Oshiage",
+        "Query":  "ONE@Tokyo hotel Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  29,
+        "Building":  "Musashino Art University Museum \u0026 Library",
+        "Architect":  "Sou Fujimoto",
+        "Neighborhood":  "Kodaira",
+        "Query":  "Musashino Art University Museum \u0026 Library Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  30,
+        "Building":  "Tama Art University Library",
+        "Architect":  "Toyo Ito \u0026 Associates",
+        "Neighborhood":  "Hachioji",
+        "Query":  "Tama Art University Library Hachioji Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  31,
+        "Building":  "Harumi Residential Tower",
+        "Architect":  "Richard Meier \u0026 Partners Architects",
+        "Neighborhood":  "Harumi",
+        "Query":  "Harumi Residential Tower Richard Meier Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  32,
+        "Building":  "Tokyo Institute of Technology Hisao \u0026 Hiroko Taki Plaza",
+        "Architect":  "Kengo Kuma \u0026 Associates",
+        "Neighborhood":  "Meguro",
+        "Query":  "Hisao Hiroko Taki Plaza Tokyo Institute Technology Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  33,
+        "Building":  "Azabudai Hills",
+        "Architect":  "Heatherwick Studio",
+        "Neighborhood":  "Minato",
+        "Query":  "Azabudai Hills Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  34,
+        "Building":  "Toranomon Hills Station Tower",
+        "Architect":  "OMA / Shohei Shigematsu",
+        "Neighborhood":  "Minato",
+        "Query":  "Toranomon Hills Station Tower Tokyo Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    },
+    {
+        "Number":  35,
+        "Building":  "K5 Tokyo Hotel",
+        "Architect":  "Claesson Koivisto Rune",
+        "Neighborhood":  "Nihonbashi",
+        "Query":  "K5 Tokyo Hotel Japan",
+        "Lat":  null,
+        "Lon":  null,
+        "Found":  null
+    }
+]

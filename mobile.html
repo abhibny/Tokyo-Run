@@ -1,0 +1,265 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Tokyo Itinerary</title><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
+:root{--bg:#E8E9F6;--bg-alt:#DEE0F2;--card:#FFFFFF;--ink:#15141F;--ink-soft:#82829A;--accent:#5D5FDB;--accent-soft:rgba(93,95,219,.14);--shadow:0 8px 20px rgba(28,26,58,.09);--r-lg:20px;--r-md:14px;--r-full:999px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{margin:0;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg);display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;overflow:hidden}
+header.topbar{flex:none;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;background:linear-gradient(180deg,#B7B9F1,#E8E9F6)}
+.topbar-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.topbar-row h1{font-size:21px;font-weight:800;letter-spacing:-.02em;margin:0}
+.topbar-row p{margin:2px 0 0;font-size:11.5px;color:#3D3B52;font-weight:500}
+.iconbtn{position:relative;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.65);display:grid;place-items:center;font-size:18px;cursor:pointer;flex:none}
+.badge{position:absolute;top:-3px;right:-3px;background:var(--ink);color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 4px;line-height:1}
+.segmented{display:flex;background:rgba(255,255,255,.55);border-radius:var(--r-full);padding:4px;margin-top:14px;gap:4px}
+.seg-btn{flex:1;border:0;background:transparent;padding:10px 0;border-radius:var(--r-full);font-weight:700;font-size:13.5px;color:#4A4860;font-family:inherit}
+.seg-btn.active{background:var(--ink);color:#fff}
+main{flex:1;position:relative;min-height:0}
+.view{position:absolute;inset:0;display:none}
+.view.active{display:block}
+#listView{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px calc(28px + env(safe-area-inset-bottom))}
+#map{height:100%;width:100%}
+.legend{position:absolute;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:5;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-radius:var(--r-full);padding:8px 14px;display:flex;gap:12px;justify-content:space-around;box-shadow:var(--shadow);font-size:10.5px;font-weight:600;color:var(--ink-soft)}
+.legend span{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.legend i{width:8px;height:8px;border-radius:50%;flex:none}
+details{background:var(--card);border:0;border-radius:var(--r-lg);margin:0 0 10px;box-shadow:var(--shadow);overflow:hidden}
+details.dim{opacity:.4}
+summary{list-style:none;display:flex;align-items:center;gap:8px;padding:13px 14px;cursor:pointer}
+summary::-webkit-details-marker{display:none}
+.chevron{font-size:14px;transition:transform .15s;color:var(--ink-soft);width:28px;height:28px;border-radius:50%;background:var(--bg);display:grid;place-items:center;flex:none}
+details[open] .chevron{transform:rotate(90deg)}
+.name{flex:1;font-weight:700;line-height:1.35;font-size:14.5px;letter-spacing:-.01em}
+.toggle{width:21px;height:21px;accent-color:var(--accent);flex:none}
+.details-content{padding:0 14px 16px 42px}
+.details-content p{margin:4px 0 10px;color:var(--ink-soft);font-size:13px;line-height:1.6}
+.details-content p b{color:var(--ink);font-size:15.5px;display:block;margin-bottom:3px;font-weight:700}
+.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.links a{padding:10px 16px;color:#fff;background:var(--ink);text-decoration:none;border-radius:var(--r-full);font-size:13px;font-weight:600}
+.catlabel{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:var(--r-full);margin-left:4px}
+.flagbtn{border:0;background:var(--bg);font-size:15px;line-height:1;cursor:pointer;padding:0;width:32px;height:32px;border-radius:50%;flex:none;filter:grayscale(1);opacity:.5;display:grid;place-items:center}
+.flagbtn.active{filter:none;opacity:1;background:#F0D9D6}
+.photo-wrap{margin-top:2px;border-radius:var(--r-md);overflow:hidden;background:var(--bg);min-height:150px;display:flex;align-items:center;justify-content:center}
+.photo{width:100%;max-height:220px;object-fit:cover;display:block}
+.photo-fallback{padding:20px 10px;text-align:center;color:var(--ink-soft);font-size:12px}
+.photo-fallback a{color:var(--accent);font-weight:600}
+.dist{color:var(--accent);font-weight:700}
+.pin{width:26px;height:26px;border-radius:50%;color:#fff;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);display:grid;place-items:center;font-weight:700;font-size:11px}
+.stay-pin{width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--accent);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center}
+.stay-pin span{transform:rotate(45deg);font-size:18px}
+.stay-tooltip{font-weight:700;background:var(--ink);color:#fff;border:0;padding:5px 10px;border-radius:var(--r-full);font-family:'Plus Jakarta Sans',sans-serif;font-size:12px}
+.stay-tooltip::before{border-top-color:var(--ink)}
+#archive-box,#visited-box{background:var(--bg-alt);box-shadow:none}
+.sheet-backdrop{position:fixed;inset:0;background:rgba(21,20,31,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
+.sheet-backdrop.open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-radius:24px 24px 0 0;padding:8px 18px calc(18px + env(safe-area-inset-bottom));transform:translateY(102%);transition:transform .25s ease;z-index:21;max-height:82vh;overflow-y:auto;box-shadow:0 -12px 30px rgba(21,20,31,.22)}
+.sheet.open{transform:translateY(0)}
+.sheet-handle{width:36px;height:4px;background:#DADAEA;border-radius:2px;margin:6px auto 16px}
+.sheet h2{font-size:15px;margin:0 0 10px;font-weight:800}
+.sheet-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.sheet-actions button{padding:12px 10px;border:0;border-radius:14px;background:var(--bg);cursor:pointer;font-size:13px;font-weight:700;color:var(--ink);font-family:inherit}
+.sheet-actions button:active{background:var(--accent-soft)}
+#archive-unselected{grid-column:1/-1}
+.cats{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.catbtn{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:14px;border:0;background:var(--bg);cursor:pointer;font-size:13.5px;font-weight:600;color:var(--ink);font-family:inherit;text-align:left}
+.catbtn.off{opacity:.4}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+#closeSheet{width:100%;padding:13px;border:0;border-radius:var(--r-full);background:var(--ink);color:#fff;font-weight:700;font-size:14px;font-family:inherit;margin-top:4px}
+</style></head><body>
+<header class="topbar">
+  <div class="topbar-row">
+    <div><h1>Tokyo Itinerary</h1><p>Your stay: nine hours Akasaka · <a href="index.html" style="color:inherit">💻 Desktop version</a></p></div>
+    <button id="filterBtn" class="iconbtn" type="button" aria-label="Filters">⚙️<span id="count" class="badge">0</span></button>
+  </div>
+  <div class="segmented" role="tablist">
+    <button class="seg-btn active" data-view="list" type="button">List</button>
+    <button class="seg-btn" data-view="map" type="button">Map</button>
+  </div>
+</header>
+<main>
+  <section id="listView" class="view active"><div id="list"></div></section>
+  <section id="mapView" class="view">
+    <div id="map" aria-label="Interactive map"></div>
+    <div id="legend" class="legend"></div>
+  </section>
+</main>
+<div id="sheetBackdrop" class="sheet-backdrop"></div>
+<div id="filterSheet" class="sheet">
+  <div class="sheet-handle"></div>
+  <h2>Selection</h2>
+  <div class="sheet-actions">
+    <button id="all" type="button">Select all</button>
+    <button id="none" type="button">Unselect all</button>
+  </div>
+  <h2>Categories</h2>
+  <div id="cats" class="cats"></div>
+  <button id="closeSheet" type="button">Done</button>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
+const CATS={arch:{label:'Architecture',color:'#15141F'},hist:{label:'Architectural places',color:'#7A5FB8'},food:{label:'Cafes & eateries',color:'#DB6B60'},neigh:{label:'Neighborhoods',color:'#7E88B0'}};
+const ACCENT='#5D5FDB';
+const hexToRgba=(hex,a)=>{const n=parseInt(hex.slice(1),16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`};
+const STAY={name:'nine hours Akasaka',area:'Akasaka',lat:35.6739,lon:139.7351,checkin:'Tue 1 Sept, 15:00',checkout:'Thu 10 Sept, 11:00'};
+function distKm(lat,lon){const R=6371,dLat=(lat-STAY.lat)*Math.PI/180,dLon=(lon-STAY.lon)*Math.PI/180,a=Math.sin(dLat/2)**2+Math.cos(STAY.lat*Math.PI/180)*Math.cos(lat*Math.PI/180)*Math.sin(dLon/2)**2;return (2*R*Math.asin(Math.sqrt(a))).toFixed(1)}
+const P=[[1,"Tokyu Plaza Ginza","Nikken Sekkei","Ginza",35.6722,139.7624,"arch"],[2,"Maison Hermes Tokyo","Renzo Piano","Ginza",35.6717,139.7653,"arch"],[3,"Yamaha Ginza","Nikken Sekkei","Ginza",35.6686,139.7627,"arch"],[4,"Louis Vuitton Matsuya Ginza Facade Renewal","Jun Aoki & Associates","Ginza",35.6714,139.7653,"arch"],[5,"De Beers Ginza Building","Jun Mitsui & Associates Architects","Ginza",35.6689,139.7618,"arch"],[6,"Shizuoka Press and Broadcasting Center","Kenzo Tange","Ginza",35.6687,139.7589,"arch"],[7,"Tokyo International Forum","Rafael Vinoly Architects","Ginza",35.6768,139.7635,"arch"],[8,"Louis Vuitton Ginza Flagship Store","Jun Aoki Architects + Peter Marino Architect","Ginza",35.6707,139.7637,"arch"],[9,"Miu Miu Aoyama Store","Herzog & de Meuron","Omotesando",35.6643,139.7142,"arch"],[10,"Omotesando Keyaki Building","Norihiko Dan and Associates","Omotesando",35.666,139.7103,"arch"],[11,"Coach Omotesando Flagship","OMA","Omotesando",35.665,139.7117,"arch"],[12,"Yoyogi National Gymnasium","Kenzo Tange","Shibuya",35.6671,139.6998,"arch"],[13,"Sunwell Muse Kitasando","Takato Tamagami and Tsutomu Hase","Shibuya",35.6773,139.7058,"arch"],[14,"Miyashita Park","Nikken Sekkei","Shibuya",35.662,139.7019,"arch"],[15,"TRUNK(HOTEL) YOYOGI PARK","Keiji Ashizawa Design","Shibuya",35.6648,139.6948,"arch"],[16,"UPI Shop in Omotesando","Happenstance Collective [HaCo]","Shibuya",35.6659,139.7109,"arch"],[17,"Japan National Stadium","Taisei + Azusa Sekkei + Kengo Kuma & Associates","Shinjuku",35.678,139.7148,"arch"],[18,"Mode Gakuen Cocoon Tower","Kenzo Tange","Shinjuku",35.6916,139.6969,"arch"],[19,"Spiral Building","Fumihiko Maki","Aoyama",35.6617,139.7076,"arch"],[20,"Asakusa Culture and Tourism Center","Kengo Kuma & Associates","Asakusa",35.7116,139.7975,"arch"],[21,"House NA","Sou Fujimoto Architects","Koenji",35.706,139.65,"arch"],[22,"Breeze","ARTechnic Architects","Setagaya",35.64,139.64,"arch"],[23,"Za Koenji Public Theatre","Toyo Ito","Suginami",35.7068,139.649,"arch"],[24,"Shibaura House","Kazuyo Sejima","Shibaura",35.6431,139.746,"arch"],[25,"Asahi Beer Hall","Philippe Starck","Sumida",35.7098,139.8003,"arch"],[26,"Ariake Gymnastics Centre","Nikken Sekkei + Shimizu Corporation","Koto",35.641,139.793,"arch"],[27,"St. Mary's Cathedral","Kenzo Tange","Sekiguchi",35.7143,139.7266,"arch"],[28,"One@Tokyo","Kengo Kuma & Associates","Oshiage",35.7118,139.816,"arch"],[29,"Musashino Art University Museum & Library","Sou Fujimoto","Kodaira",35.726,139.427,"arch"],[30,"Tama Art University Library","Toyo Ito & Associates","Hachioji",35.624,139.365,"arch"],[31,"Harumi Residential Tower","Richard Meier & Partners Architects","Harumi",35.6539,139.7828,"arch"],[32,"Tokyo Institute of Technology Hisao & Hiroko Taki Plaza","Kengo Kuma & Associates","Meguro",35.6075,139.6849,"arch"],[33,"Azabudai Hills","Heatherwick Studio","Minato",35.6615,139.7408,"arch"],[34,"Toranomon Hills Station Tower","OMA / Shohei Shigematsu","Minato",35.6675,139.7469,"arch"],[35,"K5 Tokyo Hotel","Claesson Koivisto Rune","Nihonbashi",35.6804,139.779,"arch"],[36,"Meiji Jingu Museum","Kengo Kuma","Yoyogi",35.6723,139.7022,"arch"],[37,"The Capitol Hotel Tokyu","Kengo Kuma","Nagatacho",35.6741,139.7409,"arch"],[38,"Shibuya Scramble Square","","Shibuya",35.6584,139.7022,"arch"],[39,"Pigment Tokyo","Kengo Kuma (approximate location — exact building not in OSM)","Tennozu Isle",35.6227,139.7508,"arch"],[40,"Tokyo Metropolitan Government Building","Kenzo Tange","Nishi-Shinjuku",35.6895,139.6917,"arch"],[41,"Fuji Television Headquarters","Kenzo Tange","Odaiba",35.6272,139.7752,"arch"],[42,"Sogetsu Kaikan","Kenzo Tange","Akasaka",35.6741,139.7293,"arch"],[43,"Shinjuku Park Tower","Kenzo Tange","Shinjuku",35.6858,139.6905,"arch"],[44,"United Nations University","Kenzo Tange","Aoyama",35.6625,139.7082,"arch"],[45,"Embassy of Kuwait in Japan","Kenzo Tange","Mita",35.6477,139.7484,"arch"],[46,"The National Art Center Tokyo","Kisho Kurokawa","Roppongi",35.6653,139.7264,"arch"],[47,"BIG BOX Takadanobaba","Kisho Kurokawa","Takadanobaba",35.7126,139.7043,"arch"],[48,"Omotesando Hills","Tadao Ando","Omotesando",35.6671,139.7081,"arch"],[49,"21_21 Design Sight","Tadao Ando (approximate location — exact building not in OSM)","Roppongi",35.6625,139.7335,"arch"],[50,"Toyoko Line Shibuya Station","Tadao Ando (approximate location — exact building not in OSM)","Shibuya",35.6637,139.6977,"arch"],[51,"Fukutake Hall University of Tokyo","Tadao Ando (approximate location — exact building not in OSM)","Hongo",35.7077,139.7602,"arch"],[52,"KITTE Marunouchi","Kengo Kuma","Marunouchi",35.6799,139.7648,"arch"],[53,"Nezu Museum","Kengo Kuma","Aoyama",35.6622,139.7173,"arch"],[54,"Gunkan Higashi Shinjuku Battleship Building","(approximate location — exact building not in OSM)","Higashi-Shinjuku",35.699,139.7076,"arch"],[55,"Aoyama Technical College","","Shibuya",35.654,139.7018,"arch"],[56,"Natural Ellipse","(approximate location — exact building not in OSM)","Shibuya",35.6637,139.6977,"arch"],[57,"Studio 07 Kitamagome","(approximate location — exact building not in OSM)","Ota",35.5612,139.7158,"arch"],[58,"Princess Garten Takanawa","(approximate location — exact building not in OSM)","Minato",35.658,139.7515,"arch"],[59,"B C Townhouses Himonya","(approximate location — exact building not in OSM)","Meguro",35.6408,139.6985,"arch"],[60,"Blue Sky Building Battleship Yamamoto Building","(approximate location — exact building not in OSM)","Shinjuku",35.6938,139.7036,"arch"],[61,"HR Giger Building","unverified, may be closed (approximate location — exact building not in OSM)","Ikebukuro",35.7299,139.7113,"arch"],[62,"Gaudi Building Waseda","(approximate location — exact building not in OSM)","Waseda",35.7058,139.7212,"arch"],[63,"SunnyHills Minami-Aoyama","Kengo Kuma","Aoyama",35.6657,139.7162,"arch"],[64,"Prada Aoyama","Herzog & de Meuron","Aoyama",35.6638,139.7144,"arch"],[65,"Tod's Omotesando","Toyo Ito (approximate location — exact building not in OSM)","Omotesando",35.6652,139.7124,"arch"],[66,"Dior Omotesando","SANAA","Omotesando",35.6684,139.705,"arch"],[67,"GYRE Omotesando","MVRDV (approximate location — exact building not in OSM)","Omotesando",35.6652,139.7124,"arch"],[68,"Tokyu Plaza Omotesando Harajuku","Hiroshi Nakamura / NAP (approximate location — exact building not in OSM)","Omotesando",35.6652,139.7124,"arch"],[69,"Sia Aoyama Building","Jun Aoki (approximate location — exact building not in OSM)","Aoyama",35.6606,139.7104,"arch"],[70,"Ao Building Aoyama","Sakakura Associates (approximate location — exact building not in OSM)","Aoyama",35.6606,139.7104,"arch"],[71,"Terrazza Aoyama","Kiyoshi Takeyama / Amorphe (approximate location — exact building not in OSM)","Aoyama",35.6606,139.7104,"arch"],[72,"Watarium Museum","Mario Botta (approximate location — exact building not in OSM)","Aoyama",35.6606,139.7104,"arch"],[73,"Mikimoto Ginza Honten","Toyo Ito (approximate location — exact building not in OSM)","Ginza",35.672,139.7647,"arch"],[74,"Nicolas G. Hayek Center","Shigeru Ban (approximate location — exact building not in OSM)","Ginza",35.672,139.7647,"arch"],[75,"Shinjuku Mitsui Building","","Shinjuku",35.6919,139.6939,"arch"],[76,"Edo-Tokyo Museum","Kiyonori Kikutake","Ryogoku",35.6969,139.7974,"arch"],[77,"Museum of Contemporary Art Tokyo","","Kiyosumi-Shirakawa",35.6798,139.8088,"arch"],[78,"Museum of Narratives Takanawa Gateway","(approximate location — exact building not in OSM)","Takanawa",35.635,139.7357,"arch"],[79,"Sumida Hokusai Museum","Kazuyo Sejima / SANAA","Ryogoku",35.6964,139.8005,"arch"],[80,"National Museum of Western Art","Le Corbusier","Ueno",35.7156,139.7759,"arch"],[81,"Gallery of Horyuji Treasures","Taniguchi Yoshio","Ueno",35.7187,139.7741,"arch"],[82,"Tokyo Bunka Kaikan","Kunio Maekawa","Ueno",35.7143,139.7752,"arch"],[83,"GA Gallery Sendagaya","(approximate location — exact building not in OSM)","Sendagaya",35.6818,139.7075,"arch"],[84,"Gallery TOM Shibuya","(approximate location — exact building not in OSM)","Shibuya",35.6637,139.6977,"arch"],[85,"Tokyo Big Sight","","Ariake",35.6321,139.7978,"arch"],[86,"Tokyo Metropolitan Gymnasium","Fumihiko Maki","Sendagaya",35.6798,139.7125,"arch"],[87,"Century Tower Ochanomizu","(approximate location — exact building not in OSM)","Ochanomizu",35.7006,139.7641,"arch"],[88,"Komaba Campus II University of Tokyo","Hiroshi Hara (approximate location — exact building not in OSM)","Komaba",35.6594,139.6827,"arch"],[89,"Tokyo Design Center Gotanda","Mario Bellini","Gotanda",35.6277,139.7244,"arch"],[90,"Yasuyo Building Shinjuku","(approximate location — exact building not in OSM)","Shinjuku",35.6938,139.7036,"arch"],[91,"Iceberg Building Omotesando","former Audi Forum Tokyo, now WeWork (approximate location — exact building not in OSM)","Omotesando",35.6652,139.7124,"arch"],[92,"Dentsu Building Shiodome","Jean Nouvel","Shiodome",35.6644,139.7624,"arch"],[93,"Octagon Building Ebisu","Shin Takamatsu (approximate location — exact building not in OSM)","Ebisu",35.6464,139.7102,"arch"],[94,"Le Bois Hiraki Ikebukuro","Bon Juko","Ikebukuro",35.7275,139.7158,"arch"],[95,"The Jewels of Aoyama","(approximate location — exact building not in OSM)","Aoyama",35.6606,139.7104,"arch"],[96,"Waseda El Dorado","Bon Juko","Waseda",35.7082,139.722,"arch"],[97,"National Museum of Nature and Science","1931 Neo-Renaissance","Ueno",35.7159,139.7767,"arch"],[98,"Zuisho-ji Temple","","Shirokanedai",35.6373,139.727,"hist"],[99,"Hie Shrine","","Nagatacho",35.6747,139.7399,"hist"],[100,"Meiji Jingu","Shinto shrine","Yoyogi",35.6748,139.6996,"hist"],[101,"International Library of Children's Literature","Tadao Ando renovation","Ueno",35.7195,139.7738,"hist"],[102,"Kabukiza Theatre","Kengo Kuma","Ginza",35.6697,139.7681,"hist"],[103,"Akagi-jinja Shrine","Kengo Kuma","Kagurazaka",35.7051,139.7359,"hist"],[104,"Ginza Okuno Building","1932 preserved apartment building (approximate location — exact building not in OSM)","Ginza",35.672,139.7647,"hist"],[105,"Edo-Tokyo Open-Air Architectural Museum","","Koganei",35.7164,139.5127,"hist"],[106,"Tokyo Station Marunouchi Building","Kingo Tatsuno, 1914","Marunouchi",35.6812,139.766,"hist"],[107,"National Noh Theatre","","Sendagaya",35.6803,139.7081,"hist"],[108,"Reiyukai Shakaden Temple","pyramid-like modernist temple","Azabudai",35.6611,139.7422,"hist"],[109,"Tokyo Tower","1958 landmark","Minato",35.6584,139.7455,"hist"],[110,"Senso-ji","ancient Buddhist temple","Asakusa",35.7134,139.7955,"hist"],[111,"Catholic Saint Alfonso Hatsudai Church","","Hatsudai",35.6748,139.6883,"hist"],[112,"Yodobashi Church","","Okubo",35.7013,139.6977,"hist"],[113,"Starbucks Reserve Roastery Tokyo","Kengo Kuma (approximate location — exact building not in OSM)","Nakameguro",35.6441,139.699,"food"],[114,"Le Bretagne Kagurazaka","buckwheat crepes","Kagurazaka",35.7015,139.741,"food"],[115,"Ishikawa Kagurazaka","three-Michelin-star kaiseki (approximate location — exact address not in OSM)","Kagurazaka",35.7011,139.7412,"food"],[116,"Jugetsudo Tsukiji","Kengo Kuma tea shop (approximate location — exact address not in OSM)","Tsukiji",35.6651,139.7708,"food"],[117,"Beer Hall Lion Ginza 7-Chome","historic 1930s beer hall (approximate location — exact building not in OSM)","Ginza",35.672,139.7647,"food"],[118,"Shibuya","","Shibuya",35.6637,139.6977,"neigh"],[119,"Shirokanedai","","Shirokanedai",35.6375,139.7245,"neigh"],[120,"Nagatacho","","Nagatacho",35.6769,139.7432,"neigh"],[121,"Shinagawa","","Shinagawa",35.6092,139.7302,"neigh"],[122,"Nakameguro","","Nakameguro",35.6441,139.699,"neigh"],[123,"Kagurazaka","","Kagurazaka",35.7011,139.7412,"neigh"],[124,"Shinjuku","","Shinjuku",35.6938,139.7036,"neigh"],[125,"Meiji Jingu Gaien","","Meiji Jingu Gaien",35.6724,139.721,"neigh"],[126,"Harajuku","","Harajuku",35.6687,139.7053,"neigh"],[127,"Nogizaka","","Nogizaka",35.6667,139.7264,"neigh"],[128,"Omotesando","","Omotesando",35.6652,139.7124,"neigh"],[129,"Tokyo Midtown","","Roppongi",35.6625,139.7335,"neigh"],[130,"Roppongi","","Roppongi",35.6625,139.7335,"neigh"],[131,"Asakusa","","Asakusa",35.7176,139.7976,"neigh"],[132,"Ginza","","Ginza",35.672,139.7647,"neigh"],[133,"Takadanobaba","","Takadanobaba",35.7127,139.7036,"neigh"],[134,"Odaiba","","Odaiba",35.619,139.7794,"neigh"],[135,"Aoyama","","Aoyama",35.6606,139.7104,"neigh"],[136,"Marunouchi","","Marunouchi",35.6791,139.7653,"neigh"],[137,"Ueno","","Ueno",35.7117,139.7761,"neigh"],[138,"Hongo","","Hongo",35.7077,139.7602,"neigh"],[139,"Sekiguchi","","Sekiguchi",35.7115,139.7284,"neigh"],[140,"Akasaka","","Akasaka",35.6717,139.7356,"neigh"],[141,"Tamachi Mita","","Tamachi",35.6457,139.7477,"neigh"],[142,"Higashi-Shinjuku","","Higashi-Shinjuku",35.699,139.7076,"neigh"],[143,"Ikebukuro","","Ikebukuro",35.7299,139.7113,"neigh"],[144,"Waseda","","Waseda",35.7058,139.7212,"neigh"],[145,"Takanawa","","Takanawa",35.635,139.7357,"neigh"],[146,"Minato","","Minato",35.658,139.7515,"neigh"],[147,"Meguro","","Meguro",35.6408,139.6985,"neigh"],[148,"Ota","","Ota",35.5612,139.7158,"neigh"],[149,"Koganei","","Koganei",35.7041,139.5107,"neigh"],[150,"Sumida","","Sumida",35.7104,139.8017,"neigh"],[151,"Yurakucho","","Yurakucho",35.6737,139.7612,"neigh"],[152,"Shiodome","","Shiodome",35.6614,139.7589,"neigh"],[153,"Ebisu","","Ebisu",35.6464,139.7102,"neigh"],[154,"Ryogoku","","Ryogoku",35.6969,139.7974,"neigh"],[155,"Kiyosumi-Shirakawa","","Kiyosumi-Shirakawa",35.6821,139.7988,"neigh"],[156,"Sendagaya","","Sendagaya",35.6818,139.7075,"neigh"],[157,"Ochanomizu","","Ochanomizu",35.7006,139.7641,"neigh"],[158,"Komaba","","Komaba",35.6594,139.6827,"neigh"],[159,"Gotanda","","Gotanda",35.6271,139.7242,"neigh"],[160,"Ariake","","Ariake",35.6338,139.7902,"neigh"],[161,"Tennozu Isle","","Tennozu Isle",35.6227,139.7508,"neigh"],[162,"Azabudai","","Azabudai",35.6597,139.7412,"neigh"],[163,"Hatsudai","","Hatsudai",35.6812,139.6862,"neigh"],[164,"Okubo","","Okubo",35.7046,139.7053,"neigh"],[165,"Tsukiji","","Tsukiji",35.6651,139.7708,"neigh"]];
+const map=L.map('map'),layer=L.layerGroup().addTo(map),list=document.getElementById('list'),count=document.getElementById('count'),catsEl=document.getElementById('cats');
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);
+L.circle([STAY.lat,STAY.lon],{radius:2000,color:ACCENT,weight:1,dashArray:'4 5',fillOpacity:.03}).addTo(map);
+L.circle([STAY.lat,STAY.lon],{radius:5000,color:ACCENT,weight:1,dashArray:'4 5',fillOpacity:.02}).addTo(map);
+L.marker([STAY.lat,STAY.lon],{icon:L.divIcon({className:'',html:'<div class="stay-pin"><span>🏨</span></div>',iconSize:[40,40],iconAnchor:[20,34]}),zIndexOffset:1000})
+  .addTo(map)
+  .bindTooltip(`Your stay`,{permanent:true,direction:'top',offset:[0,-32],className:'stay-tooltip'})
+  .bindPopup(`<b>${STAY.name}</b><br>${STAY.area}, Tokyo<br>Check-in: ${STAY.checkin}<br>Check-out: ${STAY.checkout}`);
+document.getElementById('legend').innerHTML=Object.values(CATS).map(c=>`<span><i style="background:${c.color}"></i>${c.label.split(' ')[0]}</span>`).join('')+`<span><i style="background:${ACCENT}"></i>Hotel</span>`;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const SEL_KEY='tokyo-selected-ids';
+const selected=new Set((()=>{try{const s=JSON.parse(localStorage.getItem(SEL_KEY));if(Array.isArray(s)&&s.length)return s}catch(e){}return P.filter(p=>p[0]<=35).map(p=>p[0])})());
+function icon(n,cat){return L.divIcon({className:'',html:`<div class="pin" style="background:${CATS[cat].color}">${n}</div>`,iconSize:[30,30],iconAnchor:[15,15]})}
+function redraw(){
+  layer.clearLayers();const b=[[STAY.lat,STAY.lon]];
+  P.forEach(p=>{if(!selected.has(p[0]))return;const q=encodeURIComponent(`${p[1]} ${p[3]} Tokyo Japan`);L.marker([p[4],p[5]],{icon:icon(p[0],p[6])}).addTo(layer).bindPopup(`<b>${p[0]}. ${esc(p[1])}</b><br>${esc(p[2])}<br><span class="catlabel" style="background:${hexToRgba(CATS[p[6]].color,.14)};color:${CATS[p[6]].color}">${CATS[p[6]].label}</span><br><span class="dist">${distKm(p[4],p[5])} km</span> from your hotel<br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Directions</a>`);b.push([p[4],p[5]])});
+  count.textContent=selected.size;
+  localStorage.setItem(SEL_KEY,JSON.stringify([...selected]));
+  document.querySelectorAll('#list > details, #archived-list > details, #visited-list > details').forEach(card=>{card.classList.toggle('dim',!selected.has(+card.dataset.id))});
+  updateCatButtons();
+  if(b.length)map.fitBounds(b,{padding:[24,24]})
+}
+function updateCatButtons(){
+  Object.keys(CATS).forEach(cat=>{
+    const ids=P.filter(p=>p[6]===cat).map(p=>p[0]);
+    const allOn=ids.every(id=>selected.has(id));
+    const btn=catsEl.querySelector(`[data-cat="${cat}"]`);
+    if(btn)btn.classList.toggle('off',!allOn)
+  })
+}
+Object.entries(CATS).forEach(([cat,def])=>{
+  const n=P.filter(p=>p[6]===cat).length;
+  const btn=document.createElement('button');
+  btn.type='button';btn.className='catbtn';btn.dataset.cat=cat;
+  btn.innerHTML=`<span class="dot" style="background:${def.color}"></span>${def.label} (${n})`;
+  btn.onclick=()=>{
+    const ids=P.filter(p=>p[6]===cat).map(p=>p[0]);
+    const allOn=ids.every(id=>selected.has(id));
+    ids.forEach(id=>allOn?selected.delete(id):selected.add(id));
+    document.querySelectorAll('#list > details, #archived-list > details, #visited-list > details').forEach(card=>{const id=+card.dataset.id;if(ids.includes(id))card.querySelector('.toggle').checked=selected.has(id)});
+    redraw()
+  };
+  catsEl.appendChild(btn)
+});
+async function loadPhoto(p,wrap){
+  if(wrap.dataset.loaded)return;
+  wrap.dataset.loaded='1';
+  const isch=`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(p[1]+' '+p[3]+' Tokyo')}`;
+  const fallback=()=>{wrap.innerHTML=`<div class="photo-fallback">No photo found automatically.<br><a target="_blank" href="${isch}">Search photos</a></div>`};
+  const tryFetch=async(query)=>{
+    const url=`https://en.wikipedia.org/w/api.php?origin=*&action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=600&format=json`;
+    const res=await fetch(url);
+    const data=await res.json();
+    const pages=data && data.query && data.query.pages;
+    const first=pages?Object.values(pages)[0]:null;
+    return first && first.thumbnail && first.thumbnail.source;
+  };
+  try{
+    let src=await tryFetch(`${p[1]} ${p[3]} Tokyo`);
+    if(!src)src=await tryFetch(p[1]);
+    if(src){wrap.innerHTML=`<img class="photo" src="${src}" alt="${esc(p[1])}">`}
+    else fallback();
+  }catch(e){fallback()}
+}
+P.forEach(p=>{
+  const q=encodeURIComponent(`${p[1]} ${p[3]} Tokyo Japan`),card=document.createElement('details');
+  card.dataset.id=p[0];
+  card.innerHTML=`<summary><input class="toggle" type="checkbox" ${selected.has(p[0])?'checked':''} aria-label="Include ${esc(p[1])}"><span class="name">${p[0]}. ${esc(p[1])} <span class="catlabel" style="background:${hexToRgba(CATS[p[6]].color,.14)};color:${CATS[p[6]].color}">${CATS[p[6]].label}</span></span><button class="flagbtn" type="button" title="Mark as visited" aria-label="Mark ${esc(p[1])} as visited">🚩</button><span class="chevron" aria-hidden="true">›</span></summary><div class="details-content"><p><b>${esc(p[1])}</b><br>${p[2]?esc(p[2])+'<br>':''}Area: ${esc(p[3])}, Tokyo<br><span class="dist">${distKm(p[4],p[5])} km</span> from your hotel (${STAY.name})</p><div class="photo-wrap"></div><div class="links"><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${q}">Google Maps</a><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Directions</a></div></div>`;
+  card.querySelector('input').onchange=e=>{e.stopPropagation();e.target.checked?selected.add(p[0]):selected.delete(p[0]);redraw()};
+  card.addEventListener('toggle',()=>{if(card.open)loadPhoto(p,card.querySelector('.photo-wrap'))});
+  list.appendChild(card)
+});
+document.getElementById('all').onclick=()=>{P.forEach(p=>selected.add(p[0]));document.querySelectorAll('.toggle').forEach(x=>x.checked=true);redraw()};
+document.getElementById('none').onclick=()=>{selected.clear();document.querySelectorAll('.toggle').forEach(x=>x.checked=false);redraw()};
+redraw();
+const listView=document.getElementById('listView'),mapView=document.getElementById('mapView');
+document.querySelectorAll('.seg-btn').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('active',b===btn));
+    const v=btn.dataset.view;
+    listView.classList.toggle('active',v==='list');
+    mapView.classList.toggle('active',v==='map');
+    if(v==='map')setTimeout(()=>map.invalidateSize(),60)
+  }
+});
+const sheet=document.getElementById('filterSheet'),backdrop=document.getElementById('sheetBackdrop');
+function openSheet(){sheet.classList.add('open');backdrop.classList.add('open')}
+function closeSheet(){sheet.classList.remove('open');backdrop.classList.remove('open')}
+document.getElementById('filterBtn').onclick=openSheet;
+document.getElementById('closeSheet').onclick=closeSheet;
+backdrop.onclick=closeSheet;
+</script><script>
+(()=>{
+  const list=document.getElementById('list'),sheetActions=document.querySelector('.sheet-actions'),ARCH_KEY='tokyo-archived-ids';
+  let archiveSet;
+  try{archiveSet=new Set(JSON.parse(localStorage.getItem(ARCH_KEY)||'[]'))}catch(e){archiveSet=new Set()}
+  const archived=document.createElement('details'),button=document.createElement('button');
+  button.id='archive-unselected';button.type='button';button.textContent='Archive unselected';sheetActions.appendChild(button);
+  archived.id='archive-box';
+  archived.innerHTML='<summary><span class="name">Archived places</span><span id="archive-count">0</span><span class="chevron" aria-hidden="true">›</span></summary><div id="archived-list" class="details-content"></div>';
+  list.after(archived);
+  const archiveList=document.getElementById('archived-list'),archiveCount=document.getElementById('archive-count');
+  const persist=()=>localStorage.setItem(ARCH_KEY,JSON.stringify([...archiveSet]));
+  const update=()=>{archiveCount.textContent=archiveSet.size;persist()};
+  function addRestoreBtn(card){
+    if(card.querySelector('[data-restore]'))return;
+    const actions=card.querySelector('.links'),restore=document.createElement('button');
+    restore.type='button';restore.dataset.restore='';restore.textContent='Restore to itinerary';
+    actions.appendChild(restore);
+  }
+  button.onclick=()=>{
+    [...list.children].filter(card=>!card.querySelector('.toggle').checked).forEach(card=>{
+      archiveSet.add(+card.dataset.id);archiveList.appendChild(card);card.open=false;addRestoreBtn(card);
+    });
+    update();
+  };
+  archiveList.addEventListener('click',e=>{
+    const restore=e.target.closest('button[data-restore]');
+    if(!restore)return;
+    const card=restore.closest('details');
+    archiveSet.delete(+card.dataset.id);
+    list.appendChild(card);
+    card.querySelector('.toggle').checked=true;
+    card.querySelector('.toggle').dispatchEvent(new Event('change'));
+    update();
+  });
+  document.querySelectorAll('#list > details').forEach(card=>{
+    if(archiveSet.has(+card.dataset.id)){archiveList.appendChild(card);card.open=false;addRestoreBtn(card)}
+  });
+  archiveCount.textContent=archiveSet.size;
+})();
+</script><script>
+(()=>{
+  const list=document.getElementById('list'),STORAGE_KEY='tokyo-visited-ids';
+  let visited;
+  try{visited=new Set(JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'))}catch(e){visited=new Set()}
+  const box=document.createElement('details');
+  box.id='visited-box';
+  box.innerHTML='<summary><span class="name">🚩 Already Visited</span><span id="visited-count">0</span><span class="chevron" aria-hidden="true">›</span></summary><div id="visited-list" class="details-content"></div>';
+  list.after(box);
+  const visitedList=document.getElementById('visited-list'),visitedCount=document.getElementById('visited-count');
+  const persist=()=>localStorage.setItem(STORAGE_KEY,JSON.stringify([...visited]));
+  const updateCount=()=>visitedCount.textContent=visited.size;
+  function place(card,isVisited){
+    card.querySelector('.flagbtn').classList.toggle('active',isVisited);
+    (isVisited?visitedList:list).appendChild(card);
+  }
+  function setVisited(card,isVisited){
+    const id=+card.dataset.id;
+    isVisited?visited.add(id):visited.delete(id);
+    place(card,isVisited);
+    persist();updateCount()
+  }
+  document.querySelectorAll('#list > details, #archived-list > details').forEach(card=>{if(visited.has(+card.dataset.id))place(card,true)});
+  document.body.addEventListener('click',e=>{
+    const btn=e.target.closest('.flagbtn');
+    if(!btn)return;
+    e.preventDefault();e.stopPropagation();
+    const card=btn.closest('details'),id=+card.dataset.id;
+    setVisited(card,!visited.has(id))
+  });
+  updateCount();
+})();
+</script></body></html>
