@@ -33,8 +33,16 @@ details[open] .chevron{transform:rotate(90deg)}
 .flagbtn{border:0;background:var(--bg);font-size:14px;line-height:1;cursor:pointer;padding:0;width:28px;height:28px;border-radius:50%;flex:none;filter:grayscale(1);opacity:.5;display:grid;place-items:center}
 .flagbtn:hover{opacity:.85}
 .flagbtn.active{filter:none;opacity:1;background:#F0D9D6}
-.photo-wrap{margin-top:2px;border-radius:var(--r-md);overflow:hidden;background:var(--bg);min-height:150px;display:flex;align-items:center;justify-content:center}
-.photo{width:100%;max-height:220px;object-fit:cover;display:block}
+.photo-wrap{margin-top:2px;border-radius:var(--r-md);overflow:hidden;background:var(--bg);min-height:150px;display:flex;align-items:center;justify-content:center;position:relative}
+.ctrack{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;width:100%}
+.ctrack::-webkit-scrollbar{display:none}
+.ctrack img{flex:0 0 100%;width:100%;max-height:220px;object-fit:cover;display:block;scroll-snap-align:start}
+.cnav{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;border:0;background:rgba(21,20,31,.55);color:#fff;font-size:16px;line-height:1;cursor:pointer;display:grid;place-items:center;z-index:2}
+.cnav.prev{left:8px}
+.cnav.next{right:8px}
+.cdots{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:2}
+.cdots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55)}
+.cdots span.active{background:#fff}
 .photo-fallback{padding:20px 10px;text-align:center;color:var(--ink-soft);font-size:12px}
 .photo-fallback a{color:var(--accent);font-weight:600}
 .dist{color:var(--accent);font-weight:700}
@@ -151,24 +159,46 @@ Object.entries(CATS).forEach(([cat,def])=>{
   };
   catsEl.appendChild(btn)
 });
-async function loadPhoto(p,wrap){
+async function loadPhotos(p,wrap){
   if(wrap.dataset.loaded)return;
   wrap.dataset.loaded='1';
   const isch=`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(p[1]+' '+p[3]+' Tokyo')}`;
-  const fallback=()=>{wrap.innerHTML=`<div class="photo-fallback">No photo found automatically.<br><a target="_blank" href="${isch}">Search photos</a></div>`};
-  const tryFetch=async(query)=>{
-    const url=`https://en.wikipedia.org/w/api.php?origin=*&action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=600&format=json`;
-    const res=await fetch(url);
-    const data=await res.json();
-    const pages=data && data.query && data.query.pages;
-    const first=pages?Object.values(pages)[0]:null;
-    return first && first.thumbnail && first.thumbnail.source;
+  const fallback=()=>{wrap.innerHTML=`<div class="photo-fallback">No photos found automatically.<br><a target="_blank" href="${isch}">Search photos</a></div>`};
+  const wikiPageImage=async(query)=>{
+    try{
+      const url=`https://en.wikipedia.org/w/api.php?origin=*&action=query&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=600&format=json`;
+      const res=await fetch(url);
+      const data=await res.json();
+      const pages=data && data.query && data.query.pages;
+      const first=pages?Object.values(pages)[0]:null;
+      return first && first.thumbnail && first.thumbnail.source;
+    }catch(e){return null}
+  };
+  const commonsSearch=async(query,limit)=>{
+    try{
+      const url=`https://commons.wikimedia.org/w/api.php?origin=*&action=query&generator=search&gsrsearch=${encodeURIComponent('filetype:bitmap '+query)}&gsrnamespace=6&gsrlimit=${limit}&prop=imageinfo&iiprop=url&iiurlwidth=500&format=json`;
+      const res=await fetch(url);
+      const data=await res.json();
+      const pages=data && data.query && data.query.pages;
+      if(!pages)return [];
+      return Object.values(pages).map(pg=>pg.imageinfo && pg.imageinfo[0] && pg.imageinfo[0].thumburl).filter(Boolean);
+    }catch(e){return []}
   };
   try{
-    let src=await tryFetch(`${p[1]} ${p[3]} Tokyo`);
-    if(!src)src=await tryFetch(p[1]);
-    if(src){wrap.innerHTML=`<img class="photo" src="${src}" alt="${esc(p[1])}">`}
-    else fallback();
+    const urls=[];
+    const wikiImg=await wikiPageImage(`${p[1]} ${p[3]} Tokyo`) || await wikiPageImage(p[1]);
+    if(wikiImg)urls.push(wikiImg);
+    const commonsImgs=await commonsSearch(`${p[1]} ${p[3]} Tokyo`,8);
+    commonsImgs.forEach(u=>{if(urls.length<5 && !urls.includes(u))urls.push(u)});
+    if(!urls.length){fallback();return}
+    wrap.innerHTML=`<div class="ctrack">${urls.map(u=>`<img src="${u}" alt="${esc(p[1])}" loading="lazy">`).join('')}</div>${urls.length>1?`<button class="cnav prev" type="button" aria-label="Previous photo">‹</button><button class="cnav next" type="button" aria-label="Next photo">›</button><div class="cdots">${urls.map((_,i)=>`<span${i===0?' class="active"':''}></span>`).join('')}</div>`:''}`;
+    if(urls.length>1){
+      const track=wrap.querySelector('.ctrack'),dots=[...wrap.querySelectorAll('.cdots span')];
+      const update=()=>{const idx=Math.round(track.scrollLeft/track.clientWidth);dots.forEach((d,i)=>d.classList.toggle('active',i===idx))};
+      track.addEventListener('scroll',update,{passive:true});
+      wrap.querySelector('.prev').onclick=e=>{e.stopPropagation();track.scrollBy({left:-track.clientWidth,behavior:'smooth'})};
+      wrap.querySelector('.next').onclick=e=>{e.stopPropagation();track.scrollBy({left:track.clientWidth,behavior:'smooth'})};
+    }
   }catch(e){fallback()}
 }
 function buildPlaceCard(p){
@@ -177,7 +207,7 @@ function buildPlaceCard(p){
   card.dataset.id=p[0];
   card.innerHTML=`<summary><input class="toggle" type="checkbox" ${selected.has(p[0])?'checked':''} aria-label="Include ${esc(p[1])}"><span class="name">${p[0]}. ${esc(p[1])}</span><span class="catlabel" style="background:${hexToRgba(CATS[p[6]].color,.14)};color:${CATS[p[6]].color}">${CATS[p[6]].short}</span><button class="flagbtn" type="button" title="Mark as visited" aria-label="Mark ${esc(p[1])} as visited">🚩</button><span class="chevron" aria-hidden="true">›</span></summary><div class="details-content"><p><b>${esc(p[1])}</b><br>${p[2]?esc(p[2])+'<br>':''}Area: ${esc(p[3])}, Tokyo<br><span class="dist">${distKm(p[4],p[5])} km</span> from your hotel (${STAY.name})</p><div class="photo-wrap"></div><div class="links"><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${q}">Google Maps</a><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Directions</a></div></div>`;
   card.querySelector('input').onchange=e=>{e.stopPropagation();e.target.checked?selected.add(p[0]):selected.delete(p[0]);redraw()};
-  card.addEventListener('toggle',()=>{if(card.open)loadPhoto(p,card.querySelector('.photo-wrap'))});
+  card.addEventListener('toggle',()=>{if(card.open)loadPhotos(p,card.querySelector('.photo-wrap'))});
   return card;
 }
 GROUPS.forEach(g=>{
