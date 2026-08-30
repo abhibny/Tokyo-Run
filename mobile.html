@@ -15,15 +15,14 @@ header.topbar{flex:none;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;
 .statuspill{display:flex;gap:4px;background:rgba(255,255,255,.55);border-radius:var(--r-full);padding:4px;flex:none}
 .statusdot{position:relative;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.7);font-size:15px;display:grid;place-items:center;cursor:pointer;flex:none}
 .sbadge{position:absolute;top:-4px;right:-4px;background:var(--ink);color:#fff;font-size:9px;font-weight:700;min-width:15px;height:15px;border-radius:8px;display:grid;place-items:center;padding:0 3px;line-height:1}
-.bottomnav{position:fixed;left:50%;transform:translateX(-50%) translateZ(0);-webkit-transform:translateX(-50%) translateZ(0);bottom:calc(12px + env(safe-area-inset-bottom));z-index:2147483647;isolation:isolate;background:var(--card);border-radius:var(--r-full);padding:6px;display:flex;align-items:center;gap:4px;box-shadow:0 10px 26px rgba(28,26,58,.22);width:max-content;max-width:calc(100vw - 28px)}
+.bottomnav{position:relative;z-index:25;flex:none;align-self:center;margin:0 0 calc(10px + env(safe-area-inset-bottom));background:var(--card);border-radius:var(--r-full);padding:6px;display:flex;align-items:center;gap:4px;box-shadow:0 10px 26px rgba(28,26,58,.22);width:max-content;max-width:calc(100% - 28px)}
 .bottomnav .segmented{background:var(--bg)}
 .bottomnav .seg-btn{color:var(--ink-soft)}
 .bottomnav .iconbtn{background:var(--bg)}
 main{flex:1;position:relative;min-height:0}
 .view{position:absolute;inset:0;display:none}
-#mapView{bottom:calc(78px + env(safe-area-inset-bottom))}
 .view.active{display:block}
-#listView{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px calc(84px + env(safe-area-inset-bottom))}
+#listView{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 24px}
 #map{height:100%;width:100%}
 .legend{position:absolute;left:12px;right:12px;bottom:10px;z-index:5;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-radius:var(--r-full);padding:8px 14px;display:flex;gap:12px;justify-content:space-around;box-shadow:var(--shadow);font-size:10.5px;font-weight:600;color:var(--ink-soft)}
 .legend span{display:flex;align-items:center;gap:5px;white-space:nowrap}
@@ -419,34 +418,5 @@ backdrop.onclick=closeSheet;
     setVisited(card,!visited.has(id))
   });
   updateCount();
-})();
-</script><script>
-(()=>{
-  function dump(){
-    const nav=document.querySelector('.bottomnav'),mv=document.getElementById('mapView'),navR=nav?nav.getBoundingClientRect():null,mvR=mv?mv.getBoundingClientRect():null;
-    const vv=window.visualViewport;
-    const lines=[
-      'html.clientW/H: '+document.documentElement.clientWidth+' / '+document.documentElement.clientHeight,
-      'window.innerW/H: '+window.innerWidth+' / '+window.innerHeight,
-      'body.scrollW/H: '+document.body.scrollWidth+' / '+document.body.scrollHeight,
-      'devicePixelRatio: '+window.devicePixelRatio,
-      'visualViewport w/h/scale/offY: '+(vv?[vv.width.toFixed(1),vv.height.toFixed(1),vv.scale,vv.offsetTop.toFixed(1)].join(' / '):'n/a'),
-      'mapView rect: '+(mvR?JSON.stringify({top:+mvR.top.toFixed(1),bottom:+mvR.bottom.toFixed(1),left:+mvR.left.toFixed(1),right:+mvR.right.toFixed(1)}):'n/a'),
-      'bottomnav rect: '+(navR?JSON.stringify({top:+navR.top.toFixed(1),bottom:+navR.bottom.toFixed(1),left:+navR.left.toFixed(1),right:+navR.right.toFixed(1)}):'MISSING'),
-      'bottomnav computed bottom/zIndex: '+(nav?getComputedStyle(nav).bottom+' / '+getComputedStyle(nav).zIndex:'n/a'),
-      'safe-area-inset-bottom: '+getComputedStyle(document.documentElement).getPropertyValue('--sab-test')
-    ];
-    box.textContent=lines.join('\n');
-  }
-  const box=document.createElement('pre');
-  box.id='debugbox';
-  box.style.cssText='position:fixed;top:0;left:0;right:0;z-index:999999999;background:rgba(0,0,0,.85);color:#0f0;font-size:9px;line-height:1.4;padding:6px;margin:0;white-space:pre-wrap;pointer-events:none;font-family:monospace';
-  document.body.appendChild(box);
-  document.documentElement.style.setProperty('--sab-test','env(safe-area-inset-bottom)');
-  dump();
-  window.addEventListener('resize',dump);
-  window.addEventListener('orientationchange',()=>setTimeout(dump,300));
-  document.querySelectorAll('.seg-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(dump,150)));
-  setInterval(dump,1000);
 })();
 </script></body></html>
