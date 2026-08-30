@@ -17,11 +17,11 @@ aside{overflow:auto;padding:12px 16px 24px;background:var(--bg)}
 .dot{width:8px;height:8px;border-radius:50%;flex:none}
 details{background:var(--card);border:0;border-radius:var(--r-lg);margin:8px 0;box-shadow:var(--shadow);overflow:hidden}
 details.dim{opacity:.38}
-summary{list-style:none;display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer}
+summary{list-style:none;display:flex;align-items:center;gap:8px;padding:0 14px;height:52px;cursor:pointer}
 summary::-webkit-details-marker{display:none}
 .chevron{font-size:14px;transition:transform .15s;color:var(--ink-soft);width:26px;height:26px;border-radius:50%;background:var(--bg);display:grid;place-items:center;flex:none}
 details[open] .chevron{transform:rotate(90deg)}
-.name{flex:1;font-weight:700;line-height:1.3;font-size:13.5px;letter-spacing:-.01em}
+.name{flex:1;min-width:0;font-weight:700;font-size:13.5px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .toggle{width:18px;height:18px;accent-color:var(--accent);flex:none}
 .details-content{padding:0 14px 16px 40px}
 .details-content p{margin:4px 0 10px;color:var(--ink-soft);font-size:12.5px;line-height:1.6}
@@ -29,7 +29,7 @@ details[open] .chevron{transform:rotate(90deg)}
 .links{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .links a{padding:8px 14px;color:#fff;background:var(--ink);text-decoration:none;border-radius:var(--r-full);font-size:12.5px;font-weight:600}
 .links a:hover{background:var(--accent)}
-.catlabel{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:var(--r-full);margin-left:4px}
+.catlabel{flex:none;white-space:nowrap;font-size:10px;font-weight:700;padding:3px 9px;border-radius:var(--r-full)}
 .flagbtn{border:0;background:var(--bg);font-size:14px;line-height:1;cursor:pointer;padding:0;width:28px;height:28px;border-radius:50%;flex:none;filter:grayscale(1);opacity:.5;display:grid;place-items:center}
 .flagbtn:hover{opacity:.85}
 .flagbtn.active{filter:none;opacity:1;background:#F0D9D6}
@@ -47,7 +47,7 @@ details[open] .chevron{transform:rotate(90deg)}
 #archive-box,#visited-box{background:var(--bg-alt);box-shadow:none}
 @media(max-width:720px){main{grid-template-columns:1fr;grid-template-rows:42vh 58vh}#map{min-height:0}}
 </style></head><body><header><a href="mobile.html" style="float:right;font-size:12px;font-weight:700;color:var(--ink);background:var(--card);padding:8px 14px;border-radius:999px;text-decoration:none;box-shadow:var(--shadow)">📱 Mobile version</a><h1>Tokyo Architecture itinerary</h1><p>Use the switches to build an itinerary. Only included locations appear on the map. The original 35 are selected by default — flip on categories below to bring in more. The purple marker is your hotel (nine hours Akasaka, 1–10 Sept) — every place shows its distance from there so you can club nearby spots into the same day.</p></header><main><aside><div class="bar"><button id="all" type="button">Select all</button><button id="none" type="button">Unselect all</button><span id="count" class="count">0 selected</span></div><div id="cats" class="cats"></div><div id="list"></div></aside><div id="map" aria-label="Interactive map"></div></main><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
-const CATS={arch:{label:'Architecture',color:'#15141F'},hist:{label:'Architectural places',color:'#7A5FB8'},food:{label:'Cafes & eateries',color:'#DB6B60'},neigh:{label:'Neighborhoods',color:'#7E88B0'}};
+const CATS={arch:{label:'Architecture',short:'Arch',color:'#15141F'},hist:{label:'Architectural places',short:'Historic',color:'#7A5FB8'},food:{label:'Cafes & eateries',short:'Food',color:'#DB6B60'},neigh:{label:'Neighborhoods',short:'Area',color:'#7E88B0'}};
 const ACCENT='#5D5FDB';
 const hexToRgba=(hex,a)=>{const n=parseInt(hex.slice(1),16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`};
 const STAY={name:'nine hours Akasaka',area:'Akasaka',lat:35.6739,lon:139.7351,checkin:'Tue 1 Sept, 15:00',checkout:'Thu 10 Sept, 11:00'};
@@ -119,7 +119,7 @@ async function loadPhoto(p,wrap){
 P.forEach(p=>{
   const q=encodeURIComponent(`${p[1]} ${p[3]} Tokyo Japan`),card=document.createElement('details');
   card.dataset.id=p[0];
-  card.innerHTML=`<summary><input class="toggle" type="checkbox" ${selected.has(p[0])?'checked':''} aria-label="Include ${esc(p[1])}"><span class="name">${p[0]}. ${esc(p[1])} <span class="catlabel" style="background:${hexToRgba(CATS[p[6]].color,.14)};color:${CATS[p[6]].color}">${CATS[p[6]].label}</span></span><button class="flagbtn" type="button" title="Mark as visited" aria-label="Mark ${esc(p[1])} as visited">🚩</button><span class="chevron" aria-hidden="true">›</span></summary><div class="details-content"><p><b>${esc(p[1])}</b><br>${p[2]?esc(p[2])+'<br>':''}Area: ${esc(p[3])}, Tokyo<br><span class="dist">${distKm(p[4],p[5])} km</span> from your hotel (${STAY.name})</p><div class="photo-wrap"></div><div class="links"><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${q}">Google Maps</a><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Directions</a></div></div>`;
+  card.innerHTML=`<summary><input class="toggle" type="checkbox" ${selected.has(p[0])?'checked':''} aria-label="Include ${esc(p[1])}"><span class="name">${p[0]}. ${esc(p[1])}</span><span class="catlabel" style="background:${hexToRgba(CATS[p[6]].color,.14)};color:${CATS[p[6]].color}">${CATS[p[6]].short}</span><button class="flagbtn" type="button" title="Mark as visited" aria-label="Mark ${esc(p[1])} as visited">🚩</button><span class="chevron" aria-hidden="true">›</span></summary><div class="details-content"><p><b>${esc(p[1])}</b><br>${p[2]?esc(p[2])+'<br>':''}Area: ${esc(p[3])}, Tokyo<br><span class="dist">${distKm(p[4],p[5])} km</span> from your hotel (${STAY.name})</p><div class="photo-wrap"></div><div class="links"><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${q}">Google Maps</a><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Directions</a></div></div>`;
   card.querySelector('input').onchange=e=>{e.stopPropagation();e.target.checked?selected.add(p[0]):selected.delete(p[0]);redraw()};
   card.addEventListener('toggle',()=>{if(card.open)loadPhoto(p,card.querySelector('.photo-wrap'))});
   list.appendChild(card)
