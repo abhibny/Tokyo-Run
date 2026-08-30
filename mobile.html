@@ -88,6 +88,7 @@ details[open] .chevron{transform:rotate(90deg)}
 .dot{width:9px;height:9px;border-radius:50%;flex:none}
 #closeSheet{width:100%;padding:13px;border:0;border-radius:var(--r-full);background:var(--ink);color:#fff;font-weight:700;font-size:14px;font-family:inherit;margin-top:4px}
 </style></head><body>
+<pre id="debugbox" style="position:absolute;top:0;left:0;z-index:2147483647;background:#ff0;color:#000;font-size:10px;line-height:1.4;margin:0;padding:6px;white-space:pre-wrap;max-width:100%"></pre>
 <header class="topbar">
   <div class="topbar-row">
     <div><h1>Tokyo Itinerary</h1><p>Your stay: nine hours Akasaka</p></div>
@@ -435,5 +436,30 @@ backdrop.onclick=closeSheet;
     setVisited(card,!visited.has(id))
   });
   updateCount();
+})();
+</script><script>
+(()=>{
+  const box=document.getElementById('debugbox');
+  function report(){
+    const vv=window.visualViewport;
+    const bodyRect=document.body.getBoundingClientRect();
+    const mapRect=document.getElementById('map').getBoundingClientRect();
+    const headerRect=document.querySelector('.topbar').getBoundingClientRect();
+    box.textContent=[
+      'innerWidth/Height: '+window.innerWidth+'x'+window.innerHeight,
+      'docEl clientW/H: '+document.documentElement.clientWidth+'x'+document.documentElement.clientHeight,
+      'visualViewport: '+(vv?vv.width.toFixed(1)+'x'+vv.height.toFixed(1)+' scale='+vv.scale:'n/a'),
+      'devicePixelRatio: '+window.devicePixelRatio,
+      'body rect: '+JSON.stringify({x:bodyRect.x,w:bodyRect.width,h:bodyRect.height}),
+      'header rect: '+JSON.stringify({x:headerRect.x,w:headerRect.width}),
+      'map rect: '+JSON.stringify({x:mapRect.x,w:mapRect.width}),
+      'screen: '+window.screen.width+'x'+window.screen.height,
+      'tap to hide'
+    ].join('\n');
+  }
+  report();
+  window.addEventListener('resize',report);
+  window.visualViewport&&window.visualViewport.addEventListener('resize',report);
+  box.addEventListener('click',()=>box.remove());
 })();
 </script></body></html>
