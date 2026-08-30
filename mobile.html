@@ -186,7 +186,14 @@ function redraw(){
   updateGroupCheckboxes();
   updateStatusBadges();
   if(firstRender){firstRender=false}
-  else if(b.length)map.fitBounds(b,{padding:[24,24]})
+  else if(b.length){
+    pendingBounds=b;
+    if(document.getElementById('mapView').classList.contains('active'))applyPendingBounds();
+  }
+}
+let pendingBounds=null;
+function applyPendingBounds(){
+  if(pendingBounds && pendingBounds.length){map.fitBounds(pendingBounds,{padding:[24,24]});pendingBounds=null}
 }
 function updateStatusBadges(){
   const todoBadge=document.getElementById('todoBadge'),visitedBadge=document.getElementById('visitedBadge'),archivedBadge=document.getElementById('archivedBadge');
@@ -321,9 +328,17 @@ document.querySelectorAll('.seg-btn').forEach(btn=>{
     const v=btn.dataset.view;
     listView.classList.toggle('active',v==='list');
     mapView.classList.toggle('active',v==='map');
-    if(v==='map')setTimeout(()=>map.invalidateSize(),60)
+    if(v==='map'){
+      setTimeout(()=>{map.invalidateSize();applyPendingBounds()},60);
+      setTimeout(()=>{map.invalidateSize();applyPendingBounds()},300);
+    }
   }
 });
+if('ResizeObserver' in window){
+  new ResizeObserver(()=>{if(mapView.classList.contains('active'))map.invalidateSize()}).observe(mapView);
+}
+window.addEventListener('resize',()=>{if(mapView.classList.contains('active'))map.invalidateSize()});
+window.addEventListener('orientationchange',()=>setTimeout(()=>{if(mapView.classList.contains('active'))map.invalidateSize()},250));
 const sheet=document.getElementById('filterSheet'),backdrop=document.getElementById('sheetBackdrop');
 function openSheet(){sheet.classList.add('open');backdrop.classList.add('open')}
 function closeSheet(){sheet.classList.remove('open');backdrop.classList.remove('open')}
