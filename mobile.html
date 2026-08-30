@@ -1,8 +1,8 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Tokyo Itinerary</title><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title>Tokyo Itinerary</title><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
 :root{--bg:#F7F3EF;--bg-alt:#EDE6DE;--card:#FFFFFF;--ink:#15141F;--ink-soft:#8A8078;--accent:#EE5A3C;--accent-soft:rgba(93,95,219,.14);--shadow:0 8px 20px rgba(28,26,58,.09);--r-lg:20px;--r-md:14px;--r-full:999px}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
-body{position:relative;margin:0;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg);display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;overflow:hidden}
+body{position:relative;margin:0;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg);display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;overflow:hidden;touch-action:manipulation}
 header.topbar{flex:none;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;background:linear-gradient(180deg,#F2643C,#F7F3EF)}
 .topbar-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .topbar-row h1{font-size:21px;font-weight:800;letter-spacing:-.02em;margin:0}
@@ -88,7 +88,6 @@ details[open] .chevron{transform:rotate(90deg)}
 .dot{width:9px;height:9px;border-radius:50%;flex:none}
 #closeSheet{width:100%;padding:13px;border:0;border-radius:var(--r-full);background:var(--ink);color:#fff;font-weight:700;font-size:14px;font-family:inherit;margin-top:4px}
 </style></head><body>
-<pre id="debugbox" style="z-index:2147483647;background:#ff0;color:#000;font-size:10px;line-height:1.4;margin:0;padding:6px;white-space:pre-wrap;box-sizing:border-box;width:100%"></pre>
 <header class="topbar">
   <div class="topbar-row">
     <div><h1>Tokyo Itinerary</h1><p>Your stay: nine hours Akasaka</p></div>
@@ -436,43 +435,5 @@ backdrop.onclick=closeSheet;
     setVisited(card,!visited.has(id))
   });
   updateCount();
-})();
-</script><script>
-(()=>{
-  const box=document.getElementById('debugbox');
-  document.body.style.outline='4px solid red';
-  document.body.style.outlineOffset='-4px';
-  function findOverflowers(){
-    const vw=window.innerWidth,out=[];
-    document.querySelectorAll('body *').forEach(el=>{
-      const r=el.getBoundingClientRect();
-      if(r.width>0 && r.right>vw+1){
-        out.push((el.id?'#'+el.id:el.className&&typeof el.className==='string'?'.'+el.className.split(' ')[0]:el.tagName)+' right='+r.right.toFixed(0)+' w='+r.width.toFixed(0));
-      }
-    });
-    return out.slice(0,6);
-  }
-  function report(){
-    const vv=window.visualViewport;
-    const bodyRect=document.body.getBoundingClientRect();
-    const headerRect=document.querySelector('.topbar').getBoundingClientRect();
-    box.textContent=[
-      'innerWidth/Height: '+window.innerWidth+'x'+window.innerHeight,
-      'docEl clientW/H: '+document.documentElement.clientWidth+'x'+document.documentElement.clientHeight,
-      'docEl scrollW/H: '+document.documentElement.scrollWidth+'x'+document.documentElement.scrollHeight,
-      'body scrollW/H: '+document.body.scrollWidth+'x'+document.body.scrollHeight,
-      'visualViewport: '+(vv?vv.width.toFixed(1)+'x'+vv.height.toFixed(1)+' scale='+vv.scale:'n/a'),
-      'devicePixelRatio: '+window.devicePixelRatio,
-      'body rect: '+JSON.stringify({x:bodyRect.x,w:bodyRect.width,h:bodyRect.height}),
-      'header rect: '+JSON.stringify({x:headerRect.x,w:headerRect.width}),
-      'screen: '+window.screen.width+'x'+window.screen.height,
-      'overflowers: '+(findOverflowers().join(' | ')||'none'),
-      'red outline = body edge. tap to hide'
-    ].join('\n');
-  }
-  report();
-  window.addEventListener('resize',report);
-  window.visualViewport&&window.visualViewport.addEventListener('resize',report);
-  box.addEventListener('click',()=>{box.remove();document.body.style.outline='';});
 })();
 </script></body></html>
