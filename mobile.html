@@ -15,7 +15,7 @@ header.topbar{flex:none;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;
 .statuspill{display:flex;gap:4px;background:rgba(255,255,255,.55);border-radius:var(--r-full);padding:4px;flex:none}
 .statusdot{position:relative;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.7);font-size:15px;display:grid;place-items:center;cursor:pointer;flex:none}
 .sbadge{position:absolute;top:-4px;right:-4px;background:var(--ink);color:#fff;font-size:9px;font-weight:700;min-width:15px;height:15px;border-radius:8px;display:grid;place-items:center;padding:0 3px;line-height:1}
-.bottomnav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));z-index:25;background:var(--card);border-radius:var(--r-full);padding:6px;display:flex;align-items:center;gap:4px;box-shadow:0 10px 26px rgba(28,26,58,.22);width:max-content;max-width:calc(100vw - 28px)}
+.bottomnav{position:fixed;left:50%;transform:translateX(-50%) translateZ(0);-webkit-transform:translateX(-50%) translateZ(0);bottom:calc(12px + env(safe-area-inset-bottom));z-index:2147483647;isolation:isolate;background:var(--card);border-radius:var(--r-full);padding:6px;display:flex;align-items:center;gap:4px;box-shadow:0 10px 26px rgba(28,26,58,.22);width:max-content;max-width:calc(100vw - 28px)}
 .bottomnav .segmented{background:var(--bg)}
 .bottomnav .seg-btn{color:var(--ink-soft)}
 .bottomnav .iconbtn{background:var(--bg)}
