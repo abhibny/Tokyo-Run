@@ -202,19 +202,24 @@ function updateStatusBadges(){
   if(visitedBadge)visitedBadge.textContent=vc?vc.textContent:'0';
   if(archivedBadge)archivedBadge.textContent=ac?ac.textContent:'0';
 }
+function scrollListTo(box){
+  const boxTop=box.getBoundingClientRect().top,listTop=listView.getBoundingClientRect().top;
+  listView.scrollTo({top:listView.scrollTop+(boxTop-listTop)-10,behavior:'smooth'});
+}
 document.body.addEventListener('click',e=>{
   const btn=e.target.closest('.statusdot');
   if(!btn)return;
-  document.querySelector('[data-view="list"]').click();
+  e.preventDefault();e.stopPropagation();
+  switchView('list');
   const target=btn.dataset.target;
   if(target==='todo'){
     listView.scrollTo({top:0,behavior:'smooth'});
   }else if(target==='visited'){
     const box=document.getElementById('visited-box');
-    if(box){box.open=true;setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'start'}),50)}
+    if(box){box.open=true;setTimeout(()=>scrollListTo(box),50)}
   }else if(target==='archived'){
     const box=document.getElementById('archive-box');
-    if(box){box.open=true;setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'start'}),50)}
+    if(box){box.open=true;setTimeout(()=>scrollListTo(box),50)}
   }
 });
 function updateCatButtons(){
@@ -322,17 +327,17 @@ document.getElementById('all').onclick=()=>{PLACES.forEach(p=>selected.add(p[0])
 document.getElementById('none').onclick=()=>{selected.clear();document.querySelectorAll('.toggle').forEach(x=>x.checked=false);redraw()};
 redraw();
 const listView=document.getElementById('listView'),mapView=document.getElementById('mapView');
-document.querySelectorAll('.seg-btn').forEach(btn=>{
-  btn.onclick=()=>{
-    document.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('active',b===btn));
-    const v=btn.dataset.view;
-    listView.classList.toggle('active',v==='list');
-    mapView.classList.toggle('active',v==='map');
-    if(v==='map'){
-      setTimeout(()=>{map.invalidateSize();applyPendingBounds()},60);
-      setTimeout(()=>{map.invalidateSize();applyPendingBounds()},300);
-    }
+function switchView(v){
+  document.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+  listView.classList.toggle('active',v==='list');
+  mapView.classList.toggle('active',v==='map');
+  if(v==='map'){
+    setTimeout(()=>{map.invalidateSize();applyPendingBounds()},60);
+    setTimeout(()=>{map.invalidateSize();applyPendingBounds()},300);
   }
+}
+document.querySelectorAll('.seg-btn').forEach(btn=>{
+  btn.onclick=()=>switchView(btn.dataset.view);
 });
 if('ResizeObserver' in window){
   new ResizeObserver(()=>{if(mapView.classList.contains('active'))map.invalidateSize()}).observe(mapView);
