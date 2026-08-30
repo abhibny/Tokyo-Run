@@ -4,10 +4,11 @@ A self-contained, static Tokyo architecture itinerary map — 165 places (buildi
 
 ## Pages
 
-- [`index.html`](index.html) — desktop layout (side-by-side list + map)
+- [`index.html`](index.html) — auto-detecting entry point. Redirects to `mobile.html` or `desktop.html` based on viewport width (`< 700px` = mobile), no visible choice shown.
+- [`desktop.html`](desktop.html) — desktop layout (side-by-side list + map)
 - [`mobile.html`](mobile.html) — phone layout, built for the Galaxy S24 viewport (list/map tab switcher, filter bottom sheet)
 
-Both pages read the same 165-place dataset and share saved state (selections, archived places, visited flags) via the browser's local storage, since they're served from the same origin.
+All pages read the same 165-place dataset and share saved state (selections, archived places, visited flags) via the browser's local storage, since they're served from the same origin.
 
 ## Data
 

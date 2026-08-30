@@ -1,98 +1,52 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Tokyo Itinerary</title><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
-:root{--bg:#E8E9F6;--bg-alt:#DEE0F2;--card:#FFFFFF;--ink:#15141F;--ink-soft:#82829A;--accent:#5D5FDB;--accent-soft:rgba(93,95,219,.14);--shadow:0 8px 20px rgba(28,26,58,.09);--r-lg:20px;--r-md:14px;--r-full:999px}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%}
-body{margin:0;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg);display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;overflow:hidden}
-header.topbar{flex:none;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;background:linear-gradient(180deg,#B7B9F1,#E8E9F6)}
-.topbar-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.topbar-row h1{font-size:21px;font-weight:800;letter-spacing:-.02em;margin:0}
-.topbar-row p{margin:2px 0 0;font-size:11.5px;color:#3D3B52;font-weight:500}
-.iconbtn{position:relative;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.65);display:grid;place-items:center;font-size:18px;cursor:pointer;flex:none}
-.badge{position:absolute;top:-3px;right:-3px;background:var(--ink);color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 4px;line-height:1}
-.segmented{display:flex;background:rgba(255,255,255,.55);border-radius:var(--r-full);padding:4px;margin-top:14px;gap:4px}
-.seg-btn{flex:1;border:0;background:transparent;padding:10px 0;border-radius:var(--r-full);font-weight:700;font-size:13.5px;color:#4A4860;font-family:inherit}
-.seg-btn.active{background:var(--ink);color:#fff}
-main{flex:1;position:relative;min-height:0}
-.view{position:absolute;inset:0;display:none}
-.view.active{display:block}
-#listView{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px calc(28px + env(safe-area-inset-bottom))}
-#map{height:100%;width:100%}
-.legend{position:absolute;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:5;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-radius:var(--r-full);padding:8px 14px;display:flex;gap:12px;justify-content:space-around;box-shadow:var(--shadow);font-size:10.5px;font-weight:600;color:var(--ink-soft)}
-.legend span{display:flex;align-items:center;gap:5px;white-space:nowrap}
-.legend i{width:8px;height:8px;border-radius:50%;flex:none}
-details{background:var(--card);border:0;border-radius:var(--r-lg);margin:0 0 10px;box-shadow:var(--shadow);overflow:hidden}
-details.dim{opacity:.4}
-summary{list-style:none;display:flex;align-items:center;gap:7px;padding:0 12px;height:56px;cursor:pointer}
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tokyo Architecture Itinerary Map</title><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
+:root{--bg:#E8E9F6;--bg-alt:#DEE0F2;--card:#FFFFFF;--ink:#15141F;--ink-soft:#82829A;--accent:#5D5FDB;--accent-soft:rgba(93,95,219,.14);--shadow:0 10px 26px rgba(28,26,58,.08);--r-lg:22px;--r-md:16px;--r-full:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg)}
+header{padding:26px 20px 20px;background:linear-gradient(180deg,#B7B9F1,#E8E9F6)}
+h1{font-size:27px;margin:0;font-weight:800;letter-spacing:-.02em}
+header p{margin:6px 0 0;color:var(--ink-soft);font-size:13px;line-height:1.55;max-width:680px}
+main{display:grid;grid-template-columns:360px 1fr;height:calc(100vh - 100px);min-height:600px}
+aside{overflow:auto;padding:12px 16px 24px;background:var(--bg)}
+.bar{display:flex;gap:8px;align-items:center;margin-bottom:10px;position:sticky;top:-12px;padding:12px 0 8px;background:var(--bg);z-index:4;flex-wrap:wrap}
+.bar button{padding:9px 14px;border:0;border-radius:var(--r-full);background:var(--card);cursor:pointer;font-size:13px;font-weight:600;color:var(--ink);box-shadow:var(--shadow);font-family:inherit}
+.bar button:hover{background:var(--accent-soft)}
+.count{font-weight:700;margin-left:auto;color:var(--ink-soft);font-size:13px}
+.cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;position:sticky;top:41px;padding:0 0 12px;background:var(--bg);z-index:4}
+.catbtn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--r-full);border:0;background:var(--card);cursor:pointer;font-size:12px;font-weight:600;color:var(--ink);box-shadow:0 2px 8px rgba(32,28,22,.06);font-family:inherit}
+.catbtn.off{opacity:.4;box-shadow:none}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+details{background:var(--card);border:0;border-radius:var(--r-lg);margin:8px 0;box-shadow:var(--shadow);overflow:hidden}
+details.dim{opacity:.38}
+summary{list-style:none;display:flex;align-items:center;gap:8px;padding:0 14px;height:52px;cursor:pointer}
 summary::-webkit-details-marker{display:none}
 .chevron{font-size:14px;transition:transform .15s;color:var(--ink-soft);width:26px;height:26px;border-radius:50%;background:var(--bg);display:grid;place-items:center;flex:none}
 details[open] .chevron{transform:rotate(90deg)}
 .name{flex:1;min-width:0;font-weight:700;font-size:13.5px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.toggle{width:20px;height:20px;accent-color:var(--accent);flex:none}
-.details-content{padding:0 14px 16px 42px}
-.details-content p{margin:4px 0 10px;color:var(--ink-soft);font-size:13px;line-height:1.6}
-.details-content p b{color:var(--ink);font-size:15.5px;display:block;margin-bottom:3px;font-weight:700}
+.toggle{width:18px;height:18px;accent-color:var(--accent);flex:none}
+.details-content{padding:0 14px 16px 40px}
+.details-content p{margin:4px 0 10px;color:var(--ink-soft);font-size:12.5px;line-height:1.6}
+.details-content p b{color:var(--ink);font-size:14.5px;display:block;margin-bottom:3px;font-weight:700}
 .links{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.links a{padding:10px 16px;color:#fff;background:var(--ink);text-decoration:none;border-radius:var(--r-full);font-size:13px;font-weight:600}
-.catlabel{flex:none;white-space:nowrap;font-size:9.5px;font-weight:700;padding:3px 8px;border-radius:var(--r-full)}
-.flagbtn{border:0;background:var(--bg);font-size:15px;line-height:1;cursor:pointer;padding:0;width:32px;height:32px;border-radius:50%;flex:none;filter:grayscale(1);opacity:.5;display:grid;place-items:center}
+.links a{padding:8px 14px;color:#fff;background:var(--ink);text-decoration:none;border-radius:var(--r-full);font-size:12.5px;font-weight:600}
+.links a:hover{background:var(--accent)}
+.catlabel{flex:none;white-space:nowrap;font-size:10px;font-weight:700;padding:3px 9px;border-radius:var(--r-full)}
+.flagbtn{border:0;background:var(--bg);font-size:14px;line-height:1;cursor:pointer;padding:0;width:28px;height:28px;border-radius:50%;flex:none;filter:grayscale(1);opacity:.5;display:grid;place-items:center}
+.flagbtn:hover{opacity:.85}
 .flagbtn.active{filter:none;opacity:1;background:#F0D9D6}
 .photo-wrap{margin-top:2px;border-radius:var(--r-md);overflow:hidden;background:var(--bg);min-height:150px;display:flex;align-items:center;justify-content:center}
 .photo{width:100%;max-height:220px;object-fit:cover;display:block}
 .photo-fallback{padding:20px 10px;text-align:center;color:var(--ink-soft);font-size:12px}
 .photo-fallback a{color:var(--accent);font-weight:600}
 .dist{color:var(--accent);font-weight:700}
-.pin{width:26px;height:26px;border-radius:50%;color:#fff;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);display:grid;place-items:center;font-weight:700;font-size:11px}
-.stay-pin{width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--accent);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center}
-.stay-pin span{transform:rotate(45deg);font-size:18px}
-.stay-tooltip{font-weight:700;background:var(--ink);color:#fff;border:0;padding:5px 10px;border-radius:var(--r-full);font-family:'Plus Jakarta Sans',sans-serif;font-size:12px}
+#map{height:100%;min-width:0}
+.pin{width:25px;height:25px;border-radius:50%;color:#fff;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);display:grid;place-items:center;font-weight:700;font-size:11px}
+.stay-pin{width:38px;height:38px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--accent);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center}
+.stay-pin span{transform:rotate(45deg);font-size:17px}
+.stay-tooltip{font-weight:700;background:var(--ink);color:#fff;border:0;padding:5px 10px;border-radius:var(--r-full);font-family:'Plus Jakarta Sans',sans-serif}
 .stay-tooltip::before{border-top-color:var(--ink)}
 #archive-box,#visited-box{background:var(--bg-alt);box-shadow:none}
-.sheet-backdrop{position:fixed;inset:0;background:rgba(21,20,31,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
-.sheet-backdrop.open{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-radius:24px 24px 0 0;padding:8px 18px calc(18px + env(safe-area-inset-bottom));transform:translateY(102%);transition:transform .25s ease;z-index:21;max-height:82vh;overflow-y:auto;box-shadow:0 -12px 30px rgba(21,20,31,.22)}
-.sheet.open{transform:translateY(0)}
-.sheet-handle{width:36px;height:4px;background:#DADAEA;border-radius:2px;margin:6px auto 16px}
-.sheet h2{font-size:15px;margin:0 0 10px;font-weight:800}
-.sheet-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
-.sheet-actions button{padding:12px 10px;border:0;border-radius:14px;background:var(--bg);cursor:pointer;font-size:13px;font-weight:700;color:var(--ink);font-family:inherit}
-.sheet-actions button:active{background:var(--accent-soft)}
-#archive-unselected{grid-column:1/-1}
-.cats{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-.catbtn{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:14px;border:0;background:var(--bg);cursor:pointer;font-size:13.5px;font-weight:600;color:var(--ink);font-family:inherit;text-align:left}
-.catbtn.off{opacity:.4}
-.dot{width:9px;height:9px;border-radius:50%;flex:none}
-#closeSheet{width:100%;padding:13px;border:0;border-radius:var(--r-full);background:var(--ink);color:#fff;font-weight:700;font-size:14px;font-family:inherit;margin-top:4px}
-</style></head><body>
-<header class="topbar">
-  <div class="topbar-row">
-    <div><h1>Tokyo Itinerary</h1><p>Your stay: nine hours Akasaka</p></div>
-    <button id="filterBtn" class="iconbtn" type="button" aria-label="Filters">⚙️<span id="count" class="badge">0</span></button>
-  </div>
-  <div class="segmented" role="tablist">
-    <button class="seg-btn active" data-view="list" type="button">List</button>
-    <button class="seg-btn" data-view="map" type="button">Map</button>
-  </div>
-</header>
-<main>
-  <section id="listView" class="view active"><div id="list"></div></section>
-  <section id="mapView" class="view">
-    <div id="map" aria-label="Interactive map"></div>
-    <div id="legend" class="legend"></div>
-  </section>
-</main>
-<div id="sheetBackdrop" class="sheet-backdrop"></div>
-<div id="filterSheet" class="sheet">
-  <div class="sheet-handle"></div>
-  <h2>Selection</h2>
-  <div class="sheet-actions">
-    <button id="all" type="button">Select all</button>
-    <button id="none" type="button">Unselect all</button>
-  </div>
-  <h2>Categories</h2>
-  <div id="cats" class="cats"></div>
-  <button id="closeSheet" type="button">Done</button>
-</div>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
+@media(max-width:720px){main{grid-template-columns:1fr;grid-template-rows:42vh 58vh}#map{min-height:0}}
+</style></head><body><header><h1>Tokyo Architecture itinerary</h1><p>Use the switches to build an itinerary. Only included locations appear on the map. The original 35 are selected by default — flip on categories below to bring in more. The purple marker is your hotel (nine hours Akasaka, 1–10 Sept) — every place shows its distance from there so you can club nearby spots into the same day.</p></header><main><aside><div class="bar"><button id="all" type="button">Select all</button><button id="none" type="button">Unselect all</button><span id="count" class="count">0 selected</span></div><div id="cats" class="cats"></div><div id="list"></div></aside><div id="map" aria-label="Interactive map"></div></main><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
 const CATS={arch:{label:'Architecture',short:'Arch',color:'#15141F'},hist:{label:'Architectural places',short:'Historic',color:'#7A5FB8'},food:{label:'Cafes & eateries',short:'Food',color:'#DB6B60'},neigh:{label:'Neighborhoods',short:'Area',color:'#7E88B0'}};
 const ACCENT='#5D5FDB';
 const hexToRgba=(hex,a)=>{const n=parseInt(hex.slice(1),16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`};
@@ -103,23 +57,22 @@ const map=L.map('map'),layer=L.layerGroup().addTo(map),list=document.getElementB
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);
 L.circle([STAY.lat,STAY.lon],{radius:2000,color:ACCENT,weight:1,dashArray:'4 5',fillOpacity:.03}).addTo(map);
 L.circle([STAY.lat,STAY.lon],{radius:5000,color:ACCENT,weight:1,dashArray:'4 5',fillOpacity:.02}).addTo(map);
-L.marker([STAY.lat,STAY.lon],{icon:L.divIcon({className:'',html:'<div class="stay-pin"><span>🏨</span></div>',iconSize:[40,40],iconAnchor:[20,34]}),zIndexOffset:1000})
+L.marker([STAY.lat,STAY.lon],{icon:L.divIcon({className:'',html:'<div class="stay-pin"><span>🏨</span></div>',iconSize:[38,38],iconAnchor:[19,32]}),zIndexOffset:1000})
   .addTo(map)
-  .bindTooltip(`Your stay`,{permanent:true,direction:'top',offset:[0,-32],className:'stay-tooltip'})
-  .bindPopup(`<b>${STAY.name}</b><br>${STAY.area}, Tokyo<br>Check-in: ${STAY.checkin}<br>Check-out: ${STAY.checkout}`);
-document.getElementById('legend').innerHTML=Object.values(CATS).map(c=>`<span><i style="background:${c.color}"></i>${c.label.split(' ')[0]}</span>`).join('')+`<span><i style="background:${ACCENT}"></i>Hotel</span>`;
+  .bindTooltip(`Your stay: ${STAY.name}`,{permanent:true,direction:'top',offset:[0,-30],className:'stay-tooltip'})
+  .bindPopup(`<b>${STAY.name}</b><br>${STAY.area}, Tokyo<br>Check-in: ${STAY.checkin}<br>Check-out: ${STAY.checkout}<br><span style="font-size:11px;color:#777">Dashed rings: 2km / 5km walking-ish radius</span>`);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const SEL_KEY='tokyo-selected-ids';
 const selected=new Set((()=>{try{const s=JSON.parse(localStorage.getItem(SEL_KEY));if(Array.isArray(s)&&s.length)return s}catch(e){}return P.filter(p=>p[0]<=35).map(p=>p[0])})());
-function icon(n,cat){return L.divIcon({className:'',html:`<div class="pin" style="background:${CATS[cat].color}">${n}</div>`,iconSize:[30,30],iconAnchor:[15,15]})}
+function icon(n,cat){return L.divIcon({className:'',html:`<div class="pin" style="background:${CATS[cat].color}">${n}</div>`,iconSize:[29,29],iconAnchor:[14,14]})}
 function redraw(){
   layer.clearLayers();const b=[[STAY.lat,STAY.lon]];
   P.forEach(p=>{if(!selected.has(p[0]))return;const q=encodeURIComponent(`${p[1]} ${p[3]} Tokyo Japan`);L.marker([p[4],p[5]],{icon:icon(p[0],p[6])}).addTo(layer).bindPopup(`<b>${p[0]}. ${esc(p[1])}</b><br>${esc(p[2])}<br><span class="catlabel" style="background:${hexToRgba(CATS[p[6]].color,.14)};color:${CATS[p[6]].color}">${CATS[p[6]].label}</span><br><span class="dist">${distKm(p[4],p[5])} km</span> from your hotel<br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Directions</a>`);b.push([p[4],p[5]])});
-  count.textContent=selected.size;
+  count.textContent=`${selected.size} selected`;
   localStorage.setItem(SEL_KEY,JSON.stringify([...selected]));
   document.querySelectorAll('#list > details, #archived-list > details, #visited-list > details').forEach(card=>{card.classList.toggle('dim',!selected.has(+card.dataset.id))});
   updateCatButtons();
-  if(b.length)map.fitBounds(b,{padding:[24,24]})
+  if(b.length)map.fitBounds(b,{padding:[28,28]})
 }
 function updateCatButtons(){
   Object.keys(CATS).forEach(cat=>{
@@ -174,29 +127,13 @@ P.forEach(p=>{
 document.getElementById('all').onclick=()=>{P.forEach(p=>selected.add(p[0]));document.querySelectorAll('.toggle').forEach(x=>x.checked=true);redraw()};
 document.getElementById('none').onclick=()=>{selected.clear();document.querySelectorAll('.toggle').forEach(x=>x.checked=false);redraw()};
 redraw();
-const listView=document.getElementById('listView'),mapView=document.getElementById('mapView');
-document.querySelectorAll('.seg-btn').forEach(btn=>{
-  btn.onclick=()=>{
-    document.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('active',b===btn));
-    const v=btn.dataset.view;
-    listView.classList.toggle('active',v==='list');
-    mapView.classList.toggle('active',v==='map');
-    if(v==='map')setTimeout(()=>map.invalidateSize(),60)
-  }
-});
-const sheet=document.getElementById('filterSheet'),backdrop=document.getElementById('sheetBackdrop');
-function openSheet(){sheet.classList.add('open');backdrop.classList.add('open')}
-function closeSheet(){sheet.classList.remove('open');backdrop.classList.remove('open')}
-document.getElementById('filterBtn').onclick=openSheet;
-document.getElementById('closeSheet').onclick=closeSheet;
-backdrop.onclick=closeSheet;
 </script><script>
 (()=>{
-  const list=document.getElementById('list'),sheetActions=document.querySelector('.sheet-actions'),ARCH_KEY='tokyo-archived-ids';
+  const list=document.getElementById('list'),none=document.getElementById('none'),ARCH_KEY='tokyo-archived-ids';
   let archiveSet;
   try{archiveSet=new Set(JSON.parse(localStorage.getItem(ARCH_KEY)||'[]'))}catch(e){archiveSet=new Set()}
   const archived=document.createElement('details'),button=document.createElement('button');
-  button.id='archive-unselected';button.type='button';button.textContent='Archive unselected';sheetActions.appendChild(button);
+  button.id='archive-unselected';button.type='button';button.textContent='Archive unselected';none.after(button);
   archived.id='archive-box';
   archived.innerHTML='<summary><span class="name">Archived places</span><span id="archive-count">0</span><span class="chevron" aria-hidden="true">›</span></summary><div id="archived-list" class="details-content"></div>';
   list.after(archived);
