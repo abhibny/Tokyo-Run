@@ -1,14 +1,11 @@
-# Tokyo Run
+# Tokyo Hunt
 
-A self-contained, static Tokyo architecture itinerary map — 165 places (buildings, historic/cultural sites, cafes & eateries, neighborhoods) with a Leaflet map, per-place distance from your hotel, photo previews, and local visited/archived tracking.
+A self-contained, static Tokyo trip-planning map — architecture, historic sites, cafes & eateries, neighborhoods, and day trips outside the city — with a Leaflet map, per-place distance from your hotel, photo previews, and local visited/archived tracking.
 
 ## Pages
 
-- [`index.html`](index.html) — auto-detecting entry point. Redirects to `mobile.html` or `desktop.html` based on viewport width (`< 700px` = mobile), no visible choice shown.
-- [`desktop.html`](desktop.html) — desktop layout (side-by-side list + map)
-- [`mobile.html`](mobile.html) — phone layout, built for the Galaxy S24 viewport (list/map tab switcher, filter bottom sheet)
-
-All pages read the same 165-place dataset and share saved state (selections, archived places, visited flags) via the browser's local storage, since they're served from the same origin.
+- [`index.html`](index.html) — entry point, redirects straight to `mobile.html`.
+- [`mobile.html`](mobile.html) — the app. Mobile-first (list/map tab switcher, filter bottom sheet); on a wide desktop browser it renders itself inside a centered phone-sized frame instead of stretching full-width.
 
 ## Data
 
