@@ -65,6 +65,8 @@ details[open] .chevron{transform:rotate(90deg)}
 .catlabel{flex:none;white-space:nowrap;font-size:9.5px;font-weight:700;padding:3px 8px;border-radius:var(--r-full)}
 .flagbtn{border:0;background:var(--bg);font-size:15px;line-height:1;cursor:pointer;padding:0;width:32px;height:32px;border-radius:50%;flex:none;filter:grayscale(1);opacity:.5;display:grid;place-items:center}
 .flagbtn.active{filter:none;opacity:1;background:#F0D9D6}
+.starbtn{border:0;background:var(--bg);font-size:15px;line-height:1;cursor:pointer;padding:0;width:32px;height:32px;border-radius:50%;flex:none;filter:grayscale(1);opacity:.5;display:grid;place-items:center}
+.starbtn.active{filter:none;opacity:1;background:#FCEFC7}
 .photo-wrap{margin-top:2px;border-radius:var(--r-md);overflow:hidden;background:var(--bg);min-height:150px;display:flex;align-items:center;justify-content:center;position:relative}
 .ctrack{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;width:100%}
 .ctrack::-webkit-scrollbar{display:none}
@@ -112,6 +114,7 @@ details[open] .chevron{transform:rotate(90deg)}
     <div><h1>Tokyo Hunt</h1><p>Stay : <a href="https://www.google.com/maps/search/?api=1&query=35.6739,139.7351" target="_blank" rel="noopener">9h Akasaka</a></p></div>
     <div class="statuspill">
       <button class="statusdot" data-target="todo" type="button" aria-label="Yet to visit">📍<span class="sbadge" id="todoBadge">0</span></button>
+      <button class="statusdot" data-target="starred" type="button" aria-label="Starred">⭐<span class="sbadge" id="starredBadge">0</span></button>
       <button class="statusdot" data-target="trips" type="button" aria-label="Day trips">🧳<span class="sbadge" id="tripsBadge">0</span></button>
       <button class="statusdot" data-target="visited" type="button" aria-label="Already visited">🚩<span class="sbadge" id="visitedBadge">0</span></button>
       <button class="statusdot" data-target="archived" type="button" aria-label="Archived">📦<span class="sbadge" id="archivedBadge">0</span></button>
@@ -122,6 +125,7 @@ details[open] .chevron{transform:rotate(90deg)}
   <section id="listView" class="view active">
     <div id="listCarousel">
       <div class="listpage" id="page-todo"><div id="list"></div></div>
+      <div class="listpage" id="page-starred"><h2 class="pagehead">⭐ Starred <span class="pagehead-count" id="starred-count">0</span></h2><div id="starred-list"></div></div>
       <div class="listpage" id="page-trips"><h2 class="pagehead">🧳 Day trips <span class="pagehead-count" id="trips-count">0</span></h2><div id="tripList"></div></div>
       <div class="listpage" id="page-visited"><h2 class="pagehead">🚩 Already Visited <span class="pagehead-count" id="visited-count">0</span></h2><div id="visited-list"></div></div>
       <div class="listpage" id="page-archived"><h2 class="pagehead">📦 Archived places <span class="pagehead-count" id="archive-count">0</span></h2><div id="archived-list"></div></div>
@@ -211,7 +215,7 @@ function redraw(){
   });
   count.textContent=selected.size;
   localStorage.setItem(SEL_KEY,JSON.stringify([...selected]));
-  document.querySelectorAll('#list details.place, #tripList details.place, #archived-list details.place, #visited-list details.place').forEach(card=>{card.classList.toggle('dim',!selected.has(+card.dataset.id))});
+  document.querySelectorAll('#list details.place, #starred-list details.place, #tripList details.place, #archived-list details.place, #visited-list details.place').forEach(card=>{card.classList.toggle('dim',!selected.has(+card.dataset.id))});
   updateCatButtons();
   updateGroupCheckboxes();
   updateStatusBadges();
@@ -226,16 +230,17 @@ function applyPendingBounds(){
   if(pendingBounds && pendingBounds.length){map.fitBounds(pendingBounds,{padding:[24,24]});pendingBounds=null}
 }
 function updateStatusBadges(){
-  const todoBadge=document.getElementById('todoBadge'),tripsBadge=document.getElementById('tripsBadge'),visitedBadge=document.getElementById('visitedBadge'),archivedBadge=document.getElementById('archivedBadge');
+  const todoBadge=document.getElementById('todoBadge'),starredBadge=document.getElementById('starredBadge'),tripsBadge=document.getElementById('tripsBadge'),visitedBadge=document.getElementById('visitedBadge'),archivedBadge=document.getElementById('archivedBadge');
   if(todoBadge)todoBadge.textContent=document.querySelectorAll('#list details.place').length;
-  const tc=document.getElementById('trips-count'),vc=document.getElementById('visited-count'),ac=document.getElementById('archive-count');
+  const sc=document.getElementById('starred-count'),tc=document.getElementById('trips-count'),vc=document.getElementById('visited-count'),ac=document.getElementById('archive-count');
   if(tc)tc.textContent=document.querySelectorAll('#tripList details.place').length;
+  if(starredBadge)starredBadge.textContent=sc?sc.textContent:'0';
   if(tripsBadge)tripsBadge.textContent=tc?tc.textContent:'0';
   if(visitedBadge)visitedBadge.textContent=vc?vc.textContent:'0';
   if(archivedBadge)archivedBadge.textContent=ac?ac.textContent:'0';
 }
 const listCarousel=document.getElementById('listCarousel');
-const PAGE_ORDER=['todo','trips','visited','archived'];
+const PAGE_ORDER=['todo','starred','trips','visited','archived'];
 function highlightPage(name){
   document.querySelectorAll('.statusdot').forEach(d=>d.classList.toggle('active',d.dataset.target===name));
 }
@@ -286,7 +291,7 @@ Object.entries(CATS).forEach(([cat,def])=>{
     const ids=PLACES.filter(p=>p[6]===cat).map(p=>p[0]);
     const allOn=ids.every(id=>selected.has(id));
     ids.forEach(id=>allOn?selected.delete(id):selected.add(id));
-    document.querySelectorAll('#list details.place, #tripList details.place, #archived-list details.place, #visited-list details.place').forEach(card=>{const id=+card.dataset.id;if(ids.includes(id))card.querySelector('.toggle').checked=selected.has(id)});
+    document.querySelectorAll('#list details.place, #starred-list details.place, #tripList details.place, #archived-list details.place, #visited-list details.place').forEach(card=>{const id=+card.dataset.id;if(ids.includes(id))card.querySelector('.toggle').checked=selected.has(id)});
     redraw()
   };
   catsEl.appendChild(btn)
@@ -337,8 +342,14 @@ function buildPlaceCard(p){
   const q=encodeURIComponent(`${p[1]} ${p[3]} Tokyo Japan`),card=document.createElement('details');
   card.className='place';
   card.dataset.id=p[0];
-  card.innerHTML=`<summary><input class="toggle" type="checkbox" ${selected.has(p[0])?'checked':''} aria-label="Include ${esc(p[1])}"><span class="name">${p[0]}. ${esc(p[1])}</span><span class="catlabel" style="background:${hexToRgba(CATS[p[6]].color,.14)};color:${CATS[p[6]].color}">${CATS[p[6]].short}</span><button class="flagbtn" type="button" title="Mark as visited" aria-label="Mark ${esc(p[1])} as visited">🚩</button><span class="chevron" aria-hidden="true">›</span></summary><div class="details-content"><p><b>${esc(p[1])}</b><br>${p[2]?esc(p[2])+'<br>':''}Area: ${esc(p[3])}, Tokyo<br><span class="dist">${distKm(p[4],p[5])} km</span> from your hotel (${STAY.name})</p><div class="photo-wrap"></div><div class="links"><a class="roundlink" target="_blank" href="https://www.google.com/search?q=${q}" title="Web search" aria-label="Web search for ${esc(p[1])}">🔍</a><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${q}">Google Maps</a><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Directions</a><button class="roundlink archivebtn" type="button" title="Archive" aria-label="Archive ${esc(p[1])}">📦</button></div></div>`;
-  card.querySelector('input').onchange=e=>{e.stopPropagation();e.target.checked?selected.add(p[0]):selected.delete(p[0]);redraw()};
+  card.innerHTML=`<summary><input class="toggle" type="checkbox" ${selected.has(p[0])?'checked':''} aria-label="Include ${esc(p[1])}"><span class="name">${p[0]}. ${esc(p[1])}</span><span class="catlabel" style="background:${hexToRgba(CATS[p[6]].color,.14)};color:${CATS[p[6]].color}">${CATS[p[6]].short}</span><button class="starbtn" type="button" title="Star" aria-label="Star ${esc(p[1])}">⭐</button><button class="flagbtn" type="button" title="Mark as visited" aria-label="Mark ${esc(p[1])} as visited">🚩</button><span class="chevron" aria-hidden="true">›</span></summary><div class="details-content"><p><b>${esc(p[1])}</b><br>${p[2]?esc(p[2])+'<br>':''}Area: ${esc(p[3])}, Tokyo<br><span class="dist">${distKm(p[4],p[5])} km</span> from your hotel (${STAY.name})</p><div class="photo-wrap"></div><div class="links"><a class="roundlink" target="_blank" href="https://www.google.com/search?q=${q}" title="Web search" aria-label="Web search for ${esc(p[1])}">🔍</a><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${q}">Google Maps</a><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Directions</a><button class="roundlink archivebtn" type="button" title="Archive" aria-label="Archive ${esc(p[1])}">📦</button></div></div>`;
+  card.querySelector('input').onchange=e=>{
+    e.stopPropagation();
+    const id=p[0],isChecked=e.target.checked;
+    isChecked?selected.add(id):selected.delete(id);
+    document.querySelectorAll(`details.place[data-id="${id}"] .toggle`).forEach(t=>{if(t!==e.target)t.checked=isChecked});
+    redraw();
+  };
   card.addEventListener('toggle',()=>{if(card.open)loadPhotos(p,card.querySelector('.photo-wrap'))});
   return card;
 }
@@ -354,7 +365,7 @@ GROUPS.forEach(g=>{
     e.stopPropagation();
     const allOn=g.ids.every(id=>selected.has(id));
     g.ids.forEach(id=>allOn?selected.delete(id):selected.add(id));
-    document.querySelectorAll('#list details.place, #tripList details.place, #archived-list details.place, #visited-list details.place').forEach(card=>{const id=+card.dataset.id;if(g.ids.includes(id))card.querySelector('.toggle').checked=selected.has(id)});
+    document.querySelectorAll('#list details.place, #starred-list details.place, #tripList details.place, #archived-list details.place, #visited-list details.place').forEach(card=>{const id=+card.dataset.id;if(g.ids.includes(id))card.querySelector('.toggle').checked=selected.has(id)});
     redraw()
   };
   list.appendChild(groupEl)
@@ -486,5 +497,38 @@ backdrop.onclick=closeSheet;
     setVisited(card,!visited.has(id))
   });
   updateCount();
+})();
+</script><script>
+(()=>{
+  const STORAGE_KEY='tokyo-starred-ids';
+  let starred;
+  try{starred=new Set(JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'))}catch(e){starred=new Set()}
+  const starredListEl=document.getElementById('starred-list'),starredCountEl=document.getElementById('starred-count');
+  const persist=()=>localStorage.setItem(STORAGE_KEY,JSON.stringify([...starred]));
+  function render(){
+    starredListEl.innerHTML='';
+    [...PLACES].filter(p=>starred.has(p[0])).sort((a,b)=>distKm(a[4],a[5])-distKm(b[4],b[5])).forEach(p=>{
+      const card=buildPlaceCard(p);
+      card.querySelector('.starbtn').classList.add('active');
+      starredListEl.appendChild(card);
+    });
+    starredCountEl.textContent=starred.size;
+    updateStatusBadges();
+  }
+  document.querySelectorAll('#list details.place, #tripList details.place, #archived-list details.place, #visited-list details.place').forEach(card=>{
+    if(starred.has(+card.dataset.id))card.querySelector('.starbtn').classList.add('active');
+  });
+  document.body.addEventListener('click',e=>{
+    const btn=e.target.closest('.starbtn');
+    if(!btn)return;
+    e.preventDefault();e.stopPropagation();
+    const card=btn.closest('details.place'),id=+card.dataset.id;
+    const isStarred=!starred.has(id);
+    isStarred?starred.add(id):starred.delete(id);
+    document.querySelectorAll(`details.place[data-id="${id}"] .starbtn`).forEach(b=>b.classList.toggle('active',isStarred));
+    persist();
+    render();
+  });
+  render();
 })();
 </script></body></html>
