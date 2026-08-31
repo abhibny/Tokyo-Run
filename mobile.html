@@ -421,6 +421,7 @@ backdrop.onclick=closeSheet;
     archiveSet.add(id);archiveList.appendChild(card);card.open=false;addRestoreBtn(card);
     const toggle=card.querySelector('.toggle');
     if(toggle.checked){toggle.checked=false;toggle.dispatchEvent(new Event('change'))}
+    window.autoUnstar&&window.autoUnstar(id);
     update();
   }
   document.body.addEventListener('click',e=>{
@@ -431,9 +432,11 @@ backdrop.onclick=closeSheet;
   });
   button.onclick=()=>{
     [...document.querySelectorAll('#list details.place, #tripList details.place')].filter(card=>card.querySelector('.toggle').checked).forEach(card=>{
-      archiveSet.add(+card.dataset.id);archiveList.appendChild(card);card.open=false;addRestoreBtn(card);
+      const id=+card.dataset.id;
+      archiveSet.add(id);archiveList.appendChild(card);card.open=false;addRestoreBtn(card);
       const toggle=card.querySelector('.toggle');
       toggle.checked=false;toggle.dispatchEvent(new Event('change'));
+      window.autoUnstar&&window.autoUnstar(id);
     });
     update();
   };
@@ -486,6 +489,7 @@ backdrop.onclick=closeSheet;
     const id=+card.dataset.id;
     isVisited?visited.add(id):visited.delete(id);
     place(card,isVisited);
+    if(isVisited)window.autoUnstar&&window.autoUnstar(id);
     persist();updateCount()
   }
   document.querySelectorAll('#list details.place, #tripList details.place, #archived-list details.place').forEach(card=>{if(visited.has(+card.dataset.id))place(card,true)});
@@ -515,7 +519,13 @@ backdrop.onclick=closeSheet;
     starredCountEl.textContent=starred.size;
     updateStatusBadges();
   }
-  document.querySelectorAll('#list details.place, #tripList details.place, #archived-list details.place, #visited-list details.place').forEach(card=>{
+  let selfCleaned=false;
+  document.querySelectorAll('#archived-list details.place, #visited-list details.place').forEach(card=>{
+    const id=+card.dataset.id;
+    if(starred.has(id)){starred.delete(id);selfCleaned=true}
+  });
+  if(selfCleaned)persist();
+  document.querySelectorAll('#list details.place, #tripList details.place').forEach(card=>{
     if(starred.has(+card.dataset.id))card.querySelector('.starbtn').classList.add('active');
   });
   document.body.addEventListener('click',e=>{
@@ -529,6 +539,13 @@ backdrop.onclick=closeSheet;
     persist();
     render();
   });
+  window.autoUnstar=function(id){
+    if(!starred.has(id))return;
+    starred.delete(id);
+    document.querySelectorAll(`details.place[data-id="${id}"] .starbtn`).forEach(b=>b.classList.remove('active'));
+    persist();
+    render();
+  };
   render();
 })();
 </script></body></html>
