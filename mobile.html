@@ -431,7 +431,7 @@ backdrop.onclick=closeSheet;
     archiveOne(btn.closest('details.place'));
   });
   button.onclick=()=>{
-    [...document.querySelectorAll('#list details.place, #tripList details.place')].filter(card=>card.querySelector('.toggle').checked).forEach(card=>{
+    [...document.querySelectorAll('#list details.place, #tripList details.place, #starred-list details.place')].filter(card=>card.querySelector('.toggle').checked).forEach(card=>{
       const id=+card.dataset.id;
       archiveSet.add(id);archiveList.appendChild(card);card.open=false;addRestoreBtn(card);
       const toggle=card.querySelector('.toggle');
@@ -509,15 +509,17 @@ backdrop.onclick=closeSheet;
   try{starred=new Set(JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'))}catch(e){starred=new Set()}
   const starredListEl=document.getElementById('starred-list'),starredCountEl=document.getElementById('starred-count');
   const persist=()=>localStorage.setItem(STORAGE_KEY,JSON.stringify([...starred]));
-  function render(){
-    starredListEl.innerHTML='';
-    [...PLACES].filter(p=>starred.has(p[0])).sort((a,b)=>distKm(a[4],a[5])-distKm(b[4],b[5])).forEach(p=>{
-      const card=buildPlaceCard(p);
-      card.querySelector('.starbtn').classList.add('active');
-      starredListEl.appendChild(card);
-    });
-    starredCountEl.textContent=starred.size;
-    updateStatusBadges();
+  const updateCount=()=>{starredCountEl.textContent=starred.size;updateStatusBadges()};
+  function place(card,isStarred){
+    card.querySelector('.starbtn').classList.toggle('active',isStarred);
+    if(isStarred)starredListEl.appendChild(card);
+    else homeGroupContent(+card.dataset.id).appendChild(card);
+  }
+  function setStarred(card,isStarred){
+    const id=+card.dataset.id;
+    isStarred?starred.add(id):starred.delete(id);
+    place(card,isStarred);
+    persist();updateCount();
   }
   let selfCleaned=false;
   document.querySelectorAll('#archived-list details.place, #visited-list details.place').forEach(card=>{
@@ -526,26 +528,21 @@ backdrop.onclick=closeSheet;
   });
   if(selfCleaned)persist();
   document.querySelectorAll('#list details.place, #tripList details.place').forEach(card=>{
-    if(starred.has(+card.dataset.id))card.querySelector('.starbtn').classList.add('active');
+    if(starred.has(+card.dataset.id))place(card,true);
   });
   document.body.addEventListener('click',e=>{
     const btn=e.target.closest('.starbtn');
     if(!btn)return;
     e.preventDefault();e.stopPropagation();
     const card=btn.closest('details.place'),id=+card.dataset.id;
-    const isStarred=!starred.has(id);
-    isStarred?starred.add(id):starred.delete(id);
-    document.querySelectorAll(`details.place[data-id="${id}"] .starbtn`).forEach(b=>b.classList.toggle('active',isStarred));
-    persist();
-    render();
+    setStarred(card,!starred.has(id));
   });
   window.autoUnstar=function(id){
     if(!starred.has(id))return;
     starred.delete(id);
     document.querySelectorAll(`details.place[data-id="${id}"] .starbtn`).forEach(b=>b.classList.remove('active'));
-    persist();
-    render();
+    persist();updateCount();
   };
-  render();
+  updateCount();
 })();
 </script></body></html>
