@@ -57,8 +57,11 @@ details[open] .chevron{transform:rotate(90deg)}
 .details-content{padding:0 14px 16px 42px}
 .details-content p{margin:4px 0 10px;color:var(--ink-soft);font-size:13px;line-height:1.6}
 .details-content p b{color:var(--ink);font-size:15.5px;display:block;margin-bottom:3px;font-weight:700}
-.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.links a{padding:10px 16px;color:#fff;background:var(--ink);text-decoration:none;border-radius:var(--r-full);font-size:13px;font-weight:600}
+.links{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.links a{padding:10px 14px;color:#fff;background:var(--ink);text-decoration:none;border-radius:var(--r-full);font-size:13px;font-weight:600}
+.archivebtn{border:0;background:var(--ink);color:#fff;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:14px;cursor:pointer;flex:none;padding:0}
+.archivebtn:active{opacity:.8}
+#archived-list .archivebtn{display:none}
 .catlabel{flex:none;white-space:nowrap;font-size:9.5px;font-weight:700;padding:3px 8px;border-radius:var(--r-full)}
 .flagbtn{border:0;background:var(--bg);font-size:15px;line-height:1;cursor:pointer;padding:0;width:32px;height:32px;border-radius:50%;flex:none;filter:grayscale(1);opacity:.5;display:grid;place-items:center}
 .flagbtn.active{filter:none;opacity:1;background:#F0D9D6}
@@ -334,7 +337,7 @@ function buildPlaceCard(p){
   const q=encodeURIComponent(`${p[1]} ${p[3]} Tokyo Japan`),card=document.createElement('details');
   card.className='place';
   card.dataset.id=p[0];
-  card.innerHTML=`<summary><input class="toggle" type="checkbox" ${selected.has(p[0])?'checked':''} aria-label="Include ${esc(p[1])}"><span class="name">${p[0]}. ${esc(p[1])}</span><span class="catlabel" style="background:${hexToRgba(CATS[p[6]].color,.14)};color:${CATS[p[6]].color}">${CATS[p[6]].short}</span><button class="flagbtn" type="button" title="Mark as visited" aria-label="Mark ${esc(p[1])} as visited">🚩</button><span class="chevron" aria-hidden="true">›</span></summary><div class="details-content"><p><b>${esc(p[1])}</b><br>${p[2]?esc(p[2])+'<br>':''}Area: ${esc(p[3])}, Tokyo<br><span class="dist">${distKm(p[4],p[5])} km</span> from your hotel (${STAY.name})</p><div class="photo-wrap"></div><div class="links"><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${q}">Google Maps</a><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Directions</a></div></div>`;
+  card.innerHTML=`<summary><input class="toggle" type="checkbox" ${selected.has(p[0])?'checked':''} aria-label="Include ${esc(p[1])}"><span class="name">${p[0]}. ${esc(p[1])}</span><span class="catlabel" style="background:${hexToRgba(CATS[p[6]].color,.14)};color:${CATS[p[6]].color}">${CATS[p[6]].short}</span><button class="flagbtn" type="button" title="Mark as visited" aria-label="Mark ${esc(p[1])} as visited">🚩</button><span class="chevron" aria-hidden="true">›</span></summary><div class="details-content"><p><b>${esc(p[1])}</b><br>${p[2]?esc(p[2])+'<br>':''}Area: ${esc(p[3])}, Tokyo<br><span class="dist">${distKm(p[4],p[5])} km</span> from your hotel (${STAY.name})</p><div class="photo-wrap"></div><div class="links"><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${q}">Google Maps</a><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${q}">Directions</a><button class="archivebtn" type="button" title="Archive" aria-label="Archive ${esc(p[1])}">📦</button></div></div>`;
   card.querySelector('input').onchange=e=>{e.stopPropagation();e.target.checked?selected.add(p[0]):selected.delete(p[0]);redraw()};
   card.addEventListener('toggle',()=>{if(card.open)loadPhotos(p,card.querySelector('.photo-wrap'))});
   return card;
@@ -401,6 +404,18 @@ backdrop.onclick=closeSheet;
     restore.type='button';restore.dataset.restore='';restore.textContent='Restore to itinerary';
     actions.appendChild(restore);
   }
+  function archiveOne(card){
+    const id=+card.dataset.id;
+    if(archiveSet.has(id))return;
+    archiveSet.add(id);archiveList.appendChild(card);card.open=false;addRestoreBtn(card);
+    update();
+  }
+  document.body.addEventListener('click',e=>{
+    const btn=e.target.closest('.archivebtn');
+    if(!btn)return;
+    e.preventDefault();e.stopPropagation();
+    archiveOne(btn.closest('details.place'));
+  });
   button.onclick=()=>{
     [...document.querySelectorAll('#list details.place, #tripList details.place')].filter(card=>card.querySelector('.toggle').checked).forEach(card=>{
       archiveSet.add(+card.dataset.id);archiveList.appendChild(card);card.open=false;addRestoreBtn(card);
