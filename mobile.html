@@ -389,7 +389,7 @@ GROUPS.forEach(g=>{
   const groupEl=document.createElement('details');
   groupEl.className='neigh-group';
   groupEl.dataset.group=g.name;
-  groupEl.open=true;
+  groupEl.open=false;
   groupEl.innerHTML=`<summary><input class="toggle group-toggle" type="checkbox" aria-label="Select all in ${esc(g.name)}"><span class="group-name">${esc(g.name)}<span class="group-meta">${g.members.length} place${g.members.length===1?'':'s'} · ${distKm(g.lat,g.lon)} km from hotel</span></span><span class="chevron" aria-hidden="true">›</span></summary><div class="group-content"></div>`;
   const content=groupEl.querySelector('.group-content');
   g.members.forEach(p=>content.appendChild(buildPlaceCard(p)));
