@@ -42,6 +42,18 @@ main{flex:1;position:relative;min-height:0}
 .locate-btn{position:absolute;right:12px;bottom:calc(128px + env(safe-area-inset-bottom));isolation:isolate;transform:translateZ(0);-webkit-transform:translateZ(0);z-index:1000;width:42px;height:42px;border-radius:50%;background:#fff;box-shadow:var(--shadow);border:0;display:grid;place-items:center;font-size:18px;cursor:pointer}
 .locate-btn.active{background:var(--accent);filter:brightness(1.1)}
 .geo-dot{width:16px;height:16px;border-radius:50%;background:#4285F4;border:3px solid #fff;box-shadow:0 0 0 2px rgba(66,133,244,.35)}
+#routeMap{height:100%;width:100%}
+.route-status{position:absolute;top:12px;left:12px;right:12px;isolation:isolate;transform:translateZ(0);-webkit-transform:translateZ(0);z-index:1000;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-radius:var(--r-md);padding:10px 14px;font-size:12.5px;font-weight:600;color:var(--ink-soft);text-align:center}
+.route-status:empty{display:none}
+.route-legs{position:absolute;left:0;right:0;bottom:0;isolation:isolate;transform:translateZ(0);-webkit-transform:translateZ(0);z-index:1000;background:var(--card);border-radius:20px 20px 0 0;box-shadow:0 -10px 26px rgba(28,26,58,.15);max-height:38%;overflow-y:auto;padding:10px 14px calc(84px + env(safe-area-inset-bottom))}
+.route-legs:empty{display:none}
+.route-leg{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bg-alt)}
+.route-leg:last-child{border-bottom:0}
+.route-leg-num{width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;flex:none}
+.route-leg-info{flex:1;min-width:0}
+.route-leg-name{font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.route-leg-meta{font-size:11.5px;color:var(--ink-soft);font-weight:600}
+.route-pin{width:26px;height:26px;border-radius:50%;color:#fff;background:#2E6ED9;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);display:grid;place-items:center;font-weight:700;font-size:11px}
 .legend span{display:flex;align-items:center;gap:5px;white-space:nowrap}
 .legend i{width:8px;height:8px;border-radius:50%;flex:none}
 details{background:var(--card);border:0;border-radius:var(--r-lg);margin:0 0 10px;box-shadow:var(--shadow);overflow:hidden;transition:border-radius .2s}
@@ -139,12 +151,18 @@ details[open] .chevron{transform:rotate(90deg)}
     <div id="legend" class="legend"></div>
     <button id="locateBtn" class="locate-btn" type="button" aria-label="Show my location">📍</button>
   </section>
+  <section id="routeView" class="view">
+    <div id="routeMap" aria-label="Walking route map"></div>
+    <div id="routeStatus" class="route-status"></div>
+    <div id="routeLegs" class="route-legs"></div>
+  </section>
 </main>
 <nav class="bottomnav">
   <div class="segmented" role="tablist">
     <button class="seg-btn active" data-view="list" type="button">List</button>
     <button class="seg-btn" data-view="map" type="button">Map</button>
   </div>
+  <button id="routeBtn" class="iconbtn" type="button" aria-label="Route">🧭</button>
   <button id="filterBtn" class="iconbtn" type="button" aria-label="Filters">⚙️<span id="count" class="badge">0</span></button>
 </nav>
 <div id="sheetBackdrop" class="sheet-backdrop"></div>
@@ -378,19 +396,25 @@ GROUPS.forEach(g=>{
 document.getElementById('all').onclick=()=>{PLACES.forEach(p=>selected.add(p[0]));document.querySelectorAll('.toggle').forEach(x=>x.checked=true);redraw()};
 document.getElementById('none').onclick=()=>{selected.clear();document.querySelectorAll('.toggle').forEach(x=>x.checked=false);redraw()};
 redraw();
-const listView=document.getElementById('listView'),mapView=document.getElementById('mapView');
+const listView=document.getElementById('listView'),mapView=document.getElementById('mapView'),routeView=document.getElementById('routeView'),routeBtn=document.getElementById('routeBtn');
 function switchView(v){
   document.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+  routeBtn.classList.toggle('active',v==='route');
   listView.classList.toggle('active',v==='list');
   mapView.classList.toggle('active',v==='map');
+  routeView.classList.toggle('active',v==='route');
   if(v==='map'){
     setTimeout(()=>{map.invalidateSize();applyPendingBounds()},60);
     setTimeout(()=>{map.invalidateSize();applyPendingBounds()},300);
+  }
+  if(v==='route'){
+    setTimeout(()=>{routeMap.invalidateSize();enterRouteView()},60);
   }
 }
 document.querySelectorAll('.seg-btn').forEach(btn=>{
   btn.onclick=()=>switchView(btn.dataset.view);
 });
+routeBtn.onclick=()=>switchView('route');
 if('ResizeObserver' in window){
   new ResizeObserver(()=>{if(mapView.classList.contains('active'))map.invalidateSize()}).observe(mapView);
 }
@@ -412,6 +436,69 @@ locateBtn.onclick=()=>{
     alert('Could not get your location: '+err.message);
   },{enableHighAccuracy:true,timeout:10000});
 };
+function haversineKm(lat1,lon1,lat2,lon2){
+  const R=6371,dLat=(lat2-lat1)*Math.PI/180,dLon=(lon2-lon1)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return 2*R*Math.asin(Math.sqrt(a));
+}
+const WALK_KMH=4.8;
+function walkMinutes(km){return Math.max(1,Math.round(km/WALK_KMH*60))}
+const routeMap=L.map('routeMap',{zoomControl:true}).setView([STAY.lat,STAY.lon],14);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(routeMap);
+const routeLayer=L.layerGroup().addTo(routeMap);
+const routeStatusEl=document.getElementById('routeStatus'),routeLegsEl=document.getElementById('routeLegs');
+function buildRoute(startLat,startLon,startLabel,note){
+  routeLayer.clearLayers();
+  routeLegsEl.innerHTML='';
+  const picks=PLACES.filter(p=>selected.has(p[0]));
+  if(!picks.length){
+    routeStatusEl.textContent=(note?note+'. ':'')+'No places selected — select places from the list to build a route.';
+    routeMap.setView([startLat,startLon],14);
+    L.marker([startLat,startLon],{icon:L.divIcon({className:'',html:'<div class="geo-dot"></div>',iconSize:[16,16],iconAnchor:[8,8]})}).addTo(routeLayer).bindPopup(esc(startLabel));
+    return;
+  }
+  routeStatusEl.textContent=note||'';
+  const remaining=[...picks];
+  let curLat=startLat,curLon=startLon,curLabel=startLabel;
+  const stops=[];
+  while(remaining.length){
+    let bestIdx=0,bestDist=Infinity;
+    remaining.forEach((p,i)=>{
+      const d=haversineKm(curLat,curLon,p[4],p[5]);
+      if(d<bestDist){bestDist=d;bestIdx=i}
+    });
+    const next=remaining.splice(bestIdx,1)[0];
+    stops.push({fromLabel:curLabel,to:next,km:bestDist});
+    curLat=next[4];curLon=next[5];curLabel=next[1];
+  }
+  const latlngs=[[startLat,startLon],...stops.map(s=>[s.to[4],s.to[5]])];
+  L.polyline(latlngs,{color:'#2E6ED9',weight:4,opacity:.85,dashArray:'1 8',lineCap:'round'}).addTo(routeLayer);
+  L.marker([startLat,startLon],{icon:L.divIcon({className:'',html:'<div class="geo-dot"></div>',iconSize:[16,16],iconAnchor:[8,8]}),zIndexOffset:1000}).addTo(routeLayer).bindPopup(esc(startLabel));
+  stops.forEach((s,i)=>{
+    L.marker([s.to[4],s.to[5]],{icon:L.divIcon({className:'',html:`<div class="route-pin">${i+1}</div>`,iconSize:[26,26],iconAnchor:[13,13]}),zIndexOffset:900}).addTo(routeLayer).bindPopup(`<b>${i+1}. ${esc(s.to[1])}</b><br><span class="dist">${s.km.toFixed(1)} km</span> · ${walkMinutes(s.km)} min walk`);
+    const row=document.createElement('div');
+    row.className='route-leg';
+    row.innerHTML=`<span class="route-leg-num">${i+1}</span><div class="route-leg-info"><div class="route-leg-name">${esc(s.fromLabel)} → ${esc(s.to[1])}</div><div class="route-leg-meta">${s.km.toFixed(1)} km · ${walkMinutes(s.km)} min walk</div></div>`;
+    routeLegsEl.appendChild(row);
+  });
+  routeMap.fitBounds(latlngs,{padding:[30,30]});
+}
+function enterRouteView(){
+  if(!navigator.geolocation){
+    buildRoute(STAY.lat,STAY.lon,'Your stay',STAY.name+' — geolocation not supported, starting from your hotel');
+    return;
+  }
+  routeStatusEl.textContent='Finding your location…';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    buildRoute(pos.coords.latitude,pos.coords.longitude,'Your location');
+  },err=>{
+    buildRoute(STAY.lat,STAY.lon,'Your stay','Could not get your location — starting from your hotel instead');
+  },{enableHighAccuracy:true,timeout:10000});
+}
+if('ResizeObserver' in window){
+  new ResizeObserver(()=>{if(routeView.classList.contains('active'))routeMap.invalidateSize()}).observe(routeView);
+}
+window.addEventListener('resize',()=>{if(routeView.classList.contains('active'))routeMap.invalidateSize()});
 const sheet=document.getElementById('filterSheet'),backdrop=document.getElementById('sheetBackdrop'),filterBtn=document.getElementById('filterBtn');
 function openSheet(){sheet.classList.add('open');backdrop.classList.add('open');filterBtn.classList.add('active')}
 function closeSheet(){sheet.classList.remove('open');backdrop.classList.remove('open');filterBtn.classList.remove('active')}
