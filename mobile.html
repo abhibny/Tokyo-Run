@@ -447,7 +447,17 @@ const routeMap=L.map('routeMap',{zoomControl:true}).setView([STAY.lat,STAY.lon],
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(routeMap);
 const routeLayer=L.layerGroup().addTo(routeMap);
 const routeStatusEl=document.getElementById('routeStatus'),routeLegsEl=document.getElementById('routeLegs');
-function buildRoute(startLat,startLon,startLabel,note){
+async function fetchWalkingLeg(fromLat,fromLon,toLat,toLon){
+  const url=`https://router.project-osrm.org/route/v1/foot/${fromLon},${fromLat};${toLon},${toLat}?overview=full&geometries=geojson`;
+  const res=await fetch(url);
+  const data=await res.json();
+  if(data.code!=='Ok'||!data.routes||!data.routes.length)throw new Error('no route');
+  const r=data.routes[0];
+  return {latlngs:r.geometry.coordinates.map(c=>[c[1],c[0]]),km:r.distance/1000,mins:Math.round(r.duration/60)};
+}
+let routeRequestId=0;
+async function buildRoute(startLat,startLon,startLabel,note){
+  const myRequestId=++routeRequestId;
   routeLayer.clearLayers();
   routeLegsEl.innerHTML='';
   const picks=PLACES.filter(p=>selected.has(p[0]));
@@ -457,7 +467,6 @@ function buildRoute(startLat,startLon,startLabel,note){
     L.marker([startLat,startLon],{icon:L.divIcon({className:'',html:'<div class="geo-dot"></div>',iconSize:[16,16],iconAnchor:[8,8]})}).addTo(routeLayer).bindPopup(esc(startLabel));
     return;
   }
-  routeStatusEl.textContent=note||'';
   const remaining=[...picks];
   let curLat=startLat,curLon=startLon,curLabel=startLabel;
   const stops=[];
@@ -471,17 +480,45 @@ function buildRoute(startLat,startLon,startLabel,note){
     stops.push({fromLabel:curLabel,to:next,km:bestDist});
     curLat=next[4];curLon=next[5];curLabel=next[1];
   }
-  const latlngs=[[startLat,startLon],...stops.map(s=>[s.to[4],s.to[5]])];
-  L.polyline(latlngs,{color:'#2E6ED9',weight:4,opacity:.85,dashArray:'1 8',lineCap:'round'}).addTo(routeLayer);
+  const waypoints=[[startLat,startLon],...stops.map(s=>[s.to[4],s.to[5]])];
+  const straightLatlngs=waypoints;
+  L.polyline(straightLatlngs,{color:'#2E6ED9',weight:4,opacity:.5,dashArray:'1 8',lineCap:'round'}).addTo(routeLayer);
   L.marker([startLat,startLon],{icon:L.divIcon({className:'',html:'<div class="geo-dot"></div>',iconSize:[16,16],iconAnchor:[8,8]}),zIndexOffset:1000}).addTo(routeLayer).bindPopup(esc(startLabel));
-  stops.forEach((s,i)=>{
-    L.marker([s.to[4],s.to[5]],{icon:L.divIcon({className:'',html:`<div class="route-pin">${i+1}</div>`,iconSize:[26,26],iconAnchor:[13,13]}),zIndexOffset:900}).addTo(routeLayer).bindPopup(`<b>${i+1}. ${esc(s.to[1])}</b><br><span class="dist">${s.km.toFixed(1)} km</span> · ${walkMinutes(s.km)} min walk`);
+  stops.forEach(s=>{
+    L.marker([s.to[4],s.to[5]],{icon:L.divIcon({className:'',html:`<div class="route-pin">${s.to[0]}</div>`,iconSize:[26,26],iconAnchor:[13,13]}),zIndexOffset:900}).addTo(routeLayer).bindPopup(`<b>${s.to[0]}. ${esc(s.to[1])}</b>`);
+  });
+  routeMap.fitBounds(waypoints,{padding:[30,30]});
+  routeStatusEl.textContent=(note?note+'. ':'')+'Calculating walking route…';
+  renderLegs(stops,true);
+  const legResults=await Promise.all(stops.map((s,i)=>fetchWalkingLeg(waypoints[i][0],waypoints[i][1],waypoints[i+1][0],waypoints[i+1][1]).catch(()=>null)));
+  if(myRequestId!==routeRequestId)return;
+  routeLayer.clearLayers();
+  L.marker([startLat,startLon],{icon:L.divIcon({className:'',html:'<div class="geo-dot"></div>',iconSize:[16,16],iconAnchor:[8,8]}),zIndexOffset:1000}).addTo(routeLayer).bindPopup(esc(startLabel));
+  legResults.forEach((leg,i)=>{
+    const s=stops[i];
+    if(leg){
+      L.polyline(leg.latlngs,{color:'#2E6ED9',weight:4,opacity:.85,lineCap:'round'}).addTo(routeLayer);
+      s.km=leg.km;s.mins=walkMinutes(s.km);s.roadFollowing=true;
+    }else{
+      L.polyline([waypoints[i],waypoints[i+1]],{color:'#2E6ED9',weight:4,opacity:.5,dashArray:'1 8',lineCap:'round'}).addTo(routeLayer);
+      s.mins=walkMinutes(s.km);s.roadFollowing=false;
+    }
+  });
+  stops.forEach(s=>{
+    L.marker([s.to[4],s.to[5]],{icon:L.divIcon({className:'',html:`<div class="route-pin">${s.to[0]}</div>`,iconSize:[26,26],iconAnchor:[13,13]}),zIndexOffset:900}).addTo(routeLayer).bindPopup(`<b>${s.to[0]}. ${esc(s.to[1])}</b><br><span class="dist">${s.km.toFixed(1)} km</span> · ${s.mins} min walk`);
+  });
+  routeStatusEl.textContent=note||'';
+  renderLegs(stops,false);
+}
+function renderLegs(stops,pending){
+  routeLegsEl.innerHTML='';
+  stops.forEach(s=>{
     const row=document.createElement('div');
     row.className='route-leg';
-    row.innerHTML=`<span class="route-leg-num">${i+1}</span><div class="route-leg-info"><div class="route-leg-name">${esc(s.fromLabel)} → ${esc(s.to[1])}</div><div class="route-leg-meta">${s.km.toFixed(1)} km · ${walkMinutes(s.km)} min walk</div></div>`;
+    const meta=pending?'calculating…':`${s.km.toFixed(1)} km · ${s.mins} min walk${s.roadFollowing?'':' (approx)'}`;
+    row.innerHTML=`<span class="route-leg-num">${s.to[0]}</span><div class="route-leg-info"><div class="route-leg-name">${esc(s.fromLabel)} → ${esc(s.to[1])}</div><div class="route-leg-meta">${meta}</div></div>`;
     routeLegsEl.appendChild(row);
   });
-  routeMap.fitBounds(latlngs,{padding:[30,30]});
 }
 function enterRouteView(){
   if(!navigator.geolocation){
