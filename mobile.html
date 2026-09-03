@@ -104,7 +104,10 @@ details[open] .chevron{transform:rotate(90deg)}
 .stay-pin span{transform:rotate(45deg);font-size:18px}
 .stay-tooltip{font-weight:700;background:var(--ink);color:#fff;border:0;padding:5px 10px;border-radius:var(--r-full);font-family:'Plus Jakarta Sans',sans-serif;font-size:12px}
 .stay-tooltip::before{border-top-color:var(--ink)}
-.neigh-group{background:transparent;border:0;border-radius:0;margin:0;box-shadow:none;border-bottom:1px solid rgba(21,20,31,.08)}
+.neigh-group-wrap{display:flex;align-items:flex-start;gap:2px;border-bottom:1px solid rgba(21,20,31,.08)}
+.neigh-group-wrap .neigh-group{flex:1;min-width:0}
+.group-actions{display:flex;gap:6px;flex:none;padding-top:14px}
+.neigh-group{background:transparent;border:0;border-radius:0;margin:0;box-shadow:none}
 .neigh-group>summary{padding:14px 4px;height:auto}
 .neigh-group[open]>summary{padding-bottom:6px}
 .group-name{flex:1;min-width:0;font-weight:800;font-size:15px;letter-spacing:-.01em;display:flex;flex-direction:column;gap:2px}
@@ -380,11 +383,14 @@ function buildPlaceCard(p){
   return card;
 }
 GROUPS.forEach(g=>{
+  const wrap=document.createElement('div');
+  wrap.className='neigh-group-wrap';
+  wrap.dataset.group=g.name;
   const groupEl=document.createElement('details');
   groupEl.className='neigh-group';
   groupEl.dataset.group=g.name;
   groupEl.open=true;
-  groupEl.innerHTML=`<summary><input class="toggle group-toggle" type="checkbox" aria-label="Select all in ${esc(g.name)}"><span class="group-name">${esc(g.name)}<span class="group-meta">${g.members.length} place${g.members.length===1?'':'s'} · ${distKm(g.lat,g.lon)} km from hotel</span></span><button class="flagbtn group-flagbtn" type="button" title="Mark neighborhood as visited" aria-label="Mark ${esc(g.name)} as visited">🚩</button><button class="roundlink archivebtn group-archivebtn" type="button" title="Archive neighborhood" aria-label="Archive ${esc(g.name)}">📦</button><span class="chevron" aria-hidden="true">›</span></summary><div class="group-content"></div>`;
+  groupEl.innerHTML=`<summary><input class="toggle group-toggle" type="checkbox" aria-label="Select all in ${esc(g.name)}"><span class="group-name">${esc(g.name)}<span class="group-meta">${g.members.length} place${g.members.length===1?'':'s'} · ${distKm(g.lat,g.lon)} km from hotel</span></span><span class="chevron" aria-hidden="true">›</span></summary><div class="group-content"></div>`;
   const content=groupEl.querySelector('.group-content');
   g.members.forEach(p=>content.appendChild(buildPlaceCard(p)));
   groupEl.querySelector('.group-toggle').onchange=e=>{
@@ -394,7 +400,12 @@ GROUPS.forEach(g=>{
     document.querySelectorAll('#list details.place, #starred-list details.place, #tripList details.place, #archived-list details.place, #visited-list details.place').forEach(card=>{const id=+card.dataset.id;if(g.ids.includes(id))card.querySelector('.toggle').checked=selected.has(id)});
     redraw()
   };
-  list.appendChild(groupEl)
+  const actions=document.createElement('div');
+  actions.className='group-actions';
+  actions.innerHTML=`<button class="flagbtn group-flagbtn" type="button" title="Mark neighborhood as visited" aria-label="Mark ${esc(g.name)} as visited">🚩</button><button class="roundlink archivebtn group-archivebtn" type="button" title="Archive neighborhood" aria-label="Archive ${esc(g.name)}">📦</button>`;
+  wrap.appendChild(groupEl);
+  wrap.appendChild(actions);
+  list.appendChild(wrap)
 });
 [...TRIP_PLACES].sort((a,b)=>distKm(a[4],a[5])-distKm(b[4],b[5])).forEach(p=>tripList.appendChild(buildPlaceCard(p)));
 document.getElementById('all').onclick=()=>{PLACES.forEach(p=>selected.add(p[0]));document.querySelectorAll('.toggle').forEach(x=>x.checked=true);redraw()};
@@ -599,9 +610,9 @@ backdrop.onclick=closeSheet;
     const btn=e.target.closest('.archivebtn');
     if(!btn)return;
     e.preventDefault();e.stopPropagation();
-    const groupEl=btn.closest('.neigh-group');
-    if(groupEl){
-      const g=GROUPS.find(x=>x.name===groupEl.dataset.group);
+    const groupWrap=btn.closest('.neigh-group-wrap');
+    if(groupWrap){
+      const g=GROUPS.find(x=>x.name===groupWrap.dataset.group);
       if(g)g.ids.forEach(id=>{
         const card=document.querySelector(`#list details.place[data-id="${id}"], #starred-list details.place[data-id="${id}"]`);
         if(card)archiveOne(card);
@@ -677,9 +688,9 @@ backdrop.onclick=closeSheet;
     const btn=e.target.closest('.flagbtn');
     if(!btn)return;
     e.preventDefault();e.stopPropagation();
-    const groupEl=btn.closest('.neigh-group');
-    if(groupEl){
-      const g=GROUPS.find(x=>x.name===groupEl.dataset.group);
+    const groupWrap=btn.closest('.neigh-group-wrap');
+    if(groupWrap){
+      const g=GROUPS.find(x=>x.name===groupWrap.dataset.group);
       if(g)g.ids.forEach(id=>{
         const card=document.querySelector(`#list details.place[data-id="${id}"], #starred-list details.place[data-id="${id}"]`);
         if(card)setVisited(card,true);
