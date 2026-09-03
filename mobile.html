@@ -38,7 +38,10 @@ main{flex:1;position:relative;min-height:0}
 .statusdot.active{background:var(--ink)}
 .statusdot.active .sbadge{background:#fff;color:var(--ink)}
 #map{height:100%;width:100%}
-.legend{position:absolute;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:5;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-radius:var(--r-full);padding:8px 14px;display:flex;gap:12px;justify-content:space-around;box-shadow:var(--shadow);font-size:10.5px;font-weight:600;color:var(--ink-soft)}
+.legend{position:absolute;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));isolation:isolate;transform:translateZ(0);-webkit-transform:translateZ(0);z-index:1000;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-radius:var(--r-full);padding:8px 14px;display:flex;gap:12px;justify-content:space-around;box-shadow:var(--shadow);font-size:10.5px;font-weight:600;color:var(--ink-soft)}
+.locate-btn{position:absolute;right:12px;bottom:calc(128px + env(safe-area-inset-bottom));isolation:isolate;transform:translateZ(0);-webkit-transform:translateZ(0);z-index:1000;width:42px;height:42px;border-radius:50%;background:#fff;box-shadow:var(--shadow);border:0;display:grid;place-items:center;font-size:18px;cursor:pointer}
+.locate-btn.active{background:var(--accent);filter:brightness(1.1)}
+.geo-dot{width:16px;height:16px;border-radius:50%;background:#4285F4;border:3px solid #fff;box-shadow:0 0 0 2px rgba(66,133,244,.35)}
 .legend span{display:flex;align-items:center;gap:5px;white-space:nowrap}
 .legend i{width:8px;height:8px;border-radius:50%;flex:none}
 details{background:var(--card);border:0;border-radius:var(--r-lg);margin:0 0 10px;box-shadow:var(--shadow);overflow:hidden;transition:border-radius .2s}
@@ -134,6 +137,7 @@ details[open] .chevron{transform:rotate(90deg)}
   <section id="mapView" class="view">
     <div id="map" aria-label="Interactive map"></div>
     <div id="legend" class="legend"></div>
+    <button id="locateBtn" class="locate-btn" type="button" aria-label="Show my location">📍</button>
   </section>
 </main>
 <nav class="bottomnav">
@@ -358,7 +362,7 @@ GROUPS.forEach(g=>{
   groupEl.className='neigh-group';
   groupEl.dataset.group=g.name;
   groupEl.open=true;
-  groupEl.innerHTML=`<summary><input class="toggle group-toggle" type="checkbox" aria-label="Select all in ${esc(g.name)}"><span class="group-name">${esc(g.name)}<span class="group-meta">${g.members.length} place${g.members.length===1?'':'s'} · ${distKm(g.lat,g.lon)} km from hotel</span></span><span class="chevron" aria-hidden="true">›</span></summary><div class="group-content"></div>`;
+  groupEl.innerHTML=`<summary><input class="toggle group-toggle" type="checkbox" aria-label="Select all in ${esc(g.name)}"><span class="group-name">${esc(g.name)}<span class="group-meta">${g.members.length} place${g.members.length===1?'':'s'} · ${distKm(g.lat,g.lon)} km from hotel</span></span><button class="flagbtn group-flagbtn" type="button" title="Mark neighborhood as visited" aria-label="Mark ${esc(g.name)} as visited">🚩</button><button class="roundlink archivebtn group-archivebtn" type="button" title="Archive neighborhood" aria-label="Archive ${esc(g.name)}">📦</button><span class="chevron" aria-hidden="true">›</span></summary><div class="group-content"></div>`;
   const content=groupEl.querySelector('.group-content');
   g.members.forEach(p=>content.appendChild(buildPlaceCard(p)));
   groupEl.querySelector('.group-toggle').onchange=e=>{
@@ -392,6 +396,22 @@ if('ResizeObserver' in window){
 }
 window.addEventListener('resize',()=>{if(mapView.classList.contains('active'))map.invalidateSize()});
 window.addEventListener('orientationchange',()=>setTimeout(()=>{if(mapView.classList.contains('active'))map.invalidateSize()},250));
+const locateBtn=document.getElementById('locateBtn');
+let geoMarker=null;
+locateBtn.onclick=()=>{
+  if(!navigator.geolocation){alert('Geolocation is not supported on this device.');return}
+  locateBtn.classList.add('active');
+  navigator.geolocation.getCurrentPosition(pos=>{
+    locateBtn.classList.remove('active');
+    const {latitude,longitude}=pos.coords;
+    if(geoMarker)map.removeLayer(geoMarker);
+    geoMarker=L.marker([latitude,longitude],{icon:L.divIcon({className:'',html:'<div class="geo-dot"></div>',iconSize:[16,16],iconAnchor:[8,8]}),zIndexOffset:2000}).addTo(map).bindPopup('You are here');
+    map.setView([latitude,longitude],15);
+  },err=>{
+    locateBtn.classList.remove('active');
+    alert('Could not get your location: '+err.message);
+  },{enableHighAccuracy:true,timeout:10000});
+};
 const sheet=document.getElementById('filterSheet'),backdrop=document.getElementById('sheetBackdrop'),filterBtn=document.getElementById('filterBtn');
 function openSheet(){sheet.classList.add('open');backdrop.classList.add('open');filterBtn.classList.add('active')}
 function closeSheet(){sheet.classList.remove('open');backdrop.classList.remove('open');filterBtn.classList.remove('active')}
@@ -428,6 +448,15 @@ backdrop.onclick=closeSheet;
     const btn=e.target.closest('.archivebtn');
     if(!btn)return;
     e.preventDefault();e.stopPropagation();
+    const groupEl=btn.closest('.neigh-group');
+    if(groupEl){
+      const g=GROUPS.find(x=>x.name===groupEl.dataset.group);
+      if(g)g.ids.forEach(id=>{
+        const card=document.querySelector(`#list details.place[data-id="${id}"], #starred-list details.place[data-id="${id}"]`);
+        if(card)archiveOne(card);
+      });
+      return;
+    }
     archiveOne(btn.closest('details.place'));
   });
   button.onclick=()=>{
@@ -497,7 +526,16 @@ backdrop.onclick=closeSheet;
     const btn=e.target.closest('.flagbtn');
     if(!btn)return;
     e.preventDefault();e.stopPropagation();
-    const card=btn.closest('details'),id=+card.dataset.id;
+    const groupEl=btn.closest('.neigh-group');
+    if(groupEl){
+      const g=GROUPS.find(x=>x.name===groupEl.dataset.group);
+      if(g)g.ids.forEach(id=>{
+        const card=document.querySelector(`#list details.place[data-id="${id}"], #starred-list details.place[data-id="${id}"]`);
+        if(card)setVisited(card,true);
+      });
+      return;
+    }
+    const card=btn.closest('details.place'),id=+card.dataset.id;
     setVisited(card,!visited.has(id))
   });
   updateCount();
