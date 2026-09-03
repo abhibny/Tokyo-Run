@@ -267,6 +267,17 @@ function updateStatusBadges(){
   if(tripsBadge)tripsBadge.textContent=tc?tc.textContent:'0';
   if(visitedBadge)visitedBadge.textContent=vc?vc.textContent:'0';
   if(archivedBadge)archivedBadge.textContent=ac?ac.textContent:'0';
+  updateGroupMeta();
+}
+function updateGroupMeta(){
+  GROUPS.forEach(g=>{
+    const meta=document.querySelector(`.neigh-group-wrap[data-group="${CSS.escape(g.name)}"] .group-meta`);
+    if(!meta)return;
+    const doneCount=g.ids.filter(id=>document.querySelector(`#archived-list details.place[data-id="${id}"], #visited-list details.place[data-id="${id}"]`)).length;
+    const label=g.members.length===1?'place':'places';
+    const countText=doneCount>0?`${doneCount} by ${g.members.length}`:`${g.members.length}`;
+    meta.textContent=`${countText} ${label} · ${distKm(g.lat,g.lon)} km from hotel`;
+  });
 }
 const listCarousel=document.getElementById('listCarousel');
 const PAGE_ORDER=['todo','starred','trips','visited','archived'];
@@ -610,8 +621,8 @@ backdrop.onclick=closeSheet;
     const btn=e.target.closest('.archivebtn');
     if(!btn)return;
     e.preventDefault();e.stopPropagation();
-    const groupWrap=btn.closest('.neigh-group-wrap');
-    if(groupWrap){
+    if(btn.classList.contains('group-archivebtn')){
+      const groupWrap=btn.closest('.neigh-group-wrap');
       const g=GROUPS.find(x=>x.name===groupWrap.dataset.group);
       if(g)g.ids.forEach(id=>{
         const card=document.querySelector(`#list details.place[data-id="${id}"], #starred-list details.place[data-id="${id}"]`);
@@ -688,8 +699,8 @@ backdrop.onclick=closeSheet;
     const btn=e.target.closest('.flagbtn');
     if(!btn)return;
     e.preventDefault();e.stopPropagation();
-    const groupWrap=btn.closest('.neigh-group-wrap');
-    if(groupWrap){
+    if(btn.classList.contains('group-flagbtn')){
+      const groupWrap=btn.closest('.neigh-group-wrap');
       const g=GROUPS.find(x=>x.name===groupWrap.dataset.group);
       if(g)g.ids.forEach(id=>{
         const card=document.querySelector(`#list details.place[data-id="${id}"], #starred-list details.place[data-id="${id}"]`);
